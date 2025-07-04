@@ -328,8 +328,47 @@
             }
         }
     </style>
+<style>
+    .nav-buttons {
+        position: fixed;
+        bottom: 30px;
+        right: 30px;
+        display: flex;
+        gap: 15px;
+        z-index: 1000;
+    }
+
+    .nav-button {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 60px;
+        height: 60px;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        border-radius: 50%;
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        text-decoration: none;
+        font-size: 1.5em;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .nav-button:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+    }
+
+    .home-button {
+        background: linear-gradient(135deg, #ff6b6b 0%, #ee5a24 100%);
+    }
+</style>
 </head>
 <body>
+<div class="nav-buttons">
+        <a href="../index.html" class="nav-button home-button" title="Página Inicial">🏠</a>
+        <a href="2.0-q4-outcome_migracao_c2s.html" class="nav-button" title="Página Anterior">←</a>
+        <a href="2.2-q4-outcome_migracao_c2s.html" class="nav-button" title="Próxima Página">→</a>
+    </div>
     <div class="container">
         <div class="header">
             <h1>OUTCOME: VENDAS CROSS-IMOBILIÁRIAS ATIVAS</h1>
@@ -501,4 +540,3 @@
         </div>
     </div>
 </body>
-</html>
