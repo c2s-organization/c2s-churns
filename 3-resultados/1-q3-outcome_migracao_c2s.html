@@ -1,0 +1,574 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Q3 Outcomes - Estratégia de Migração C2S</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: #333;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .hero-section {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border-radius: 30px;
+            padding: 60px;
+            text-align: center;
+            margin-bottom: 40px;
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .hero-title {
+            font-size: 3.5em;
+            font-weight: 800;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 20px;
+            line-height: 1.1;
+        }
+
+        .hero-subtitle {
+            font-size: 1.4em;
+            color: #666;
+            font-weight: 500;
+            max-width: 800px;
+            margin: 0 auto 30px;
+            line-height: 1.5;
+        }
+
+        .strategy-badge {
+            display: inline-block;
+            background: linear-gradient(135deg, #ff6b6b 0%, #ee5a24 100%);
+            color: white;
+            padding: 15px 30px;
+            border-radius: 50px;
+            font-weight: 700;
+            font-size: 1.1em;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            box-shadow: 0 10px 30px rgba(255, 107, 107, 0.3);
+        }
+
+        .outcomes-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 30px;
+            margin-bottom: 50px;
+        }
+
+        .outcome-card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border-radius: 25px;
+            padding: 40px;
+            border-left: 8px solid;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .outcome-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.15);
+        }
+
+        .outcome-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 100px;
+            height: 100px;
+            background: linear-gradient(135deg, transparent 0%, rgba(255, 255, 255, 0.1) 100%);
+            border-radius: 0 25px 0 100px;
+        }
+
+        .outcome-card.migration {
+            border-left-color: #00b894;
+        }
+
+        .outcome-card.competitive {
+            border-left-color: #e74c3c;
+        }
+
+        .outcome-card.inventory {
+            border-left-color: #27ae60;
+        }
+
+        .outcome-card.ecosystem {
+            border-left-color: #3498db;
+        }
+
+        .outcome-number {
+            font-size: 4em;
+            font-weight: 900;
+            margin-bottom: 15px;
+            opacity: 0.9;
+        }
+
+        .outcome-card.migration .outcome-number {
+            color: #00b894;
+        }
+
+        .outcome-card.competitive .outcome-number {
+            color: #e74c3c;
+        }
+
+        .outcome-card.inventory .outcome-number {
+            color: #27ae60;
+        }
+
+        .outcome-card.ecosystem .outcome-number {
+            color: #3498db;
+        }
+
+        .outcome-title {
+            font-size: 1.6em;
+            font-weight: 700;
+            margin-bottom: 15px;
+            color: #2c3e50;
+        }
+
+        .outcome-description {
+            color: #666;
+            line-height: 1.6;
+            font-size: 1.1em;
+            margin-bottom: 20px;
+        }
+
+        .outcome-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-top: 20px;
+            border-top: 2px solid #f8f9fa;
+        }
+
+        .outcome-percentage {
+            font-size: 1.8em;
+            font-weight: 800;
+        }
+
+        .impact-section {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border-radius: 30px;
+            padding: 50px;
+            margin-bottom: 40px;
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.1);
+        }
+
+        .impact-title {
+            font-size: 2.5em;
+            font-weight: 800;
+            text-align: center;
+            margin-bottom: 40px;
+            color: #2c3e50;
+        }
+
+        .impact-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+        }
+
+        .impact-item {
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            padding: 30px;
+            border-radius: 20px;
+            border-left: 6px solid;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .impact-item::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, transparent 0%, rgba(255, 255, 255, 0.3) 100%);
+            border-radius: 0 20px 0 80px;
+        }
+
+        .impact-item.anti-churn {
+            border-left-color: #e74c3c;
+        }
+
+        .impact-item.network {
+            border-left-color: #3498db;
+        }
+
+        .impact-item.defensive {
+            border-left-color: #f39c12;
+        }
+
+        .impact-item.roi {
+            border-left-color: #27ae60;
+        }
+
+        .impact-label {
+            font-size: 1.3em;
+            font-weight: 700;
+            margin-bottom: 15px;
+            color: #2c3e50;
+        }
+
+        .impact-value {
+            font-size: 2.2em;
+            font-weight: 900;
+            margin-bottom: 10px;
+        }
+
+        .impact-item.anti-churn .impact-value {
+            color: #e74c3c;
+        }
+
+        .impact-item.network .impact-value {
+            color: #3498db;
+        }
+
+        .impact-item.defensive .impact-value {
+            color: #f39c12;
+        }
+
+        .impact-item.roi .impact-value {
+            color: #27ae60;
+        }
+
+        .impact-description {
+            color: #666;
+            line-height: 1.5;
+            font-size: 1.05em;
+        }
+
+        .flow-visualization {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border-radius: 30px;
+            padding: 50px;
+            margin-bottom: 40px;
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        .flow-title {
+            font-size: 2.5em;
+            font-weight: 800;
+            margin-bottom: 40px;
+            color: #2c3e50;
+        }
+
+        .flow-steps {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .flow-step {
+            flex: 1;
+            min-width: 250px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px 20px;
+            border-radius: 20px;
+            position: relative;
+            box-shadow: 0 15px 35px rgba(102, 126, 234, 0.3);
+        }
+
+        .flow-step-number {
+            position: absolute;
+            top: -15px;
+            left: 20px;
+            background: #ff6b6b;
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 900;
+            font-size: 1.2em;
+            box-shadow: 0 5px 15px rgba(255, 107, 107, 0.4);
+        }
+
+        .flow-step-title {
+            font-size: 1.4em;
+            font-weight: 700;
+            margin-bottom: 10px;
+            margin-top: 10px;
+        }
+
+        .flow-step-desc {
+            opacity: 0.9;
+            line-height: 1.4;
+        }
+
+        .flow-arrow {
+            font-size: 2em;
+            color: #3498db;
+            margin: 0 10px;
+        }
+
+        .cta-section {
+            background: linear-gradient(135deg, #ff6b6b 0%, #ee5a24 100%);
+            color: white;
+            border-radius: 30px;
+            padding: 60px;
+            text-align: center;
+            box-shadow: 0 25px 50px rgba(255, 107, 107, 0.3);
+        }
+
+        .cta-title {
+            font-size: 2.8em;
+            font-weight: 800;
+            margin-bottom: 20px;
+        }
+
+        .cta-subtitle {
+            font-size: 1.3em;
+            opacity: 0.9;
+            margin-bottom: 30px;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .cta-stats {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 30px;
+            margin-top: 40px;
+        }
+
+        .cta-stat {
+            text-align: center;
+        }
+
+        .cta-stat-number {
+            font-size: 3em;
+            font-weight: 900;
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .cta-stat-label {
+            opacity: 0.8;
+            font-size: 1.1em;
+        }
+
+        @media (max-width: 768px) {
+            .hero-title {
+                font-size: 2.5em;
+            }
+            
+            .outcomes-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .flow-steps {
+                flex-direction: column;
+            }
+            
+            .flow-arrow {
+                transform: rotate(90deg);
+            }
+            
+            .cta-stats {
+                flex-direction: column;
+                gap: 20px;
+            }
+        }
+
+        .highlight {
+            background: linear-gradient(135deg, #ffeaa7 0%, #fab1a0 50%);
+            padding: 3px 8px;
+            border-radius: 6px;
+            font-weight: 700;
+            color: #2d3436;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="hero-section">
+            <h1 class="hero-title">Q3 Outcomes</h1>
+            <p class="hero-subtitle">
+                Estratégia de migração C2S para criar a <strong>foundation</strong> de um futuro ecossistema integrado, 
+                preparando cada cliente migrado como um nó da rede que será ativada em Q4.
+            </p>
+            <div class="strategy-badge">Foundation + Preparação para Q4</div>
+        </div>
+
+        <div class="outcomes-grid">
+            <div class="outcome-card migration">
+                <div class="outcome-number">1.260</div>
+                <div class="outcome-title">Migração Base</div>
+                <div class="outcome-description">
+                    Clientes migrados para C2S Gestor Básico, priorizando o segmento imobiliário 
+                    e criando a foundation para a rede futura.
+                </div>
+                <div class="outcome-meta">
+                    <span>Base: 1.800 clientes</span>
+                    <span class="outcome-percentage">70%</span>
+                </div>
+            </div>
+
+            <div class="outcome-card competitive">
+                <div class="outcome-number">84</div>
+                <div class="outcome-title">Eliminação Competitiva</div>
+                <div class="outcome-description">
+                    Casos de migração para Ingaia/Kenlo evitados através de funcionalidades 
+                    defensivas e solução própria de gestão.
+                </div>
+                <div class="outcome-meta">
+                    <span>Base: 105 casos</span>
+                    <span class="outcome-percentage">80%</span>
+                </div>
+            </div>
+
+            <div class="outcome-card inventory">
+                <div class="outcome-number">1.190</div>
+                <div class="outcome-title">Ativação de Inventário</div>
+                <div class="outcome-description">
+                    Imobiliárias mantendo cadastro ativo de imóveis, criando a **base de dados** 
+                    necessária para futuras funcionalidades de rede em Q4.
+                </div>
+                <div class="outcome-meta">
+                    <span>20+ imóveis cada</span>
+                    <span class="outcome-percentage">85%</span>
+                </div>
+            </div>
+
+            <div class="outcome-card ecosystem">
+                <div class="outcome-number">1.071</div>
+                <div class="outcome-title">Ecossistema Completo</div>
+                <div class="outcome-description">
+                    Imobiliárias com portal + site + gestão totalmente integrados, 
+                    criando barreira de saída quase intransponível.
+                </div>
+                <div class="outcome-meta">
+                    <span>Stickiness máximo</span>
+                    <span class="outcome-percentage">90%</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="impact-section">
+            <h2 class="impact-title">Impacto Estratégico</h2>
+            <div class="impact-grid">
+                <div class="impact-item anti-churn">
+                    <div class="impact-label">Anti-Churn</div>
+                    <div class="impact-value">40%+</div>
+                    <div class="impact-description">
+                        Redução do churn atual através de stickiness máximo e funcionalidades integradas
+                    </div>
+                </div>
+
+                <div class="impact-item network">
+                    <div class="impact-label">Foundation para Rede</div>
+                    <div class="impact-value">1.071</div>
+                    <div class="impact-description">
+                        Nós preparados para futura rede de compartilhamento - cada cliente migrado vira um ponto da rede
+                    </div>
+                </div>
+
+                <div class="impact-item defensive">
+                    <div class="impact-label">Defensiva Competitiva</div>
+                    <div class="impact-value">4x</div>
+                    <div class="impact-description">
+                        Concorrentes precisariam replicar 4 produtos simultaneamente para competir
+                    </div>
+                </div>
+
+                <div class="impact-item roi">
+                    <div class="impact-label">ROI Preservado</div>
+                    <div class="impact-value">R$ 10-18M</div>
+                    <div class="impact-description">
+                        Receita anual preservada que seria perdida por churn e migração competitiva
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="flow-visualization">
+            <h2 class="flow-title">Jornada de Transformação</h2>
+            <div class="flow-steps">
+                <div class="flow-step">
+                    <div class="flow-step-number">1</div>
+                    <div class="flow-step-title">Migração Base</div>
+                    <div class="flow-step-desc">1.260 clientes para Gestor Básico</div>
+                </div>
+                <div class="flow-arrow">→</div>
+                <div class="flow-step">
+                    <div class="flow-step-number">2</div>
+                    <div class="flow-step-title">Ativação</div>
+                    <div class="flow-step-desc">1.190 com inventário ativo</div>
+                </div>
+                <div class="flow-arrow">→</div>
+                <div class="flow-step">
+                    <div class="flow-step-number">3</div>
+                    <div class="flow-step-title">Integração Total</div>
+                    <div class="flow-step-desc">1.071 ecossistemas completos</div>
+                </div>
+                <div class="flow-arrow">→</div>
+                <div class="flow-step">
+                    <div class="flow-step-number">4</div>
+                    <div class="flow-step-title">Lock-in Máximo</div>
+                    <div class="flow-step-desc">Cliente não consegue sair</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="cta-section">
+            <h2 class="cta-title">Resultado Final</h2>
+            <p class="cta-subtitle">
+                Uma foundation sólida de <span class="highlight">1.071 imobiliárias</span> preparadas com inventário ativo, 
+                criando a base para a maior rede colaborativa do mercado imobiliário brasileiro em Q4.
+            </p>
+            
+            <div class="cta-stats">
+                <div class="cta-stat">
+                    <span class="cta-stat-number">90%</span>
+                    <span class="cta-stat-label">Integração Total</span>
+                </div>
+                <div class="cta-stat">
+                    <span class="cta-stat-number">3-5x</span>
+                    <span class="cta-stat-label">Maior LTV</span>
+                </div>
+                <div class="cta-stat">
+                    <span class="cta-stat-number">23.8k+</span>
+                    <span class="cta-stat-label">Imóveis na Rede</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

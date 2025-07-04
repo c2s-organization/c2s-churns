@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Empresas Únicas - Análise C2S</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+            color: white;
+            padding: 40px 20px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2.8em;
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+
+        .header p {
+            font-size: 1.3em;
+            opacity: 0.9;
+        }
+
+        .main-metrics {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            padding: 40px 20px 20px;
+        }
+
+        .total-card {
+            background: linear-gradient(135deg, #ff6b6b 0%, #ee5a24 100%);
+            color: white;
+            padding: 40px;
+            border-radius: 20px;
+            text-align: center;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+            transform: scale(1.05);
+        }
+
+        .total-number {
+            font-size: 4em;
+            font-weight: 700;
+            margin-bottom: 15px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        .total-label {
+            font-size: 1.4em;
+            font-weight: 600;
+        }
+
+        .segments-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+            padding: 20px;
+        }
+
+        .segment-card {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            border-left: 8px solid;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .segment-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
+        }
+
+        .segment-card.imobiliario {
+            border-left-color: #3498db;
+        }
+
+        .segment-card.nao-informado {
+            border-left-color: #e74c3c;
+        }
+
+        .segment-card.autos {
+            border-left-color: #f39c12;
+        }
+
+        .segment-card.generico {
+            border-left-color: #9b59b6;
+        }
+
+        .segment-card.incorporadora {
+            border-left-color: #2ecc71;
+        }
+
+        .segment-number {
+            font-size: 2.5em;
+            font-weight: 700;
+            margin-bottom: 10px;
+            color: #2c3e50;
+        }
+
+        .segment-label {
+            font-size: 1.1em;
+            color: #7f8c8d;
+            margin-bottom: 10px;
+        }
+
+        .segment-percentage {
+            font-size: 1.4em;
+            font-weight: 600;
+            color: #2c3e50;
+            background: #ecf0f1;
+            padding: 8px 15px;
+            border-radius: 25px;
+            display: inline-block;
+        }
+
+        .insights-section {
+            background: #f8f9fa;
+            padding: 40px 20px;
+            margin: 20px;
+            border-radius: 15px;
+        }
+
+        .insights-title {
+            color: #2c3e50;
+            font-size: 1.6em;
+            margin-bottom: 30px;
+            font-weight: 600;
+            text-align: center;
+        }
+
+        .insights-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 20px;
+        }
+
+        .insight-card {
+            background: white;
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
+            border-left: 5px solid #3498db;
+        }
+
+        .insight-card h4 {
+            color: #2c3e50;
+            font-size: 1.2em;
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+
+        .insight-card p {
+            color: #7f8c8d;
+            line-height: 1.6;
+            font-size: 1em;
+        }
+
+        .overlap-alert {
+            background: linear-gradient(135deg, #ffeaa7 0%, #fab1a0 100%);
+            margin: 20px;
+            padding: 30px;
+            border-radius: 15px;
+            border-left: 8px solid #e17055;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .overlap-alert h3 {
+            color: #2d3436;
+            font-size: 1.4em;
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+
+        .overlap-alert .highlight-number {
+            font-size: 2em;
+            font-weight: 700;
+            color: #e17055;
+            display: inline-block;
+            margin: 0 5px;
+        }
+
+        .overlap-alert p {
+            color: #2d3436;
+            font-size: 1.1em;
+            line-height: 1.6;
+        }
+
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2.2em;
+            }
+            
+            .total-number {
+                font-size: 3em;
+            }
+            
+            .segment-number {
+                font-size: 2em;
+            }
+            
+            .main-metrics, .segments-grid, .insights-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>EMPRESAS ÚNICAS</h1>
+            <p>Análise Completa por Segmento - Base C2S</p>
+        </div>
+
+        <div class="main-metrics">
+            <div class="total-card">
+                <div class="total-number">3.887</div>
+                <div class="total-label">Total de Empresas Únicas</div>
+            </div>
+        </div>
+
+        <div class="segments-grid">
+            <div class="segment-card imobiliario">
+                <div class="segment-number">1.808</div>
+                <div class="segment-label">Imobiliário</div>
+                <div class="segment-percentage">46.5%</div>
+            </div>
+
+            <div class="segment-card nao-informado">
+                <div class="segment-number">2.026</div>
+                <div class="segment-label">Não Informado</div>
+                <div class="segment-percentage">52.1%</div>
+            </div>
+
+            <div class="segment-card autos">
+                <div class="segment-number">253</div>
+                <div class="segment-label">Autos</div>
+                <div class="segment-percentage">6.5%</div>
+            </div>
+
+            <div class="segment-card generico">
+                <div class="segment-number">31</div>
+                <div class="segment-label">Genérico</div>
+                <div class="segment-percentage">0.8%</div>
+            </div>
+
+            <div class="segment-card incorporadora">
+                <div class="segment-number">5</div>
+                <div class="segment-label">Incorporadora</div>
+                <div class="segment-percentage">0.1%</div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

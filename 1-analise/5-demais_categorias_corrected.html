@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Demais Categorias Importantes - Corrigida</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+            color: white;
+            padding: 40px 20px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2.2em;
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+
+        .table-container {
+            padding: 30px;
+        }
+
+        .category-table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .table-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .table-header th {
+            padding: 20px 15px;
+            text-align: left;
+            font-weight: 600;
+            font-size: 1.1em;
+        }
+
+        .table-row {
+            border-bottom: 1px solid #ecf0f1;
+            transition: background-color 0.3s ease;
+        }
+
+        .table-row:hover {
+            background-color: #f8f9fa;
+        }
+
+        .table-row:last-child {
+            border-bottom: none;
+        }
+
+        .table-row td {
+            padding: 20px 15px;
+            vertical-align: middle;
+        }
+
+        .ranking-badge {
+            display: inline-block;
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            color: white;
+            font-weight: 700;
+            text-align: center;
+            line-height: 35px;
+            font-size: 1em;
+        }
+
+        .rank-3 { background: linear-gradient(135deg, #ff9ff3 0%, #f368e0 100%); }
+        .rank-4 { background: linear-gradient(135deg, #ff6b6b 0%, #ee5a24 100%); }
+        .rank-5 { background: linear-gradient(135deg, #ff9ff3 0%, #f368e0 100%); }
+        .rank-6 { background: linear-gradient(135deg, #ff9ff3 0%, #f368e0 100%); }
+
+        .category-name {
+            font-weight: 600;
+            color: #2c3e50;
+            font-size: 1.1em;
+        }
+
+        .cases-number {
+            font-weight: 700;
+            color: #3498db;
+            font-size: 1.2em;
+        }
+
+        .percentage {
+            background: #27ae60;
+            color: white;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-weight: 600;
+            font-size: 0.9em;
+        }
+
+        .main-reason {
+            color: #7f8c8d;
+            font-style: italic;
+            line-height: 1.4;
+        }
+
+        .corrections-section {
+            background: #f8f9fa;
+            margin: 30px;
+            padding: 25px;
+            border-radius: 15px;
+            border-left: 5px solid #e74c3c;
+        }
+
+        .corrections-title {
+            color: #2c3e50;
+            font-size: 1.4em;
+            margin-bottom: 20px;
+            font-weight: 600;
+        }
+
+        .correction-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 15px;
+        }
+
+        .correction-item {
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        }
+
+        .correction-item h4 {
+            color: #2c3e50;
+            margin-bottom: 10px;
+            font-size: 1em;
+            font-weight: 600;
+        }
+
+        .old-data {
+            color: #e74c3c;
+            background: #ffeaea;
+            padding: 8px;
+            border-radius: 5px;
+            margin-bottom: 5px;
+            font-size: 0.9em;
+        }
+
+        .new-data {
+            color: #27ae60;
+            background: #eafaf1;
+            padding: 8px;
+            border-radius: 5px;
+            font-size: 0.9em;
+        }
+
+        @media (max-width: 768px) {
+            .table-container {
+                padding: 15px;
+                overflow-x: auto;
+            }
+            
+            .category-table {
+                min-width: 600px;
+            }
+            
+            .table-header th,
+            .table-row td {
+                padding: 15px 10px;
+                font-size: 0.9em;
+            }
+            
+            .correction-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Demais Categorias Importantes</h1>
+            <p>Ranking Correto Baseado nos Dados Reais</p>
+        </div>
+
+        <div class="table-container">
+            <table class="category-table">
+                <thead class="table-header">
+                    <tr>
+                        <th>Ranking</th>
+                        <th>Categoria</th>
+                        <th>Casos</th>
+                        <th>% Total</th>
+                        <th>Principal Motivo</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr class="table-row">
+                        <td><span class="ranking-badge rank-4">3º</span></td>
+                        <td class="category-name">Gaps Funcionais/Produto</td>
+                        <td class="cases-number">212</td>
+                        <td><span class="percentage">11.4%</span></td>
+                        <td class="main-reason">Solução não entregando (95 casos)</td>
+                    </tr>
+                    <tr class="table-row">
+                        <td><span class="ranking-badge rank-4">4º</span></td>
+                        <td class="category-name">Outros/Diversos</td>
+                        <td class="cases-number">218</td>
+                        <td><span class="percentage">11.7%</span></td>
+                        <td class="main-reason">Outros motivos (121 casos)</td>
+                    </tr>
+                    <tr class="table-row">
+                        <td><span class="ranking-badge rank-4">5º</span></td>
+                        <td class="category-name">Falta de Engajamento/Adoção</td>
+                        <td class="cases-number">192</td>
+                        <td><span class="percentage">10.3%</span></td>
+                        <td class="main-reason">Faltou engajamento e adoção (131 casos)</td>
+                    </tr>
+                    <tr class="table-row">
+                        <td><span class="ranking-badge rank-4">6º</span></td>
+                        <td class="category-name">Mudanças no Negócio</td>
+                        <td class="cases-number">66</td>
+                        <td><span class="percentage">3.6%</span></td>
+                        <td class="main-reason">Imobiliária fechou (30 casos)</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</body>
+</html>

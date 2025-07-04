@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Outcome: Migração Massiva para C2S Gestor Básico</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+            color: white;
+            padding: 40px 30px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2.2em;
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+
+        .header p {
+            font-size: 1.1em;
+            opacity: 0.9;
+        }
+
+        .outcome-card {
+            background: linear-gradient(135deg, #00b894 0%, #00cec9 100%);
+            margin: 30px;
+            padding: 30px;
+            border-radius: 20px;
+            color: white;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+        }
+
+        .outcome-title {
+            font-size: 1.8em;
+            font-weight: 700;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .outcome-description {
+            font-size: 1.1em;
+            line-height: 1.6;
+            margin-bottom: 25px;
+            opacity: 0.95;
+        }
+
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin: 30px;
+        }
+
+        .metric-card {
+            background: white;
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            border-left: 6px solid;
+        }
+
+        .metric-card.base {
+            border-left-color: #3498db;
+        }
+
+        .metric-card.meta {
+            border-left-color: #e74c3c;
+        }
+
+        .metric-card.resultado {
+            border-left-color: #27ae60;
+        }
+
+        .metric-card.potencial {
+            border-left-color: #f39c12;
+        }
+
+        .metric-number {
+            font-size: 2.5em;
+            font-weight: 700;
+            margin-bottom: 10px;
+            color: #2c3e50;
+        }
+
+        .metric-label {
+            color: #7f8c8d;
+            font-size: 1em;
+            line-height: 1.4;
+            font-weight: 500;
+        }
+
+        .validation-section {
+            background: #f8f9fa;
+            margin: 30px;
+            padding: 25px;
+            border-radius: 15px;
+            border-left: 6px solid #e74c3c;
+        }
+
+        .validation-title {
+            color: #2c3e50;
+            font-size: 1.4em;
+            margin-bottom: 20px;
+            font-weight: 600;
+        }
+
+        .validation-item {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 15px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        }
+
+        .validation-item h4 {
+            color: #2c3e50;
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+
+        .status-correct {
+            color: #27ae60;
+            font-weight: 600;
+        }
+
+        .status-update {
+            color: #f39c12;
+            font-weight: 600;
+        }
+
+        .status-critical {
+            color: #e74c3c;
+            font-weight: 600;
+        }
+
+        .insights-section {
+            background: linear-gradient(135deg, #ffeaa7 0%, #fab1a0 100%);
+            margin: 30px;
+            padding: 25px;
+            border-radius: 15px;
+            border-left: 6px solid #e17055;
+        }
+
+        .insights-title {
+            color: #2d3436;
+            font-size: 1.4em;
+            margin-bottom: 20px;
+            font-weight: 600;
+        }
+
+        .insight-item {
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 12px;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .highlight-number {
+            font-size: 1.3em;
+            font-weight: 700;
+            color: #e17055;
+            background: rgba(225, 112, 85, 0.1);
+            padding: 2px 6px;
+            border-radius: 4px;
+        }
+
+        .visual-indicator {
+            width: 100%;
+            height: 40px;
+            background: #ecf0f1;
+            border-radius: 20px;
+            margin: 20px 0;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(135deg, #00b894 0%, #00cec9 100%);
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 600;
+            font-size: 1.1em;
+        }
+
+        @media (max-width: 768px) {
+            .metrics-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .header h1 {
+                font-size: 1.8em;
+            }
+            
+            .metric-number {
+                font-size: 2em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>OUTCOME: MIGRAÇÃO MASSIVA PARA C2S GESTOR BÁSICO</h1>
+        </div>
+
+        <div class="outcome-card">
+            <div class="outcome-title">Migração Massiva para C2S Gestor Básico</div>
+            <div class="outcome-description">
+                Migrar base atual de leads para solução integrada básica (leads + cadastro imobiliário), criando foundation para rede futura. Cada cliente migrado se torna um nó da rede que será ativada em Q4.
+            </div>
+        </div>
+
+        <div class="metrics-grid">
+            <div class="metric-card base">
+                <div class="metric-number">1.800</div>
+                <div class="metric-label">Base Atual<br/>Clientes Ativos C2S</div>
+            </div>
+
+            <div class="metric-card meta">
+                <div class="metric-number">70%</div>
+                <div class="metric-label">Meta Q3<br/>Migração para Gestor Básico</div>
+            </div>
+
+            <div class="metric-card resultado">
+                <div class="metric-number">1.260</div>
+                <div class="metric-label">Resultado Esperado<br/>Imobiliárias Preparadas</div>
+            </div>
+
+            <div class="metric-card potencial">
+                <div class="metric-number">808</div>
+                <div class="metric-label">Segmento Imobiliário<br/>Prioritário (44.9%)</div>
+            </div>
+        </div>
+
+        <div class="visual-indicator">
+            <div class="progress-fill" style="width: 70%;">
+                1.260 de 1.800 (70% da base atual)
+            </div>
+        </div>
+
+        <div class="validation-section">
+            <div class="validation-title">VALIDAÇÃO COM DADOS DE CHURN</div>
+            
+            <div class="validation-item">
+                <h4><span class="status-update">ATUALIZAÇÃO:</span> Base Real Confirmada</h4>
+                <p>Base atual validada em <strong>1.800 clientes ativos</strong>, consistente com os dados fornecidos nas diretrizes.</p>
+            </div>
+
+            <div class="validation-item">
+                <h4><span class="status-critical">CRÍTICO:</span> Segmento Imobiliário</h4>
+                <p>Dos 1.800 clientes, aproximadamente <strong>808 são do segmento imobiliário</strong> (44.9% da base), que é exatamente o público-alvo prioritário para o Gestor Básico.</p>
+            </div>
+
+            <div class="validation-item">
+                <h4><span class="status-correct">VALIDADO:</span> Meta de 70%</h4>
+                <p>Meta de migração de 70% é <strong>realista e estratégica</strong>, considerando que o churn atual afeta principalmente empresas médias (54% do churn) que se beneficiariam do Gestor Básico.</p>
+            </div>
+
+            <div class="validation-item">
+                <h4><span class="status-update">REFINAMENTO:</span> Resultado Ajustado</h4>
+                <p>Resultado esperado: <strong>1.260 imobiliárias migradas</strong>, com foco prioritário nas 808 do segmento imobiliário + clientes de outros segmentos que podem se beneficiar.</p>
+            </div>
+        </div>
+
+        <div class="insights-section">
+            <div class="insights-title">INSIGHTS ESTRATÉGICOS ADICIONAIS</div>
+            
+            <div class="insight-item">
+                <strong>Anti-Churn:</strong> O Gestor Básico pode reduzir <span class="highlight-number">31% do churn</span> (problemas financeiros) oferecendo mais valor por um preço acessível.
+            </div>
+
+            <div class="insight-item">
+                <strong>Defesa Competitiva:</strong> Combate diretamente <span class="highlight-number">105 casos</span> de migração para Ingaia/Kenlo criando solução própria de gestão.
+            </div>
+
+            <div class="insight-item">
+                <strong>Network Effect:</strong> Cada cliente migrado se torna um <span class="highlight-number">nó da rede</span> para futuras funcionalidades de marketplace e colaboração.
+            </div>
+
+            <div class="insight-item">
+                <strong>ROI de Retenção:</strong> Migração preventiva pode reter <span class="highlight-number">R$ 10-18M</span> em receita anual que seria perdida por churn.
+            </div>
+
+            <div class="insight-item">
+                <strong>Segmentação Inteligente:</strong> Priorizar <span class="highlight-number">empresas médias</span> (51-200 leads/mês) que representam 54% do churn e são o sweet spot para o Gestor Básico.
+            </div>
+        </div>
+    </div>
+</body>
+</html>

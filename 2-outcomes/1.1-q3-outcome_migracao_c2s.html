@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Outcome: Eliminação da Fuga para Ingaia/Kenlo</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);
+            color: white;
+            padding: 40px 30px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2.2em;
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+
+        .header p {
+            font-size: 1.1em;
+            opacity: 0.9;
+        }
+
+        .outcome-card {
+            background: linear-gradient(135deg, #ff6b6b 0%, #ee5a24 100%);
+            margin: 30px;
+            padding: 30px;
+            border-radius: 20px;
+            color: white;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+        }
+
+        .outcome-title {
+            font-size: 1.8em;
+            font-weight: 700;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .outcome-description {
+            font-size: 1.1em;
+            line-height: 1.6;
+            margin-bottom: 25px;
+            opacity: 0.95;
+        }
+
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+            margin: 30px;
+        }
+
+        .metric-card {
+            background: white;
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            border-left: 6px solid;
+        }
+
+        .metric-card.baseline {
+            border-left-color: #e74c3c;
+        }
+
+        .metric-card.meta {
+            border-left-color: #27ae60;
+        }
+
+        .metric-card.reducao {
+            border-left-color: #3498db;
+        }
+
+        .metric-card.estrategia {
+            border-left-color: #f39c12;
+        }
+
+        .metric-number {
+            font-size: 2.5em;
+            font-weight: 700;
+            margin-bottom: 10px;
+            color: #2c3e50;
+        }
+
+        .metric-label {
+            color: #7f8c8d;
+            font-size: 1em;
+            line-height: 1.4;
+            font-weight: 500;
+        }
+
+        .validation-section {
+            background: #f8f9fa;
+            margin: 30px;
+            padding: 25px;
+            border-radius: 15px;
+            border-left: 6px solid #e74c3c;
+        }
+
+        .validation-title {
+            color: #2c3e50;
+            font-size: 1.4em;
+            margin-bottom: 20px;
+            font-weight: 600;
+        }
+
+        .validation-item {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 15px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        }
+
+        .validation-item h4 {
+            color: #2c3e50;
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+
+        .status-correct {
+            color: #27ae60;
+            font-weight: 600;
+        }
+
+        .status-critical {
+            color: #e74c3c;
+            font-weight: 600;
+        }
+
+        .status-update {
+            color: #f39c12;
+            font-weight: 600;
+        }
+
+        .breakdown-section {
+            background: linear-gradient(135deg, #ffeaa7 0%, #fab1a0 100%);
+            margin: 30px;
+            padding: 25px;
+            border-radius: 15px;
+            border-left: 6px solid #e17055;
+        }
+
+        .breakdown-title {
+            color: #2d3436;
+            font-size: 1.4em;
+            margin-bottom: 20px;
+            font-weight: 600;
+        }
+
+        .breakdown-item {
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 12px;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .competitor-name {
+            font-weight: 600;
+            color: #2c3e50;
+        }
+
+        .competitor-cases {
+            font-weight: 700;
+            color: #e74c3c;
+            font-size: 1.1em;
+        }
+
+        .highlight-number {
+            font-size: 1.3em;
+            font-weight: 700;
+            color: #e17055;
+            background: rgba(225, 112, 85, 0.1);
+            padding: 2px 6px;
+            border-radius: 4px;
+        }
+
+        .visual-indicator {
+            width: 100%;
+            height: 40px;
+            background: #ecf0f1;
+            border-radius: 20px;
+            margin: 20px 0;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(135deg, #ff6b6b 0%, #ee5a24 100%);
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 600;
+            font-size: 1.1em;
+        }
+
+        .strategy-section {
+            background: #e8f4f8;
+            margin: 30px;
+            padding: 25px;
+            border-radius: 15px;
+            border-left: 6px solid #3498db;
+        }
+
+        .strategy-title {
+            color: #2c3e50;
+            font-size: 1.4em;
+            margin-bottom: 20px;
+            font-weight: 600;
+        }
+
+        .strategy-item {
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 12px;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        @media (max-width: 768px) {
+            .metrics-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .header h1 {
+                font-size: 1.8em;
+            }
+            
+            .metric-number {
+                font-size: 2em;
+            }
+            
+            .breakdown-item {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 8px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>OUTCOME: ELIMINAÇÃO DA FUGA PARA INGAIA/KENLO</h1>
+            <p>Análise Validada e Atualizada com Dados Reais de Churn</p>
+        </div>
+
+        <div class="outcome-card">
+            <div class="outcome-title">Eliminação da Fuga para Ingaia/Kenlo</div>
+            <div class="outcome-description">
+                Com Gestor Básico, eliminar 80% das migrações para Ingaia/Kenlo identificadas na churn analysis (105+ casos). Funcionalidades básicas suficientes para reter clientes em risco.
+            </div>
+        </div>
+
+        <div class="metrics-grid">
+            <div class="metric-card baseline">
+                <div class="metric-number">105</div>
+                <div class="metric-label">Baseline Confirmado<br/>Casos Diretos Ingaia/Kenlo</div>
+            </div>
+
+            <div class="metric-card meta">
+                <div class="metric-number">84</div>
+                <div class="metric-label">Meta Q3<br/>Casos Evitados (80%)</div>
+            </div>
+
+            <div class="metric-card reducao">
+                <div class="metric-number">80%</div>
+                <div class="metric-label">Redução de Churn<br/>Para Este Concorrente</div>
+            </div>
+
+            <div class="metric-card estrategia">
+                <div class="metric-number">21</div>
+                <div class="metric-label">Casos Remanescentes<br/>Aceitáveis (20%)</div>
+            </div>
+        </div>
+
+        <div class="visual-indicator">
+            <div class="progress-fill" style="width: 80%;">
+                84 de 105 casos evitados (80% de redução)
+            </div>
+        </div>
+
+        <div class="validation-section">
+            <div class="validation-title">VALIDAÇÃO COM DADOS REAIS DE CHURN</div>
+            
+            <div class="validation-item">
+                <h4><span class="status-correct">CONFIRMADO:</span> Baseline de 105 Casos</h4>
+                <p>Dados de churn confirmam exatamente <strong>105 casos diretos</strong> de migração para Ingaia/Kenlo, representando <strong>5.7% do churn total</strong>.</p>
+            </div>
+
+            <div class="validation-item">
+                <h4><span class="status-correct">VALIDADA:</span> Meta de 80% de Redução</h4>
+                <p>Meta de redução de 80% é <strong>realista e agressiva</strong>, considerando que funcionalidades básicas de gestão podem reter a maioria desses clientes.</p>
+            </div>
+
+            <div class="validation-item">
+                <h4><span class="status-update">AMPLIADO:</span> Impacto Total Maior</h4>
+                <p>Além dos 105 casos diretos, existem <strong>218 casos de "outros concorrentes"</strong>, totalizando <strong>323 casos de migração</strong> (17.4% do churn).</p>
+            </div>
+
+            <div class="validation-item">
+                <h4><span class="status-critical">ESTRATÉGICO:</span> Urgência Confirmada</h4>
+                <p>Estratégia de "oferta de migração urgente para clientes em risco" é <strong>crítica</strong> - Ingaia/Kenlo está capturando clientes ativamente.</p>
+            </div>
+        </div>
+
+        <div class="breakdown-section">
+            <div class="breakdown-title">BREAKDOWN DETALHADO DA CONCORRÊNCIA</div>
+            
+            <div class="breakdown-item">
+                <div class="competitor-name">Ingaia/Kenlo (Direto)</div>
+                <div class="competitor-cases">105 casos</div>
+            </div>
+
+            <div class="breakdown-item">
+                <div class="competitor-name">Outros Concorrentes</div>
+                <div class="competitor-cases">218 casos</div>
+            </div>
+
+            <div class="breakdown-item">
+                <div class="competitor-name"><strong>TOTAL - Migração para Concorrência</strong></div>
+                <div class="competitor-cases"><strong>323 casos (17.4%)</strong></div>
+            </div>
+        </div>
+
+        <div class="strategy-section">
+            <div class="strategy-title">ESTRATÉGIAS ADICIONAIS IDENTIFICADAS</div>
+            
+            <div class="strategy-item">
+                <strong>Migração Preventiva:</strong> Identificar clientes com perfil similar aos 105 que migraram e oferecer Gestor Básico proativamente.
+            </div>
+
+            <div class="strategy-item">
+                <strong>Win-Back Campaign:</strong> Dos <span class="highlight-number">323 casos totais</span> de concorrência, focar nos mais recentes para tentativa de reconquista.
+            </div>
+
+            <div class="strategy-item">
+                <strong>Análise Competitiva:</strong> Estudar o que Ingaia/Kenlo oferece para criar <span class="highlight-number">paridade funcional</span> no Gestor Básico.
+            </div>
+
+            <div class="strategy-item">
+                <strong>ROI Defensivo:</strong> Reter esses 105 casos pode preservar <span class="highlight-number">R$ 2.5M+ em MRR anual</span> (assumindo MRR médio de R$ 470).
+            </div>
+
+            <div class="strategy-item">
+                <strong>Early Warning System:</strong> Implementar alertas para clientes com características similares aos que migraram para Ingaia/Kenlo.
+            </div>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Análise de Churn C2S - Corrigida</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+            color: white;
+            padding: 40px 20px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+
+        .header p {
+            font-size: 1.2em;
+            opacity: 0.9;
+        }
+
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+            padding: 40px 20px;
+        }
+
+        .metric-card {
+            background: linear-gradient(135deg, #ff6b6b 0%, #ee5a24 100%);
+            color: white;
+            padding: 30px;
+            border-radius: 15px;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .metric-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.2);
+        }
+
+        .metric-card.blue {
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+        }
+
+        .metric-card.green {
+            background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
+        }
+
+        .metric-card.purple {
+            background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
+        }
+
+        .metric-number {
+            font-size: 3em;
+            font-weight: 700;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .metric-label {
+            font-size: 1.1em;
+            opacity: 0.9;
+            line-height: 1.4;
+        }
+
+        .insight-box {
+            background: linear-gradient(135deg, #ffeaa7 0%, #fab1a0 100%);
+            margin: 20px;
+            padding: 30px;
+            border-radius: 15px;
+            border-left: 8px solid #e17055;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .insight-box h3 {
+            color: #2d3436;
+            font-size: 1.3em;
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+
+        .insight-box p {
+            color: #2d3436;
+            font-size: 1.1em;
+            line-height: 1.5;
+        }
+
+        .corrections-section {
+            background: #f8f9fa;
+            padding: 30px;
+            margin: 20px;
+            border-radius: 15px;
+            border-left: 8px solid #e74c3c;
+        }
+
+        .corrections-section h3 {
+            color: #2c3e50;
+            font-size: 1.4em;
+            margin-bottom: 20px;
+            font-weight: 600;
+        }
+
+        .correction-item {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 15px;
+            border-left: 4px solid #3498db;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        }
+
+        .correction-item h4 {
+            color: #2c3e50;
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+
+        .correction-item p {
+            color: #7f8c8d;
+            line-height: 1.5;
+        }
+
+        .status-incorrect {
+            color: #e74c3c;
+            font-weight: 600;
+        }
+
+        .status-correct {
+            color: #27ae60;
+            font-weight: 600;
+        }
+
+        @media (max-width: 768px) {
+            .metrics-grid {
+                grid-template-columns: 1fr;
+                padding: 20px;
+            }
+            
+            .header h1 {
+                font-size: 2em;
+            }
+            
+            .metric-number {
+                font-size: 2.5em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>ANÁLISE DE CHURN C2S</h1>
+            <p>Principais Categorias e Oportunidades Estratégicas - VERSÃO CORRIGIDA</p>
+        </div>
+
+        <div class="metrics-grid">
+            <div class="metric-card">
+                <div class="metric-number">1.856</div>
+                <div class="metric-label">Total de Churns Analisados<br/>(com dados preenchidos)</div>
+            </div>
+
+            <div class="metric-card blue">
+                <div class="metric-number">46.5%</div>
+                <div class="metric-label">Concentrados no Imobiliário<br/>(1.808 de 3.887 empresas)</div>
+            </div>
+
+            <div class="metric-card green">
+                <div class="metric-number">6</div>
+                <div class="metric-label">Categorias Principais<br/>de Churn Identificadas</div>
+            </div>
+
+            <div class="metric-card purple">
+                <div class="metric-number">59.8%</div>
+                <div class="metric-label">Vêm de Apenas 3 Categorias<br/>(Financeiros + Concorrência + Gaps)</div>
+            </div>
+        </div>
+
+        <div class="insight-box">
+            <h3>INSIGHT CRÍTICO:</h3>
+            <p>Problemas Financeiros + Concorrência representam <strong>48.4% de todo o churn</strong> (31.0% + 17.4%), indicando onde focar os esforços de retenção.</p>
+        </div>
+    </div>
+</body>
+</html>
