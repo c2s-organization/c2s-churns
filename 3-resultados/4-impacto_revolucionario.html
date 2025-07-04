@@ -1,472 +1,295 @@
+
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Impacto Revolucionário Esperado - C2S Platform</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-            background: linear-gradient(135deg, #10b981 0%, #059669 50%, #047857 100%);
-            min-height: 100vh;
-            color: white;
-            overflow-x: hidden;
-            position: relative;
-        }
-
-        body::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: radial-gradient(circle at 20% 50%, rgba(255,255,255,0.1) 0%, transparent 50%),
-                        radial-gradient(circle at 80% 20%, rgba(255,255,255,0.05) 0%, transparent 50%),
-                        radial-gradient(circle at 40% 80%, rgba(255,255,255,0.08) 0%, transparent 50%);
-            pointer-events: none;
-        }
-
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 60px 20px;
-            position: relative;
-            z-index: 1;
-        }
-
-        .hero-section {
-            text-align: center;
-            margin-bottom: 80px;
-            animation: fadeInUp 1s ease-out;
-        }
-
-        @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    animation: {
+                        'fade-in': 'fadeIn 0.8s ease-in-out',
+                        'slide-up': 'slideUp 0.6s ease-out',
+                        'pulse-slow': 'pulse 3s infinite',
+                        'bounce-slow': 'bounce 2s infinite',
+                        'pulse-badge': 'pulseBadge 2s ease-in-out infinite',
+                        'float': 'float 3s ease-in-out infinite',
+                        'shimmer': 'shimmer 3s ease-in-out infinite',
+                    },
+                    keyframes: {
+                        fadeIn: {
+                            '0%': { opacity: '0' },
+                            '100%': { opacity: '1' }
+                        },
+                        slideUp: {
+                            '0%': { transform: 'translateY(20px)', opacity: '0' },
+                            '100%': { transform: 'translateY(0)', opacity: '1' }
+                        },
+                        pulseBadge: {
+                            '0%, 100%': { transform: 'scale(1)' },
+                            '50%': { transform: 'scale(1.05)' }
+                        },
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0px)' },
+                            '50%': { transform: 'translateY(-10px)' }
+                        },
+                        shimmer: {
+                            '0%, 100%': { filter: 'brightness(1)' },
+                            '50%': { filter: 'brightness(1.3)' }
+                        }
+                    }
+                }
             }
         }
-
-        .main-title {
-            font-size: 4.5em;
-            font-weight: 900;
-            margin-bottom: 30px;
-            line-height: 1.1;
-            text-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
-            letter-spacing: -2px;
-            background: linear-gradient(135deg, #ffffff 0%, #f0f9ff 50%, #e0f2fe 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            animation: shimmer 3s ease-in-out infinite;
-        }
-
-        @keyframes shimmer {
-            0%, 100% { filter: brightness(1); }
-            50% { filter: brightness(1.2); }
-        }
-
-        .subtitle {
-            font-size: 1.8em;
-            font-weight: 500;
-            margin-bottom: 20px;
-            opacity: 0.95;
-            max-width: 900px;
-            margin-left: auto;
-            margin-right: auto;
-            line-height: 1.4;
-            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
-        }
-
-        .description {
-            font-size: 1.3em;
-            font-weight: 400;
-            opacity: 0.9;
-            max-width: 800px;
-            margin: 0 auto 40px;
-            line-height: 1.5;
-        }
-
-        .evolution-section {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-            gap: 40px;
-            margin-bottom: 80px;
-        }
-
-        .evolution-card {
-            background: rgba(255, 255, 255, 0.15);
-            backdrop-filter: blur(20px);
-            border-radius: 25px;
-            padding: 50px 40px;
-            text-align: center;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.1);
-            position: relative;
-            overflow: hidden;
-            transition: all 0.4s ease;
-            animation: slideInUp 0.8s ease-out;
-            animation-fill-mode: both;
-        }
-
-        .evolution-card:nth-child(1) { animation-delay: 0.2s; }
-        .evolution-card:nth-child(2) { animation-delay: 0.4s; }
-        .evolution-card:nth-child(3) { animation-delay: 0.6s; }
-
-        @keyframes slideInUp {
-            from {
-                opacity: 0;
-                transform: translateY(50px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        .evolution-card:hover {
-            transform: translateY(-15px);
-            box-shadow: 0 35px 70px rgba(0, 0, 0, 0.2);
-            background: rgba(255, 255, 255, 0.2);
-        }
-
-        .evolution-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 5px;
-            background: linear-gradient(90deg, #10b981 0%, #34d399 50%, #6ee7b7 100%);
-            border-radius: 25px 25px 0 0;
-        }
-
-        .evolution-icon {
-            font-size: 3em;
-            margin-bottom: 25px;
-            display: block;
-            font-weight: 900;
-            color: rgba(255, 255, 255, 0.9);
-            text-shadow: 0 5px 15px rgba(0,0,0,0.3);
-        }
-
-        .evolution-title {
-            font-size: 2em;
-            font-weight: 800;
-            margin-bottom: 20px;
-            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
-        }
-
-        .evolution-desc {
-            font-size: 1.2em;
-            line-height: 1.5;
-            opacity: 0.9;
-        }
-
-        .highlight {
-            background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%);
-            padding: 8px 16px;
-            border-radius: 8px;
-            font-weight: 800;
-            color: #1e293b;
-            text-shadow: none;
-            display: inline-block;
-            margin: 0 4px;
-            box-shadow: 0 4px 15px rgba(251, 191, 36, 0.3);
-        }
-
-        .network-section {
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(20px);
-            border-radius: 30px;
-            padding: 60px 50px;
-            margin-bottom: 60px;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            text-align: center;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .network-section::before {
-            content: '';
-            position: absolute;
-            top: -50%;
-            right: -50%;
-            width: 200%;
-            height: 200%;
-            background: conic-gradient(from 0deg, transparent, rgba(255, 255, 255, 0.05), transparent);
-            animation: rotate 20s linear infinite;
-            pointer-events: none;
-        }
-
-        @keyframes rotate {
-            from { transform: rotate(0deg); }
-            to { transform: rotate(360deg); }
-        }
-
-        .network-title {
-            font-size: 2.8em;
-            font-weight: 800;
-            margin-bottom: 30px;
-            position: relative;
-            z-index: 1;
-            text-shadow: 0 3px 15px rgba(0, 0, 0, 0.3);
-        }
-
-        .network-stats {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 30px;
-            margin-top: 40px;
-            position: relative;
-            z-index: 1;
-        }
-
-        .stat-item {
-            text-align: center;
-            padding: 30px 20px;
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 20px;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            transition: all 0.3s ease;
-        }
-
-        .stat-item:hover {
-            background: rgba(255, 255, 255, 0.15);
-            transform: translateY(-5px);
-        }
-
-        .stat-number {
-            font-size: 2.5em;
-            font-weight: 900;
-            display: block;
-            margin-bottom: 10px;
-            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
-        }
-
-        .stat-label {
-            font-size: 1.1em;
-            font-weight: 600;
-            opacity: 0.9;
-        }
-
-        .result-final {
-            background: linear-gradient(135deg, rgba(255, 255, 255, 0.2) 0%, rgba(255, 255, 255, 0.1) 100%);
-            backdrop-filter: blur(30px);
-            border-radius: 25px;
-            padding: 60px 40px;
-            text-align: center;
-            border: 2px solid rgba(255, 255, 255, 0.3);
-            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.2);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .result-final::before {
-            content: '';
-            position: absolute;
-            top: -20px;
-            right: 40px;
-            width: 60px;
-            height: 60px;
-            background: linear-gradient(135deg, rgba(255, 255, 255, 0.2) 0%, rgba(255, 255, 255, 0.1) 100%);
-            border-radius: 50%;
-            animation: float 3s ease-in-out infinite;
-        }
-
-        @keyframes float {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-10px); }
-        }
-
-        .result-title {
-            font-size: 2.5em;
-            font-weight: 800;
-            margin-bottom: 25px;
-            color: #ffffff;
-            text-shadow: 0 3px 15px rgba(0, 0, 0, 0.4);
-        }
-
-        .result-desc {
-            font-size: 1.4em;
-            line-height: 1.6;
-            opacity: 0.95;
-            max-width: 800px;
-            margin: 0 auto;
-        }
-
-        .pulse-animation {
-            animation: pulse 2s ease-in-out infinite;
-        }
-
-        @keyframes pulse {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.05); }
-        }
-
-        @media (max-width: 768px) {
-            .main-title {
-                font-size: 3em;
-                letter-spacing: -1px;
-            }
-            
-            .subtitle {
-                font-size: 1.4em;
-            }
-            
-            .description {
-                font-size: 1.1em;
-            }
-            
-            .evolution-section {
-                grid-template-columns: 1fr;
-                gap: 30px;
-            }
-            
-            .network-stats {
-                grid-template-columns: repeat(2, 1fr);
-                gap: 20px;
-            }
-            
-            .container {
-                padding: 40px 15px;
-            }
-        }
-    </style>
-<style>
-    .nav-buttons {
-        position: fixed;
-        bottom: 30px;
-        right: 30px;
-        display: flex;
-        gap: 15px;
-        z-index: 1000;
-    }
-
-    .nav-button {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        width: 60px;
-        height: 60px;
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-        color: white;
-        border-radius: 50%;
-        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
-        text-decoration: none;
-        font-size: 1.5em;
-        transition: transform 0.3s ease, box-shadow 0.3s ease;
-    }
-
-    .nav-button:hover {
-        transform: translateY(-5px);
-        box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
-    }
-
-    .home-button {
-        background: linear-gradient(135deg, #ff6b6b 0%, #ee5a24 100%);
-    }
-</style>
+    </script>
 </head>
-<body>
-<div class="nav-buttons">
-        <a href="../index.html" class="nav-button home-button" title="Página Inicial">🏠</a>
-        <a href="3-business_case_consolidado.html" class="nav-button" title="Página Anterior">←</a>
+<body class="bg-gradient-to-br from-slate-50 to-blue-50 min-h-screen">
+<!-- Navigation -->
+<nav class="fixed top-0 left-0 right-0 bg-white/90 backdrop-blur-md shadow-sm z-50 border-b border-gray-200">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex justify-between items-center h-16">
+            <div class="flex items-center space-x-4">
+                <a href="../index.html"
+                   class="flex items-center justify-center w-10 h-10 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors duration-200 shadow-md hover:shadow-lg transform hover:scale-105">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path>
+                    </svg>
+                </a>
+                <span class="text-gray-600 font-medium">Impacto Revolucionário</span>
+            </div>
+            <div class="flex items-center space-x-2">
+                <a href="3-implementacao_strategica.html"
+                   class="flex items-center justify-center w-10 h-10 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-lg transition-colors duration-200 shadow-md hover:shadow-lg transform hover:scale-105">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
+                    </svg>
+                </a>
+                <a href="5-conclusao.html"
+                   class="flex items-center justify-center w-10 h-10 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-lg transition-colors duration-200 shadow-md hover:shadow-lg transform hover:scale-105">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                    </svg>
+                </a>
+            </div>
+        </div>
     </div>
-    <div class="container">
-        <div class="hero-section">
-            <h1 class="main-title pulse-animation">
-                IMPACTO REVOLUCIONÁRIO ESPERADO
+</nav>
+
+<!-- Main Content -->
+<main class="pt-24 pb-12 px-4 sm:px-6 lg:px-8">
+    <div class="max-w-7xl mx-auto">
+        <!-- Header -->
+        <div class="text-center mb-12 animate-fade-in">
+            <h1 class="text-4xl md:text-5xl font-bold text-gray-900 mb-4 animate-shimmer">
+                Impacto Revolucionário Esperado
             </h1>
-            <p class="subtitle">
-                De software de gestão de leads para <span class="highlight">PLATAFORMA</span> que conecta todo o mercado imobiliário brasileiro
+            <p class="text-xl text-gray-700 max-w-4xl mx-auto mb-6 leading-relaxed">
+                Como a <strong>C2S Platform</strong> irá transformar fundamentalmente o mercado imobiliário brasileiro,
+                criando um novo ecossistema de colaboração e eficiência sem precedentes.
             </p>
-            <p class="description">
-                Uma transformação completa que redefine como imobiliárias operam, compartilham e crescem juntas
-            </p>
+            <div class="inline-block bg-gradient-to-r from-purple-500 to-pink-600 text-white px-6 py-3 rounded-full font-bold text-sm uppercase tracking-wide shadow-lg animate-pulse-badge">
+                Revolução em Andamento
+            </div>
+            <div class="mt-6 w-24 h-1 bg-gradient-to-r from-purple-500 to-pink-500 mx-auto rounded-full"></div>
         </div>
 
-        <div class="evolution-section">
-            <div class="evolution-card">
-                <span class="evolution-icon">SOFTWARE</span>
-                <h3 class="evolution-title">Gestão Individual</h3>
-                <p class="evolution-desc">
-                    Gestão individual de leads e imóveis para cada imobiliária separadamente
+        <!-- Evolution Cards -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
+            <!-- Transformação Digital -->
+            <div class="bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 p-8 border-l-8 border-purple-500 transform hover:scale-105 animate-slide-up">
+                <div class="text-center mb-6">
+                    <div class="w-20 h-20 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full flex items-center justify-center mx-auto mb-4 text-white text-3xl font-bold animate-float">
+                        🚀
+                    </div>
+                    <h3 class="text-2xl font-bold text-gray-900 mb-3">Transformação Digital</h3>
+                </div>
+                <p class="text-gray-700 mb-4 leading-relaxed">
+                    Migração completa do mercado imobiliário tradicional para um
+                    <span class="bg-yellow-100 text-yellow-800 px-2 py-1 rounded font-semibold">ecossistema digital integrado</span>,
+                    eliminando processos manuais e ineficiências centenárias.
                 </p>
+                <div class="bg-purple-50 rounded-xl p-4 border border-purple-100">
+                    <div class="text-sm text-purple-700 font-semibold">Impacto:</div>
+                    <div class="text-2xl font-bold text-purple-600">85% de Eficiência</div>
+                    <div class="text-sm text-gray-600">Redução de tempo em processos</div>
+                </div>
             </div>
 
-            <div class="evolution-card">
-                <span class="evolution-icon">PLATAFORMA</span>
-                <h3 class="evolution-title">Ecossistema Conectado</h3>
-                <p class="evolution-desc">
-                    Ecossistema integrado conectando múltiplas imobiliárias em rede colaborativa
+            <!-- Rede Colaborativa -->
+            <div class="bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 p-8 border-l-8 border-blue-500 transform hover:scale-105 animate-slide-up" style="animation-delay: 0.1s">
+                <div class="text-center mb-6">
+                    <div class="w-20 h-20 bg-gradient-to-r from-blue-500 to-cyan-500 rounded-full flex items-center justify-center mx-auto mb-4 text-white text-3xl font-bold animate-float" style="animation-delay: 0.5s">
+                        🌐
+                    </div>
+                    <h3 class="text-2xl font-bold text-gray-900 mb-3">Rede Colaborativa</h3>
+                </div>
+                <p class="text-gray-700 mb-4 leading-relaxed">
+                    Criação da maior rede de compartilhamento de inventário imobiliário do Brasil,
+                    conectando <span class="bg-blue-100 text-blue-800 px-2 py-1 rounded font-semibold">1.071 imobiliárias</span>
+                    em um ecossistema único.
                 </p>
+                <div class="bg-blue-50 rounded-xl p-4 border border-blue-100">
+                    <div class="text-sm text-blue-700 font-semibold">Impacto:</div>
+                    <div class="text-2xl font-bold text-blue-600">10x Alcance</div>
+                    <div class="text-sm text-gray-600">Expansão de mercado por cliente</div>
+                </div>
             </div>
 
-            <div class="evolution-card">
-                <span class="evolution-icon">INFRAESTRUTURA</span>
-                <h3 class="evolution-title">Base Tecnológica</h3>
-                <p class="evolution-desc">
-                    Base tecnológica essencial para todo o mercado imobiliário brasileiro operar
+            <!-- Inteligência Artificial -->
+            <div class="bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 p-8 border-l-8 border-green-500 transform hover:scale-105 animate-slide-up" style="animation-delay: 0.2s">
+                <div class="text-center mb-6">
+                    <div class="w-20 h-20 bg-gradient-to-r from-green-500 to-emerald-500 rounded-full flex items-center justify-center mx-auto mb-4 text-white text-3xl font-bold animate-float" style="animation-delay: 1s">
+                        🤖
+                    </div>
+                    <h3 class="text-2xl font-bold text-gray-900 mb-3">Inteligência Artificial</h3>
+                </div>
+                <p class="text-gray-700 mb-4 leading-relaxed">
+                    Implementação de IA avançada para automação de processos, análise preditiva
+                    e <span class="bg-green-100 text-green-800 px-2 py-1 rounded font-semibold">matching inteligente</span>
+                    entre compradores e imóveis.
                 </p>
+                <div class="bg-green-50 rounded-xl p-4 border border-green-100">
+                    <div class="text-sm text-green-700 font-semibold">Impacto:</div>
+                    <div class="text-2xl font-bold text-green-600">70% Precisão</div>
+                    <div class="text-sm text-gray-600">Melhoria em matchings</div>
+                </div>
             </div>
         </div>
 
-        <div class="network-section">
-            <h2 class="network-title">A Maior Rede Colaborativa do Brasil</h2>
-            <p style="font-size: 1.3em; opacity: 0.9; margin-bottom: 30px; position: relative; z-index: 1;">
-                Conectando <span class="highlight">857 imobiliárias</span> em um ecossistema único de crescimento mútuo
-            </p>
-            
-            <div class="network-stats">
-                <div class="stat-item">
-                    <span class="stat-number">857</span>
-                    <span class="stat-label">Imobiliárias Conectadas</span>
-                </div>
-                <div class="stat-item">
-                    <span class="stat-number">25.000+</span>
-                    <span class="stat-label">Imóveis Compartilhados</span>
-                </div>
-                <div class="stat-item">
-                    <span class="stat-number">8.232</span>
-                    <span class="stat-label">Vendas Cross/Ano</span>
-                </div>
-                <div class="stat-item">
-                    <span class="stat-number">R$ 600M+</span>
-                    <span class="stat-label">Volume Anual</span>
-                </div>
-                <div class="stat-item">
-                    <span class="stat-number">&lt;0,5%</span>
-                    <span class="stat-label">Taxa de Churn</span>
-                </div>
-                <div class="stat-item">
-                    <span class="stat-number">100%</span>
-                    <span class="stat-label">Dependência Digital</span>
+        <!-- Network Impact Section -->
+        <div class="bg-white rounded-2xl shadow-lg p-8 mb-12 relative overflow-hidden animate-slide-up" style="animation-delay: 0.3s">
+            <div class="absolute inset-0 bg-gradient-to-r from-blue-50 to-purple-50 opacity-50"></div>
+            <div class="relative z-10">
+                <h2 class="text-3xl font-bold text-gray-900 text-center mb-8">Impacto da Rede Colaborativa</h2>
+                <p class="text-lg text-gray-700 text-center mb-8 max-w-4xl mx-auto">
+                    A transformação do mercado imobiliário através de uma rede integrada que conecta
+                    <span class="font-bold text-blue-600">1.071 imobiliárias</span> com inventário ativo,
+                    criando um ecossistema de eficiência sem precedentes.
+                </p>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                    <!-- Conectividade -->
+                    <div class="bg-white/70 backdrop-blur-sm p-6 rounded-xl border border-blue-100 text-center">
+                        <div class="w-16 h-16 bg-gradient-to-r from-blue-500 to-blue-600 rounded-full flex items-center justify-center mx-auto mb-4 text-white text-2xl animate-pulse">
+                            🔗
+                        </div>
+                        <div class="text-sm font-semibold text-blue-700 mb-2">Conectividade Total</div>
+                        <div class="text-3xl font-bold text-blue-600 mb-2">1.071</div>
+                        <div class="text-sm text-gray-700">Imobiliárias interconectadas</div>
+                    </div>
+
+                    <!-- Inventário Compartilhado -->
+                    <div class="bg-white/70 backdrop-blur-sm p-6 rounded-xl border border-green-100 text-center">
+                        <div class="w-16 h-16 bg-gradient-to-r from-green-500 to-green-600 rounded-full flex items-center justify-center mx-auto mb-4 text-white text-2xl animate-pulse" style="animation-delay: 0.2s">
+                            📊
+                        </div>
+                        <div class="text-sm font-semibold text-green-700 mb-2">Inventário Compartilhado</div>
+                        <div class="text-3xl font-bold text-green-600 mb-2">50K+</div>
+                        <div class="text-sm text-gray-700">Imóveis na rede</div>
+                    </div>
+
+                    <!-- Eficiência Operacional -->
+                    <div class="bg-white/70 backdrop-blur-sm p-6 rounded-xl border border-purple-100 text-center">
+                        <div class="w-16 h-16 bg-gradient-to-r from-purple-500 to-purple-600 rounded-full flex items-center justify-center mx-auto mb-4 text-white text-2xl animate-pulse" style="animation-delay: 0.4s">
+                            ⚡
+                        </div>
+                        <div class="text-sm font-semibold text-purple-700 mb-2">Eficiência Operacional</div>
+                        <div class="text-3xl font-bold text-purple-600 mb-2">85%</div>
+                        <div class="text-sm text-gray-700">Redução de tempo</div>
+                    </div>
+
+                    <!-- Receita Preservada -->
+                    <div class="bg-white/70 backdrop-blur-sm p-6 rounded-xl border border-orange-100 text-center">
+                        <div class="w-16 h-16 bg-gradient-to-r from-orange-500 to-orange-600 rounded-full flex items-center justify-center mx-auto mb-4 text-white text-2xl animate-pulse" style="animation-delay: 0.6s">
+                            💰
+                        </div>
+                        <div class="text-sm font-semibold text-orange-700 mb-2">Receita Preservada</div>
+                        <div class="text-3xl font-bold text-orange-600 mb-2">R$18M</div>
+                        <div class="text-sm text-gray-700">Valor anual protegido</div>
+                    </div>
                 </div>
             </div>
         </div>
 
-        <div class="result-final">
-            <h2 class="result-title">
-                Resultado Final: Primeira e Maior Rede Colaborativa de Imobiliárias do Brasil
-            </h2>
-            <p class="result-desc">
-                Uma <span class="highlight">revolução completa</span> que transforma concorrentes em parceiros, 
-                cria <span class="highlight">dependência absoluta</span> através de valor real, e estabelece 
-                C2S como a <span class="highlight">infraestrutura essencial</span> do mercado imobiliário brasileiro. 
-                Network effect + lock-in total = crescimento sustentável e posição monopolística defensável.
+        <!-- Revolutionary Changes -->
+        <div class="bg-white rounded-2xl shadow-lg p-8 mb-12 animate-slide-up" style="animation-delay: 0.4s">
+            <h2 class="text-3xl font-bold text-gray-900 text-center mb-8">Mudanças Revolucionárias</h2>
+
+            <div class="space-y-6">
+                <!-- Mudança 1 -->
+                <div class="flex items-start space-x-4 p-6 bg-gradient-to-r from-red-50 to-pink-50 rounded-xl border border-red-100">
+                    <div class="w-12 h-12 bg-gradient-to-r from-red-500 to-pink-500 rounded-full flex items-center justify-center text-white font-bold text-xl flex-shrink-0">
+                        1
+                    </div>
+                    <div>
+                        <h3 class="text-xl font-bold text-gray-900 mb-2">Fim da Competição Predatória</h3>
+                        <p class="text-gray-700 leading-relaxed">
+                            Transformação do modelo competitivo tradicional em um ecossistema colaborativo,
+                            onde <span class="bg-red-100 text-red-800 px-2 py-1 rounded font-semibold">todas as imobiliárias ganham</span>
+                            através do compartilhamento inteligente de inventário.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Mudança 2 -->
+                <div class="flex items-start space-x-4 p-6 bg-gradient-to-r from-blue-50 to-cyan-50 rounded-xl border border-blue-100">
+                    <div class="w-12 h-12 bg-gradient-to-r from-blue-500 to-cyan-500 rounded-full flex items-center justify-center text-white font-bold text-xl flex-shrink-0">
+                        2
+                    </div>
+                    <div>
+                        <h3 class="text-xl font-bold text-gray-900 mb-2">Democratização do Acesso</h3>
+                        <p class="text-gray-700 leading-relaxed">
+                            Pequenas imobiliárias passam a ter acesso ao mesmo inventário das grandes,
+                            criando <span class="bg-blue-100 text-blue-800 px-2 py-1 rounded font-semibold">igualdade de oportunidades</span>
+                            e fortalecendo todo o ecossistema.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Mudança 3 -->
+                <div class="flex items-start space-x-4 p-6 bg-gradient-to-r from-green-50 to-emerald-50 rounded-xl border border-green-100">
+                    <div class="w-12 h-12 bg-gradient-to-r from-green-500 to-emerald-500 rounded-full flex items-center justify-center text-white font-bold text-xl flex-shrink-0">
+                        3
+                    </div>
+                    <div>
+                        <h3 class="text-xl font-bold text-gray-900 mb-2">Experiência do Cliente Revolucionada</h3>
+                        <p class="text-gray-700 leading-relaxed">
+                            Compradores acessam <span class="bg-green-100 text-green-800 px-2 py-1 rounded font-semibold">100% do inventário disponível</span>
+                            através de qualquer imobiliária da rede, eliminando a necessidade de buscar em múltiplas fontes.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- CTA Section -->
+        <div class="bg-gradient-to-r from-purple-600 to-pink-600 rounded-2xl shadow-xl p-8 text-white text-center animate-slide-up" style="animation-delay: 0.5s">
+            <h2 class="text-3xl font-bold mb-4">O Futuro do Mercado Imobiliário</h2>
+            <p class="text-xl mb-8 max-w-4xl mx-auto leading-relaxed">
+                Esta não é apenas uma evolução tecnológica - é uma
+                <span class="font-bold bg-white/20 px-3 py-1 rounded-full">revolução completa</span>
+                na forma como o mercado imobiliário brasileiro opera, criando valor para todos os participantes.
             </p>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                <div class="bg-white/10 rounded-xl p-6 backdrop-blur-sm">
+                    <div class="text-4xl font-bold mb-2">100%</div>
+                    <div class="text-sm opacity-90">Integração Digital</div>
+                </div>
+                <div class="bg-white/10 rounded-xl p-6 backdrop-blur-sm">
+                    <div class="text-4xl font-bold mb-2">1.071</div>
+                    <div class="text-sm opacity-90">Imobiliárias Conectadas</div>
+                </div>
+                <div class="bg-white/10 rounded-xl p-6 backdrop-blur-sm">
+                    <div class="text-4xl font-bold mb-2">∞</div>
+                    <div class="text-sm opacity-90">Possibilidades Futuras</div>
+                </div>
+            </div>
         </div>
     </div>
+</main>
 </body>
+</html>

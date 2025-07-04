@@ -3,368 +3,371 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Insights Estratégicos Corrigidos</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            min-height: 100vh;
-            padding: 20px;
-        }
-
-        .container {
-            max-width: 1400px;
-            margin: 0 auto;
-            background: white;
-            border-radius: 20px;
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
-            overflow: hidden;
-        }
-
-        .header {
-            background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
-            color: white;
-            padding: 40px 20px;
-            text-align: center;
-        }
-
-        .header h1 {
-            font-size: 2.5em;
-            margin-bottom: 10px;
-            font-weight: 700;
-        }
-
-        .header p {
-            font-size: 1.2em;
-            opacity: 0.9;
-        }
-
-        .financial-calculations {
-            background: #ecf0f1;
-            padding: 25px;
-            margin: 20px 30px;
-            border-radius: 15px;
-            border-left: 6px solid #3498db;
-        }
-
-        .calc-title {
-            color: #2c3e50;
-            font-size: 1.4em;
-            margin-bottom: 15px;
-            font-weight: 600;
-        }
-
-        .calc-item {
-            background: white;
-            padding: 15px;
-            border-radius: 8px;
-            margin-bottom: 10px;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
-        }
-
-        .calc-formula {
-            font-family: 'Courier New', monospace;
-            background: #f8f9fa;
-            padding: 10px;
-            border-radius: 5px;
-            margin: 8px 0;
-            border-left: 3px solid #3498db;
-        }
-
-        .calc-explanation {
-            color: #7f8c8d;
-            font-size: 0.95em;
-            line-height: 1.5;
-            margin-top: 8px;
-        }
-
-        .insights-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-            gap: 25px;
-            padding: 40px 30px;
-        }
-
-        .insight-card {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            padding: 30px;
-            border-radius: 20px;
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-        }
-
-        .insight-card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15);
-        }
-
-        .insight-card.critical {
-            background: linear-gradient(135deg, #ff6b6b 0%, #ee5a24 100%);
-        }
-
-        .insight-card.opportunity {
-            background: linear-gradient(135deg, #00b894 0%, #00cec9 100%);
-        }
-
-        .insight-card.defense {
-            background: linear-gradient(135deg, #fdcb6e 0%, #e17055 100%);
-        }
-
-        .insight-card.potential {
-            background: linear-gradient(135deg, #a29bfe 0%, #6c5ce7 100%);
-        }
-
-        .insight-title {
-            font-size: 1.4em;
-            font-weight: 700;
-            margin-bottom: 15px;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-
-        .insight-content {
-            font-size: 1.1em;
-            line-height: 1.6;
-            opacity: 0.95;
-        }
-
-        .highlight-number {
-            font-size: 1.5em;
-            font-weight: 700;
-            color: #fff;
-            background: rgba(255, 255, 255, 0.2);
-            padding: 5px 10px;
-            border-radius: 8px;
-            display: inline-block;
-            margin: 5px 3px;
-        }
-
-        .new-insights-section {
-            background: #f8f9fa;
-            padding: 40px 30px;
-        }
-
-        .new-insights-title {
-            color: #2c3e50;
-            font-size: 2em;
-            margin-bottom: 30px;
-            text-align: center;
-            font-weight: 700;
-        }
-
-        .insights-by-size {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 20px;
-            margin-bottom: 40px;
-        }
-
-        .size-card {
-            background: white;
-            padding: 25px;
-            border-radius: 15px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-            border-left: 6px solid;
-        }
-
-        .size-card.medium {
-            border-left-color: #e74c3c;
-        }
-
-        .size-card.large {
-            border-left-color: #f39c12;
-        }
-
-        .size-card.small {
-            border-left-color: #27ae60;
-        }
-
-        .size-title {
-            color: #2c3e50;
-            font-size: 1.3em;
-            font-weight: 600;
-            margin-bottom: 10px;
-        }
-
-        .size-percentage {
-            font-size: 2em;
-            font-weight: 700;
-            margin-bottom: 10px;
-        }
-
-        .size-description {
-            color: #7f8c8d;
-            line-height: 1.5;
-        }
-
-        .action-plan {
-            background: linear-gradient(135deg, #ffeaa7 0%, #fab1a0 100%);
-            margin: 30px;
-            padding: 30px;
-            border-radius: 15px;
-            border-left: 8px solid #e17055;
-        }
-
-        .action-title {
-            color: #2d3436;
-            font-size: 1.6em;
-            margin-bottom: 20px;
-            font-weight: 700;
-        }
-
-        .priority-item {
-            background: white;
-            padding: 20px;
-            border-radius: 10px;
-            margin-bottom: 15px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-        }
-
-        .priority-item h4 {
-            color: #2c3e50;
-            font-size: 1.2em;
-            margin-bottom: 10px;
-            font-weight: 600;
-        }
-
-        .priority-details {
-            color: #7f8c8d;
-            line-height: 1.6;
-        }
-
-        .roi-highlight {
-            background: #27ae60;
-            color: white;
-            padding: 5px 10px;
-            border-radius: 5px;
-            font-weight: 600;
-            display: inline-block;
-            margin: 5px 0;
-        }
-
-        .corrections-note {
-            background: #e74c3c;
-            color: white;
-            padding: 15px;
-            border-radius: 10px;
-            margin: 20px 30px;
-            text-align: center;
-            font-weight: 600;
-        }
-
-        @media (max-width: 768px) {
-            .insights-grid,
-            .insights-by-size {
-                grid-template-columns: 1fr;
-            }
-            
-            .header h1 {
-                font-size: 2em;
-            }
-            
-            .insight-title {
-                font-size: 1.2em;
-            }
-            
-            .highlight-number {
-                font-size: 1.3em;
+    <title>Metodologia de Cálculos Financeiros</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    animation: {
+                        'fade-in': 'fadeIn 0.8s ease-in-out',
+                        'slide-up': 'slideUp 0.6s ease-out',
+                        'slide-in-left': 'slideInLeft 0.8s ease-out',
+                        'pulse-slow': 'pulse 3s infinite',
+                        'calculation-pulse': 'calculationPulse 4s ease-in-out infinite',
+                        'formula-highlight': 'formulaHighlight 3s ease-in-out infinite',
+                        'number-pop': 'numberPop 0.8s ease-out',
+                    },
+                    keyframes: {
+                        fadeIn: {
+                            '0%': { opacity: '0' },
+                            '100%': { opacity: '1' }
+                        },
+                        slideUp: {
+                            '0%': { transform: 'translateY(20px)', opacity: '0' },
+                            '100%': { transform: 'translateY(0)', opacity: '1' }
+                        },
+                        slideInLeft: {
+                            '0%': { transform: 'translateX(-20px)', opacity: '0' },
+                            '100%': { transform: 'translateX(0)', opacity: '1' }
+                        },
+                        calculationPulse: {
+                            '0%, 100%': { transform: 'scale(1)', boxShadow: '0 0 0 0 rgba(59, 130, 246, 0.7)' },
+                            '50%': { transform: 'scale(1.02)', boxShadow: '0 0 0 10px rgba(59, 130, 246, 0)' }
+                        },
+                        formulaHighlight: {
+                            '0%, 100%': { backgroundColor: 'rgba(59, 130, 246, 0.1)' },
+                            '50%': { backgroundColor: 'rgba(59, 130, 246, 0.2)' }
+                        },
+                        numberPop: {
+                            '0%': { transform: 'scale(0.8)', opacity: '0' },
+                            '50%': { transform: 'scale(1.1)' },
+                            '100%': { transform: 'scale(1)', opacity: '1' }
+                        }
+                    }
+                }
             }
         }
-    </style>
-<style>
-    .nav-buttons {
-        position: fixed;
-        bottom: 30px;
-        right: 30px;
-        display: flex;
-        gap: 15px;
-        z-index: 1000;
-    }
-
-    .nav-button {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        width: 60px;
-        height: 60px;
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-        color: white;
-        border-radius: 50%;
-        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
-        text-decoration: none;
-        font-size: 1.5em;
-        transition: transform 0.3s ease, box-shadow 0.3s ease;
-    }
-
-    .nav-button:hover {
-        transform: translateY(-5px);
-        box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
-    }
-
-    .home-button {
-        background: linear-gradient(135deg, #ff6b6b 0%, #ee5a24 100%);
-    }
-</style>
+    </script>
 </head>
-<body>
-<div class="nav-buttons">
-        <a href="../index.html" class="nav-button home-button" title="Página Inicial">🏠</a>
-        <a href="6.1-insights_estrategicos_corrected.html" class="nav-button" title="Página Anterior">←</a>
-    </div>
-    <div class="container">
-        <div class="financial-calculations">
-            <div class="calc-title">METODOLOGIA DE CÁLCULOS FINANCEIROS</div>
-            
-            <div class="calc-item">
-                <h4 style="color: #2c3e50; margin-bottom: 8px;">1. Receita Retida Potencial</h4>
-                <div class="calc-formula">
-                    Receita Anual Retida = MRR Médio × Casos de Churn × 12 meses × Taxa de Retenção
-                    <br>= R$ 470,14 × 898 casos × 12 × 0,70 = R$ 10-18M
+<body class="bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50 min-h-screen">
+    <!-- Navigation -->
+    <nav class="fixed top-0 left-0 right-0 bg-white/90 backdrop-blur-md shadow-sm z-50 border-b border-gray-200">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <div class="flex items-center space-x-4">
+                    <a href="../index.html" 
+                       class="flex items-center justify-center w-10 h-10 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors duration-200 shadow-md hover:shadow-lg transform hover:scale-105">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path>
+                        </svg>
+                    </a>
+                    <span class="text-gray-600 font-medium">Metodologia de Cálculos</span>
                 </div>
-                <div class="calc-explanation">
-                    Considera o MRR médio das empresas que churnaram (R$ 470,14) multiplicado pelos casos das 2 principais categorias (575 + 323 = 898), projetado anualmente com taxa de retenção conservadora de 70%.
-                </div>
-            </div>
-
-            <div class="calc-item">
-                <h4 style="color: #2c3e50; margin-bottom: 8px;">2. ROI do Investimento</h4>
-                <div class="calc-formula">
-                    ROI = (Receita Retida - Investimento) / Investimento × 100
-                    <br>= (R$ 12M - R$ 450k) / R$ 450k = 2.567% ROI (25x retorno)
-                </div>
-                <div class="calc-explanation">
-                    Investimento estimado de R$ 300-600k para desenvolvimento de soluções vs receita retida conservadora. Payback em menos de 2 meses.
-                </div>
-            </div>
-
-            <div class="calc-item">
-                <h4 style="color: #2c3e50; margin-bottom: 8px;">3. Ratio Crítico MRR/Lead</h4>
-                <div class="calc-formula">
-                    Ratio = MRR Médio / Leads Médios por Mês
-                    <br>= R$ 470,14 / 277 leads = R$ 1,70 por lead
-                </div>
-                <div class="calc-explanation">
-                    Empresas com ratio abaixo de R$ 1,50 por lead indicam sub-aproveitamento da plataforma e maior risco de churn. Usado como alerta preditivo.
-                </div>
-            </div>
-
-            <div class="calc-item">
-                <h4 style="color: #2c3e50; margin-bottom: 8px;">4. Potencial de Redução por Categoria</h4>
-                <div class="calc-formula">
-                    Redução % = (Casos da Categoria / Total de Churns) × Taxa de Sucesso
-                    <br>Financeiros: (575 / 1.856) × 0,80 = 24,8% de redução potencial
-                </div>
-                <div class="calc-explanation">
-                    Percentual baseado nos casos reais de cada categoria, multiplicado por taxa de sucesso estimada de 70-80% para soluções bem implementadas.
+                <div class="flex items-center space-x-2">
+                    <a href="6.1-insights_estrategicos_corrected.html" 
+                       class="flex items-center justify-center w-10 h-10 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-lg transition-colors duration-200 shadow-md hover:shadow-lg transform hover:scale-105">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
+                        </svg>
+                    </a>
+                    <a href="../2-outcomes/1.0-q3-outcome_migracao_c2s.html" 
+                       class="flex items-center justify-center w-10 h-10 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-lg transition-colors duration-200 shadow-md hover:shadow-lg transform hover:scale-105">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                        </svg>
+                    </a>
                 </div>
             </div>
         </div>
-    </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="pt-24 pb-12 px-4 sm:px-6 lg:px-8">
+        <div class="max-w-7xl mx-auto">
+            <!-- Header -->
+            <div class="text-center mb-12 animate-fade-in">
+                <div class="flex items-center justify-center mb-6">
+                    <div class="w-16 h-16 bg-gradient-to-br from-blue-500 to-purple-600 rounded-full flex items-center justify-center mr-4 shadow-lg animate-calculation-pulse">
+                        <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z"></path>
+                        </svg>
+                    </div>
+                    <h1 class="text-4xl md:text-5xl font-bold text-gray-900">
+                        METODOLOGIA DE CÁLCULOS
+                    </h1>
+                </div>
+                
+                <p class="text-xl text-gray-600 max-w-3xl mx-auto mb-6">
+                    Fundamentação Matemática dos Insights Financeiros
+                </p>
+                
+                <div class="mt-6 w-24 h-1 bg-gradient-to-r from-blue-500 to-purple-600 mx-auto rounded-full"></div>
+            </div>
+
+            <!-- Calculation Cards Grid -->
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-12">
+                <!-- Revenue Retention Card -->
+                <div class="bg-gradient-to-br from-green-50 to-green-100 rounded-2xl shadow-lg p-8 border-l-4 border-green-500 animate-slide-up">
+                    <div class="flex items-start">
+                        <div class="flex-shrink-0 mr-4">
+                            <div class="w-12 h-12 bg-gradient-to-br from-green-500 to-green-700 rounded-full flex items-center justify-center">
+                                <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1"></path>
+                                </svg>
+                            </div>
+                        </div>
+                        <div class="flex-1">
+                            <h3 class="text-xl font-bold text-green-800 mb-4">1. Receita Retida Potencial</h3>
+                            
+                            <!-- Formula Box -->
+                            <div class="bg-white rounded-xl p-4 border border-green-200 mb-4 animate-formula-highlight">
+                                <div class="text-sm font-mono text-gray-700 mb-2">
+                                    <strong>Fórmula:</strong>
+                                </div>
+                                <div class="text-blue-600 font-bold text-lg">
+                                    Receita Anual = MRR × Casos × 12 × Taxa de Retenção
+                                </div>
+                            </div>
+
+                            <!-- Calculation Breakdown -->
+                            <div class="space-y-3 mb-4">
+                                <div class="flex items-center justify-between p-3 bg-white rounded-lg border border-green-200">
+                                    <span class="text-gray-700">MRR Médio:</span>
+                                    <span class="font-bold text-green-600 text-lg animate-number-pop">R$ 470,14</span>
+                                </div>
+                                <div class="flex items-center justify-between p-3 bg-white rounded-lg border border-green-200">
+                                    <span class="text-gray-700">Casos (Top 2):</span>
+                                    <span class="font-bold text-green-600 text-lg animate-number-pop" style="animation-delay: 0.1s">898 casos</span>
+                                </div>
+                                <div class="flex items-center justify-between p-3 bg-white rounded-lg border border-green-200">
+                                    <span class="text-gray-700">Taxa de Retenção:</span>
+                                    <span class="font-bold text-green-600 text-lg animate-number-pop" style="animation-delay: 0.2s">70%</span>
+                                </div>
+                            </div>
+
+                            <!-- Result -->
+                            <div class="bg-green-600 rounded-xl p-4 text-center">
+                                <div class="text-white text-sm font-semibold mb-1">RESULTADO:</div>
+                                <div class="text-white text-2xl font-bold animate-number-pop" style="animation-delay: 0.3s">R$ 10-18M</div>
+                                <div class="text-green-100 text-sm mt-1">Receita anual retida</div>
+                            </div>
+
+                            <div class="mt-4 p-3 bg-gray-50 rounded-lg border border-gray-200">
+                                <p class="text-sm text-gray-700">
+                                    <strong>Explicação:</strong> Considera o MRR médio das empresas que churnaram multiplicado pelos casos das 2 principais categorias (575 + 323 = 898), projetado anualmente com taxa de retenção conservadora.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ROI Card -->
+                <div class="bg-gradient-to-br from-red-50 to-red-100 rounded-2xl shadow-lg p-8 border-l-4 border-red-500 animate-slide-up" style="animation-delay: 0.1s">
+                    <div class="flex items-start">
+                        <div class="flex-shrink-0 mr-4">
+                            <div class="w-12 h-12 bg-gradient-to-br from-red-500 to-red-700 rounded-full flex items-center justify-center">
+                                <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"></path>
+                                </svg>
+                            </div>
+                        </div>
+                        <div class="flex-1">
+                            <h3 class="text-xl font-bold text-red-800 mb-4">2. ROI do Investimento</h3>
+                            
+                            <!-- Formula Box -->
+                            <div class="bg-white rounded-xl p-4 border border-red-200 mb-4 animate-formula-highlight" style="animation-delay: 0.2s">
+                                <div class="text-sm font-mono text-gray-700 mb-2">
+                                    <strong>Fórmula:</strong>
+                                </div>
+                                <div class="text-blue-600 font-bold text-lg">
+                                    ROI = (Receita Retida - Investimento) / Investimento × 100
+                                </div>
+                            </div>
+
+                            <!-- Calculation Breakdown -->
+                            <div class="space-y-3 mb-4">
+                                <div class="flex items-center justify-between p-3 bg-white rounded-lg border border-red-200">
+                                    <span class="text-gray-700">Receita Retida:</span>
+                                    <span class="font-bold text-red-600 text-lg animate-number-pop" style="animation-delay: 0.3s">R$ 12M</span>
+                                </div>
+                                <div class="flex items-center justify-between p-3 bg-white rounded-lg border border-red-200">
+                                    <span class="text-gray-700">Investimento:</span>
+                                    <span class="font-bold text-red-600 text-lg animate-number-pop" style="animation-delay: 0.4s">R$ 450k</span>
+                                </div>
+                                <div class="flex items-center justify-between p-3 bg-white rounded-lg border border-red-200">
+                                    <span class="text-gray-700">Retorno Múltiplo:</span>
+                                    <span class="font-bold text-red-600 text-lg animate-number-pop" style="animation-delay: 0.5s">25x</span>
+                                </div>
+                            </div>
+
+                            <!-- Result -->
+                            <div class="bg-red-600 rounded-xl p-4 text-center">
+                                <div class="text-white text-sm font-semibold mb-1">RESULTADO:</div>
+                                <div class="text-white text-2xl font-bold animate-number-pop" style="animation-delay: 0.6s">2.567% ROI</div>
+                                <div class="text-red-100 text-sm mt-1">Payback < 2 meses</div>
+                            </div>
+
+                            <div class="mt-4 p-3 bg-gray-50 rounded-lg border border-gray-200">
+                                <p class="text-sm text-gray-700">
+                                    <strong>Explicação:</strong> Investimento estimado de R$ 300-600k para desenvolvimento de soluções vs receita retida conservadora. Retorno extraordinário com payback rápido.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Critical Ratio Card -->
+                <div class="bg-gradient-to-br from-blue-50 to-blue-100 rounded-2xl shadow-lg p-8 border-l-4 border-blue-500 animate-slide-up" style="animation-delay: 0.2s">
+                    <div class="flex items-start">
+                        <div class="flex-shrink-0 mr-4">
+                            <div class="w-12 h-12 bg-gradient-to-br from-blue-500 to-blue-700 rounded-full flex items-center justify-center">
+                                <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
+                                </svg>
+                            </div>
+                        </div>
+                        <div class="flex-1">
+                            <h3 class="text-xl font-bold text-blue-800 mb-4">3. Ratio Crítico MRR/Lead</h3>
+                            
+                            <!-- Formula Box -->
+                            <div class="bg-white rounded-xl p-4 border border-blue-200 mb-4 animate-formula-highlight" style="animation-delay: 0.4s">
+                                <div class="text-sm font-mono text-gray-700 mb-2">
+                                    <strong>Fórmula:</strong>
+                                </div>
+                                <div class="text-blue-600 font-bold text-lg">
+                                    Ratio = MRR Médio / Leads Médios por Mês
+                                </div>
+                            </div>
+
+                            <!-- Calculation Breakdown -->
+                            <div class="space-y-3 mb-4">
+                                <div class="flex items-center justify-between p-3 bg-white rounded-lg border border-blue-200">
+                                    <span class="text-gray-700">MRR Médio:</span>
+                                    <span class="font-bold text-blue-600 text-lg animate-number-pop" style="animation-delay: 0.7s">R$ 470,14</span>
+                                </div>
+                                <div class="flex items-center justify-between p-3 bg-white rounded-lg border border-blue-200">
+                                    <span class="text-gray-700">Leads/mês Médio:</span>
+                                    <span class="font-bold text-blue-600 text-lg animate-number-pop" style="animation-delay: 0.8s">277 leads</span>
+                                </div>
+                                <div class="flex items-center justify-between p-3 bg-white rounded-lg border border-blue-200">
+                                    <span class="text-gray-700">Threshold de Risco:</span>
+                                    <span class="font-bold text-orange-600 text-lg animate-number-pop" style="animation-delay: 0.9s">< R$ 1,50</span>
+                                </div>
+                            </div>
+
+                            <!-- Result -->
+                            <div class="bg-blue-600 rounded-xl p-4 text-center">
+                                <div class="text-white text-sm font-semibold mb-1">RESULTADO:</div>
+                                <div class="text-white text-2xl font-bold animate-number-pop" style="animation-delay: 1s">R$ 1,70/lead</div>
+                                <div class="text-blue-100 text-sm mt-1">Valor por lead</div>
+                            </div>
+
+                            <div class="mt-4 p-3 bg-gray-50 rounded-lg border border-gray-200">
+                                <p class="text-sm text-gray-700">
+                                    <strong>Explicação:</strong> Empresas com ratio abaixo de R$ 1,50 por lead indicam sub-aproveitamento da plataforma e maior risco de churn. Usado como alerta preditivo.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Reduction Potential Card -->
+                <div class="bg-gradient-to-br from-purple-50 to-purple-100 rounded-2xl shadow-lg p-8 border-l-4 border-purple-500 animate-slide-up" style="animation-delay: 0.3s">
+                    <div class="flex items-start">
+                        <div class="flex-shrink-0 mr-4">
+                            <div class="w-12 h-12 bg-gradient-to-br from-purple-500 to-purple-700 rounded-full flex items-center justify-center">
+                                <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+                                </svg>
+                            </div>
+                        </div>
+                        <div class="flex-1">
+                            <h3 class="text-xl font-bold text-purple-800 mb-4">4. Potencial de Redução</h3>
+                            
+                            <!-- Formula Box -->
+                            <div class="bg-white rounded-xl p-4 border border-purple-200 mb-4 animate-formula-highlight" style="animation-delay: 0.6s">
+                                <div class="text-sm font-mono text-gray-700 mb-2">
+                                    <strong>Fórmula:</strong>
+                                </div>
+                                <div class="text-blue-600 font-bold text-lg">
+                                    Redução % = (Casos / Total Churns) × Taxa de Sucesso
+                                </div>
+                            </div>
+
+                            <!-- Calculation Breakdown -->
+                            <div class="space-y-3 mb-4">
+                                <div class="flex items-center justify-between p-3 bg-white rounded-lg border border-purple-200">
+                                    <span class="text-gray-700">Casos Financeiros:</span>
+                                    <span class="font-bold text-purple-600 text-lg animate-number-pop" style="animation-delay: 1.1s">575 casos</span>
+                                </div>
+                                <div class="flex items-center justify-between p-3 bg-white rounded-lg border border-purple-200">
+                                    <span class="text-gray-700">Total de Churns:</span>
+                                    <span class="font-bold text-purple-600 text-lg animate-number-pop" style="animation-delay: 1.2s">1.856 casos</span>
+                                </div>
+                                <div class="flex items-center justify-between p-3 bg-white rounded-lg border border-purple-200">
+                                    <span class="text-gray-700">Taxa de Sucesso:</span>
+                                    <span class="font-bold text-purple-600 text-lg animate-number-pop" style="animation-delay: 1.3s">80%</span>
+                                </div>
+                            </div>
+
+                            <!-- Result -->
+                            <div class="bg-purple-600 rounded-xl p-4 text-center">
+                                <div class="text-white text-sm font-semibold mb-1">RESULTADO:</div>
+                                <div class="text-white text-2xl font-bold animate-number-pop" style="animation-delay: 1.4s">24.8%</div>
+                                <div class="text-purple-100 text-sm mt-1">Redução potencial</div>
+                            </div>
+
+                            <div class="mt-4 p-3 bg-gray-50 rounded-lg border border-gray-200">
+                                <p class="text-sm text-gray-700">
+                                    <strong>Explicação:</strong> Percentual baseado nos casos reais de cada categoria, multiplicado por taxa de sucesso estimada de 70-80% para soluções bem implementadas.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Summary Section -->
+            <div class="bg-gradient-to-br from-gray-50 to-gray-100 rounded-2xl shadow-lg p-8 border border-gray-200 mb-12 animate-slide-up" style="animation-delay: 0.4s">
+                <h3 class="text-2xl font-bold text-gray-900 mb-6 text-center">Resumo dos Cálculos</h3>
+                
+                <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-6">
+                    <div class="text-center p-4 bg-white rounded-xl shadow-md">
+                        <div class="text-3xl font-bold text-green-600 mb-2">R$ 12M</div>
+                        <div class="text-sm text-gray-600">Receita Retida</div>
+                    </div>
+                    <div class="text-center p-4 bg-white rounded-xl shadow-md">
+                        <div class="text-3xl font-bold text-red-600 mb-2">2.567%</div>
+                        <div class="text-sm text-gray-600">ROI</div>
+                    </div>
+                    <div class="text-center p-4 bg-white rounded-xl shadow-md">
+                        <div class="text-3xl font-bold text-blue-600 mb-2">R$ 1,70</div>
+                        <div class="text-sm text-gray-600">Ratio/Lead</div>
+                    </div>
+                    <div class="text-center p-4 bg-white rounded-xl shadow-md">
+                        <div class="text-3xl font-bold text-purple-600 mb-2">24.8%</div>
+                        <div class="text-sm text-gray-600">Redução Potencial</div>
+                    </div>
+                </div>
+
+                <div class="text-center">
+                    <p class="text-lg text-gray-700 mb-4">
+                        <strong>Conclusão:</strong> Os cálculos demonstram um <span class="font-bold text-blue-600">potencial extraordinário de retorno</span> 
+                        com investimento relativamente baixo em soluções de retenção focadas.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-white border-t border-gray-200 mt-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+            <div class="text-center text-gray-500 text-sm">
+                Dashboard de Análise C2S • Metodologia de Cálculos Financeiros
+            </div>
+        </div>
+    </footer>
 </body>
+</html>

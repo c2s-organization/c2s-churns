@@ -4,453 +4,470 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Insights Estratégicos Corrigidos</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            min-height: 100vh;
-            padding: 20px;
-        }
-
-        .container {
-            max-width: 1400px;
-            margin: 0 auto;
-            background: white;
-            border-radius: 20px;
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
-            overflow: hidden;
-        }
-
-        .header {
-            background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
-            color: white;
-            padding: 40px 20px;
-            text-align: center;
-        }
-
-        .header h1 {
-            font-size: 2.5em;
-            margin-bottom: 10px;
-            font-weight: 700;
-        }
-
-        .header p {
-            font-size: 1.2em;
-            opacity: 0.9;
-        }
-
-        .financial-calculations {
-            background: #ecf0f1;
-            padding: 25px;
-            margin: 20px 30px;
-            border-radius: 15px;
-            border-left: 6px solid #3498db;
-        }
-
-        .calc-title {
-            color: #2c3e50;
-            font-size: 1.4em;
-            margin-bottom: 15px;
-            font-weight: 600;
-        }
-
-        .calc-item {
-            background: white;
-            padding: 15px;
-            border-radius: 8px;
-            margin-bottom: 10px;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
-        }
-
-        .calc-formula {
-            font-family: 'Courier New', monospace;
-            background: #f8f9fa;
-            padding: 10px;
-            border-radius: 5px;
-            margin: 8px 0;
-            border-left: 3px solid #3498db;
-        }
-
-        .calc-explanation {
-            color: #7f8c8d;
-            font-size: 0.95em;
-            line-height: 1.5;
-            margin-top: 8px;
-        }
-
-        .insights-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-            gap: 25px;
-            padding: 40px 30px;
-        }
-
-        .insight-card {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            padding: 30px;
-            border-radius: 20px;
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-        }
-
-        .insight-card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15);
-        }
-
-        .insight-card.critical {
-            background: linear-gradient(135deg, #ff6b6b 0%, #ee5a24 100%);
-        }
-
-        .insight-card.opportunity {
-            background: linear-gradient(135deg, #00b894 0%, #00cec9 100%);
-        }
-
-        .insight-card.defense {
-            background: linear-gradient(135deg, #fdcb6e 0%, #e17055 100%);
-        }
-
-        .insight-card.potential {
-            background: linear-gradient(135deg, #a29bfe 0%, #6c5ce7 100%);
-        }
-
-        .insight-title {
-            font-size: 1.4em;
-            font-weight: 700;
-            margin-bottom: 15px;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-
-        .insight-content {
-            font-size: 1.1em;
-            line-height: 1.6;
-            opacity: 0.95;
-        }
-
-        .highlight-number {
-            font-size: 1.5em;
-            font-weight: 700;
-            color: #fff;
-            background: rgba(255, 255, 255, 0.2);
-            padding: 5px 10px;
-            border-radius: 8px;
-            display: inline-block;
-            margin: 5px 3px;
-        }
-
-        .new-insights-section {
-            background: #f8f9fa;
-            padding: 40px 30px;
-        }
-
-        .new-insights-title {
-            color: #2c3e50;
-            font-size: 2em;
-            margin-bottom: 30px;
-            text-align: center;
-            font-weight: 700;
-        }
-
-        .insights-by-size {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 20px;
-            margin-bottom: 40px;
-        }
-
-        .size-card {
-            background: white;
-            padding: 25px;
-            border-radius: 15px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-            border-left: 6px solid;
-        }
-
-        .size-card.medium {
-            border-left-color: #e74c3c;
-        }
-
-        .size-card.large {
-            border-left-color: #f39c12;
-        }
-
-        .size-card.small {
-            border-left-color: #27ae60;
-        }
-
-        .size-title {
-            color: #2c3e50;
-            font-size: 1.3em;
-            font-weight: 600;
-            margin-bottom: 10px;
-        }
-
-        .size-percentage {
-            font-size: 2em;
-            font-weight: 700;
-            margin-bottom: 10px;
-        }
-
-        .size-description {
-            color: #7f8c8d;
-            line-height: 1.5;
-        }
-
-        .action-plan {
-            background: linear-gradient(135deg, #ffeaa7 0%, #fab1a0 100%);
-            margin: 30px;
-            padding: 30px;
-            border-radius: 15px;
-            border-left: 8px solid #e17055;
-        }
-
-        .action-title {
-            color: #2d3436;
-            font-size: 1.6em;
-            margin-bottom: 20px;
-            font-weight: 700;
-        }
-
-        .priority-item {
-            background: white;
-            padding: 20px;
-            border-radius: 10px;
-            margin-bottom: 15px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-        }
-
-        .priority-item h4 {
-            color: #2c3e50;
-            font-size: 1.2em;
-            margin-bottom: 10px;
-            font-weight: 600;
-        }
-
-        .priority-details {
-            color: #7f8c8d;
-            line-height: 1.6;
-        }
-
-        .roi-highlight {
-            background: #27ae60;
-            color: white;
-            padding: 5px 10px;
-            border-radius: 5px;
-            font-weight: 600;
-            display: inline-block;
-            margin: 5px 0;
-        }
-
-        .corrections-note {
-            background: #e74c3c;
-            color: white;
-            padding: 15px;
-            border-radius: 10px;
-            margin: 20px 30px;
-            text-align: center;
-            font-weight: 600;
-        }
-
-        @media (max-width: 768px) {
-            .insights-grid,
-            .insights-by-size {
-                grid-template-columns: 1fr;
-            }
-            
-            .header h1 {
-                font-size: 2em;
-            }
-            
-            .insight-title {
-                font-size: 1.2em;
-            }
-            
-            .highlight-number {
-                font-size: 1.3em;
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    animation: {
+                        'fade-in': 'fadeIn 0.8s ease-in-out',
+                        'slide-up': 'slideUp 0.6s ease-out',
+                        'slide-in-left': 'slideInLeft 0.8s ease-out',
+                        'pulse-slow': 'pulse 3s infinite',
+                        'strategic-pulse': 'strategicPulse 4s ease-in-out infinite',
+                        'insight-glow': 'insightGlow 3s ease-in-out infinite',
+                    },
+                    keyframes: {
+                        fadeIn: {
+                            '0%': { opacity: '0' },
+                            '100%': { opacity: '1' }
+                        },
+                        slideUp: {
+                            '0%': { transform: 'translateY(20px)', opacity: '0' },
+                            '100%': { transform: 'translateY(0)', opacity: '1' }
+                        },
+                        slideInLeft: {
+                            '0%': { transform: 'translateX(-20px)', opacity: '0' },
+                            '100%': { transform: 'translateX(0)', opacity: '1' }
+                        },
+                        strategicPulse: {
+                            '0%, 100%': { transform: 'scale(1)', boxShadow: '0 0 0 0 rgba(59, 130, 246, 0.7)' },
+                            '50%': { transform: 'scale(1.02)', boxShadow: '0 0 0 10px rgba(59, 130, 246, 0)' }
+                        },
+                        insightGlow: {
+                            '0%, 100%': { boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1)' },
+                            '50%': { boxShadow: '0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)' }
+                        }
+                    }
+                }
             }
         }
-    </style>
-<style>
-    .nav-buttons {
-        position: fixed;
-        bottom: 30px;
-        right: 30px;
-        display: flex;
-        gap: 15px;
-        z-index: 1000;
-    }
-
-    .nav-button {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        width: 60px;
-        height: 60px;
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-        color: white;
-        border-radius: 50%;
-        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
-        text-decoration: none;
-        font-size: 1.5em;
-        transition: transform 0.3s ease, box-shadow 0.3s ease;
-    }
-
-    .nav-button:hover {
-        transform: translateY(-5px);
-        box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
-    }
-
-    .home-button {
-        background: linear-gradient(135deg, #ff6b6b 0%, #ee5a24 100%);
-    }
-</style>
+    </script>
 </head>
-<body>
-<div class="nav-buttons">
-        <a href="../index.html" class="nav-button home-button" title="Página Inicial">🏠</a>
-        <a href="5-demais_categorias_corrected.html" class="nav-button" title="Página Anterior">←</a>
-        <a href="6.2-insights_estrategicos_corrected.html" class="nav-button" title="Próxima Página">→</a>
-    </div>
-    <div class="container">
-        <div class="header">
-            <h1>INSIGHTS ESTRATÉGICOS E OPORTUNIDADES</h1>
-        </div>
-
-        <div class="insights-grid">
-            <div class="insight-card critical">
-                <div class="insight-title">CONCENTRAÇÃO CRÍTICA</div>
-                <div class="insight-content">
-                    <span class="highlight-number">59.8%</span> do churn vem de apenas 3 categorias principais.
-                    <br><br>
-                    Foco nessas áreas pode reduzir drasticamente o churn com investimento concentrado.
+<body class="bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50 min-h-screen">
+    <!-- Navigation -->
+    <nav class="fixed top-0 left-0 right-0 bg-white/90 backdrop-blur-md shadow-sm z-50 border-b border-gray-200">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <div class="flex items-center space-x-4">
+                    <a href="../index.html" 
+                       class="flex items-center justify-center w-10 h-10 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors duration-200 shadow-md hover:shadow-lg transform hover:scale-105">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path>
+                        </svg>
+                    </a>
+                    <span class="text-gray-600 font-medium">Insights Estratégicos</span>
                 </div>
-            </div>
-
-            <div class="insight-card opportunity">
-                <div class="insight-title">OPORTUNIDADE #1</div>
-                <div class="insight-content">
-                    Programa de flexibilidade financeira pode resolver <span class="highlight-number">31.0%</span> do churn.
-                    <br><br>
-                    ROI estimado: <span class="highlight-number">R$ 8-15M</span> em receita retida anualmente.
-                </div>
-            </div>
-
-            <div class="insight-card defense">
-                <div class="insight-title">DEFESA ESTRATÉGICA</div>
-                <div class="insight-content">
-                    Gestor Imobiliário MVP pode combater Ingaia/Kenlo.
-                    <br><br>
-                    <span class="highlight-number">105</span> casos diretos + <span class="highlight-number">218</span> outros concorrentes = <span class="highlight-number">17.4%</span> do churn total.
-                </div>
-            </div>
-
-            <div class="insight-card potential">
-                <div class="insight-title">POTENCIAL TOTAL</div>
-                <div class="insight-content">
-                    Atacando as 3 principais categorias:
-                    <br><br>
-                    <span class="highlight-number">59.8%</span> de redução potencial no churn.
-                    <br>
-                    Foco nas 2 maiores: <span class="highlight-number">48.4%</span>
+                <div class="flex items-center space-x-2">
+                    <a href="5-demais_categorias_corrected.html" 
+                       class="flex items-center justify-center w-10 h-10 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-lg transition-colors duration-200 shadow-md hover:shadow-lg transform hover:scale-105">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
+                        </svg>
+                    </a>
+                    <a href="6.2-insights_estrategicos_corrected.html" 
+                       class="flex items-center justify-center w-10 h-10 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-lg transition-colors duration-200 shadow-md hover:shadow-lg transform hover:scale-105">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                        </svg>
+                    </a>
                 </div>
             </div>
         </div>
+    </nav>
 
-        <div class="new-insights-section">
-            <div class="new-insights-title">NOVOS INSIGHTS VALIOSOS</div>
-            
-            <div class="insights-by-size">
-                <div class="size-card medium">
-                    <div class="size-title">Empresas Médias</div>
-                    <div class="size-percentage" style="color: #e74c3c;">54%</div>
-                    <div class="size-description">
-                        <strong>MAIOR RISCO:</strong> 51-200 leads/mês
-                        <br>• Foco em automação e escalabilidade
-                        <br>• Planos intermediários mais acessíveis
-                        <br>• Funcionalidades para crescimento
+    <!-- Main Content -->
+    <main class="pt-24 pb-12 px-4 sm:px-6 lg:px-8">
+        <div class="max-w-7xl mx-auto">
+            <!-- Header -->
+            <div class="text-center mb-12 animate-fade-in">
+                <div class="flex items-center justify-center mb-6">
+                    <div class="w-16 h-16 bg-gradient-to-br from-blue-500 to-purple-600 rounded-full flex items-center justify-center mr-4 shadow-lg animate-strategic-pulse">
+                        <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"></path>
+                        </svg>
+                    </div>
+                    <h1 class="text-4xl md:text-5xl font-bold text-gray-900">
+                        INSIGHTS ESTRATÉGICOS
+                    </h1>
+                </div>
+                
+                <p class="text-xl text-gray-600 max-w-3xl mx-auto mb-6">
+                    Oportunidades e Recomendações Baseadas em Dados Reais
+                </p>
+                
+                <div class="mt-6 w-24 h-1 bg-gradient-to-r from-blue-500 to-purple-600 mx-auto rounded-full"></div>
+            </div>
+
+            <!-- Critical Insights Grid -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-12">
+                <!-- Critical Concentration -->
+                <div class="bg-gradient-to-br from-red-50 to-red-100 rounded-2xl shadow-lg p-8 border-l-4 border-red-500 animate-slide-up animate-insight-glow">
+                    <div class="flex items-start">
+                        <div class="flex-shrink-0 mr-4">
+                            <div class="w-12 h-12 bg-gradient-to-br from-red-500 to-red-700 rounded-full flex items-center justify-center">
+                                <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L3.082 16.5c-.77.833.192 2.5 1.732 2.5z"></path>
+                                </svg>
+                            </div>
+                        </div>
+                        <div>
+                            <h3 class="text-xl font-bold text-red-800 mb-3">CONCENTRAÇÃO CRÍTICA</h3>
+                            <p class="text-gray-700 leading-relaxed">
+                                <span class="text-3xl font-bold text-red-600">59.8%</span> do churn vem de apenas 3 categorias principais.
+                            </p>
+                            <div class="mt-4 p-3 bg-white rounded-lg border border-red-200">
+                                <p class="text-sm text-gray-700">
+                                    <strong>Oportunidade:</strong> Foco nessas áreas pode reduzir drasticamente o churn com investimento concentrado.
+                                </p>
+                            </div>
+                        </div>
                     </div>
                 </div>
 
-                <div class="size-card large">
-                    <div class="size-title">Grandes Empresas</div>
-                    <div class="size-percentage" style="color: #f39c12;">34%</div>
-                    <div class="size-description">
-                        <strong>ALTO VALOR:</strong> >200 leads/mês
-                        <br>• Funcionalidades enterprise
-                        <br>• Integrações robustas
-                        <br>• Suporte premium personalizado
+                <!-- Financial Opportunity -->
+                <div class="bg-gradient-to-br from-green-50 to-green-100 rounded-2xl shadow-lg p-8 border-l-4 border-green-500 animate-slide-up animate-insight-glow" style="animation-delay: 0.1s">
+                    <div class="flex items-start">
+                        <div class="flex-shrink-0 mr-4">
+                            <div class="w-12 h-12 bg-gradient-to-br from-green-500 to-green-700 rounded-full flex items-center justify-center">
+                                <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1"></path>
+                                </svg>
+                            </div>
+                        </div>
+                        <div>
+                            <h3 class="text-xl font-bold text-green-800 mb-3">OPORTUNIDADE #1</h3>
+                            <p class="text-gray-700 leading-relaxed">
+                                Programa de flexibilidade financeira pode resolver <span class="text-3xl font-bold text-green-600">31.0%</span> do churn.
+                            </p>
+                            <div class="mt-4 p-3 bg-white rounded-lg border border-green-200">
+                                <p class="text-sm text-gray-700">
+                                    <strong>ROI estimado:</strong> <span class="text-green-600 font-bold text-lg">R$ 8-15M</span> em receita retida anualmente.
+                                </p>
+                            </div>
+                        </div>
                     </div>
                 </div>
 
-                <div class="size-card small">
-                    <div class="size-title">Pequenas Empresas</div>
-                    <div class="size-percentage" style="color: #27ae60;">12%</div>
-                    <div class="size-description">
-                        <strong>MAIS ESTÁVEIS:</strong> ≤50 leads/mês
-                        <br>• Expectativas menores
-                        <br>• Menor capacidade de migrar
-                        <br>• Foco em simplicidade
+                <!-- Strategic Defense -->
+                <div class="bg-gradient-to-br from-blue-50 to-blue-100 rounded-2xl shadow-lg p-8 border-l-4 border-blue-500 animate-slide-up animate-insight-glow" style="animation-delay: 0.2s">
+                    <div class="flex items-start">
+                        <div class="flex-shrink-0 mr-4">
+                            <div class="w-12 h-12 bg-gradient-to-br from-blue-500 to-blue-700 rounded-full flex items-center justify-center">
+                                <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path>
+                                </svg>
+                            </div>
+                        </div>
+                        <div>
+                            <h3 class="text-xl font-bold text-blue-800 mb-3">DEFESA ESTRATÉGICA</h3>
+                            <p class="text-gray-700 leading-relaxed">
+                                Gestor Imobiliário MVP pode combater Ingaia/Kenlo.
+                            </p>
+                            <div class="mt-4 p-3 bg-white rounded-lg border border-blue-200">
+                                <p class="text-sm text-gray-700">
+                                    <span class="font-bold text-blue-600">105</span> casos diretos + 
+                                    <span class="font-bold text-blue-600">218</span> outros concorrentes = 
+                                    <span class="font-bold text-blue-600 text-lg">17.4%</span> do churn total.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Total Potential -->
+                <div class="bg-gradient-to-br from-purple-50 to-purple-100 rounded-2xl shadow-lg p-8 border-l-4 border-purple-500 animate-slide-up animate-insight-glow" style="animation-delay: 0.3s">
+                    <div class="flex items-start">
+                        <div class="flex-shrink-0 mr-4">
+                            <div class="w-12 h-12 bg-gradient-to-br from-purple-500 to-purple-700 rounded-full flex items-center justify-center">
+                                <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+                                </svg>
+                            </div>
+                        </div>
+                        <div>
+                            <h3 class="text-xl font-bold text-purple-800 mb-3">POTENCIAL TOTAL</h3>
+                            <p class="text-gray-700 leading-relaxed">
+                                Atacando as 3 principais categorias:
+                            </p>
+                            <div class="mt-4 space-y-2">
+                                <div class="p-3 bg-white rounded-lg border border-purple-200">
+                                    <p class="text-sm text-gray-700">
+                                        <span class="font-bold text-purple-600 text-xl">59.8%</span> de redução potencial no churn.
+                                    </p>
+                                </div>
+                                <div class="p-3 bg-white rounded-lg border border-purple-200">
+                                    <p class="text-sm text-gray-700">
+                                        Foco nas 2 maiores: <span class="font-bold text-purple-600 text-lg">48.4%</span>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
 
-            <div style="background: white; padding: 25px; border-radius: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.1);">
-                <h3 style="color: #2c3e50; margin-bottom: 15px; font-size: 1.4em;">Métricas Críticas de Churn</h3>
-                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px;">
-                    <div>
-                        <strong style="color: #e74c3c;">MRR Médio no Churn:</strong>
-                        <div style="font-size: 1.5em; color: #2c3e50; font-weight: 700;">R$ 470,14</div>
+            <!-- Company Size Analysis -->
+            <div class="mb-12">
+                <h2 class="text-3xl font-bold text-center text-gray-900 mb-8 animate-slide-up" style="animation-delay: 0.4s">
+                    ANÁLISE POR TAMANHO DE EMPRESA
+                </h2>
+                
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                    <!-- Medium Companies -->
+                    <div class="bg-white rounded-2xl shadow-lg p-8 border-t-4 border-red-500 animate-slide-up" style="animation-delay: 0.5s">
+                        <div class="text-center mb-6">
+                            <div class="w-16 h-16 bg-gradient-to-br from-red-500 to-red-700 rounded-full flex items-center justify-center mx-auto mb-4">
+                                <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L3.082 16.5c-.77.833.192 2.5 1.732 2.5z"></path>
+                                </svg>
+                            </div>
+                            <h3 class="text-xl font-bold text-gray-900 mb-2">Empresas Médias</h3>
+                            <div class="text-4xl font-bold text-red-500 mb-2">54%</div>
+                            <div class="text-sm text-gray-600 font-semibold">MAIOR RISCO</div>
+                        </div>
+                        <div class="text-gray-700 space-y-2">
+                            <div class="font-semibold text-red-600">51-200 leads/mês</div>
+                            <div class="space-y-1 text-sm">
+                                <div>• Foco em automação e escalabilidade</div>
+                                <div>• Planos intermediários mais acessíveis</div>
+                                <div>• Funcionalidades para crescimento</div>
+                            </div>
+                        </div>
                     </div>
-                    <div>
-                        <strong style="color: #e74c3c;">Leads/mês Médio:</strong>
-                        <div style="font-size: 1.5em; color: #2c3e50; font-weight: 700;">277 leads</div>
+
+                    <!-- Large Companies -->
+                    <div class="bg-white rounded-2xl shadow-lg p-8 border-t-4 border-yellow-500 animate-slide-up" style="animation-delay: 0.6s">
+                        <div class="text-center mb-6">
+                            <div class="w-16 h-16 bg-gradient-to-br from-yellow-500 to-yellow-700 rounded-full flex items-center justify-center mx-auto mb-4">
+                                <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-4m-5 0H9m0 0H5m0 0h2m4 0v-3a2 2 0 00-2-2H9a2 2 0 00-2 2v3m8 0V9a2 2 0 00-2-2h-2a2 2 0 00-2 2v8"></path>
+                                </svg>
+                            </div>
+                            <h3 class="text-xl font-bold text-gray-900 mb-2">Grandes Empresas</h3>
+                            <div class="text-4xl font-bold text-yellow-600 mb-2">34%</div>
+                            <div class="text-sm text-gray-600 font-semibold">ALTO VALOR</div>
+                        </div>
+                        <div class="text-gray-700 space-y-2">
+                            <div class="font-semibold text-yellow-600">>200 leads/mês</div>
+                            <div class="space-y-1 text-sm">
+                                <div>• Funcionalidades enterprise</div>
+                                <div>• Integrações robustas</div>
+                                <div>• Suporte premium personalizado</div>
+                            </div>
+                        </div>
                     </div>
-                    <div>
-                        <strong style="color: #e74c3c;">Ratio Crítico:</strong>
-                        <div style="font-size: 1.5em; color: #2c3e50; font-weight: 700;">R$ 1,70/lead</div>
+
+                    <!-- Small Companies -->
+                    <div class="bg-white rounded-2xl shadow-lg p-8 border-t-4 border-green-500 animate-slide-up" style="animation-delay: 0.7s">
+                        <div class="text-center mb-6">
+                            <div class="w-16 h-16 bg-gradient-to-br from-green-500 to-green-700 rounded-full flex items-center justify-center mx-auto mb-4">
+                                <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                </svg>
+                            </div>
+                            <h3 class="text-xl font-bold text-gray-900 mb-2">Pequenas Empresas</h3>
+                            <div class="text-4xl font-bold text-green-600 mb-2">12%</div>
+                            <div class="text-sm text-gray-600 font-semibold">MAIS ESTÁVEIS</div>
+                        </div>
+                        <div class="text-gray-700 space-y-2">
+                            <div class="font-semibold text-green-600">≤50 leads/mês</div>
+                            <div class="space-y-1 text-sm">
+                                <div>• Expectativas menores</div>
+                                <div>• Menor capacidade de migrar</div>
+                                <div>• Foco em simplicidade</div>
+                            </div>
+                        </div>
                     </div>
                 </div>
+            </div>
+
+            <!-- Competition Relation -->
+            <div class="bg-gradient-to-br from-gray-50 to-gray-100 rounded-2xl shadow-lg p-8 border border-gray-200 mb-12 animate-slide-up" style="animation-delay: 0.8s">
+                <div class="flex items-start">
+                    <div class="flex-shrink-0 mr-6">
+                        <div class="w-14 h-14 bg-gradient-to-br from-orange-500 to-red-500 rounded-full flex items-center justify-center">
+                            <svg class="w-7 h-7 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"></path>
+                            </svg>
+                        </div>
+                    </div>
+                    <div class="flex-1">
+                        <h3 class="text-2xl font-bold text-gray-900 mb-4">Relação Indireta com Concorrência</h3>
+                        <div class="text-gray-700 text-lg leading-relaxed mb-6">
+                            <p class="mb-4">
+                                <span class="font-bold text-red-600">INSIGHT IMPORTANTE:</span> Os rankings 3, 4 e 5 têm relação indireta com o ranking 2 (MIGRAÇÃO PARA CONCORRÊNCIA).
+                            </p>
+                            <div class="bg-white rounded-xl p-6 border border-gray-200 mb-4">
+                                <p class="text-xl font-bold text-red-600 mb-3">
+                                    Soma dos casos dos rankings 2, 3, 4 e 5: <span class="text-2xl">945 casos</span>
+                                </p>
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
+                                    <div>• Ranking 2 (Migração para Concorrência): <span class="font-bold">323 casos</span></div>
+                                    <div>• Ranking 3 (Gaps Funcionais/Produto): <span class="font-bold">212 casos</span></div>
+                                    <div>• Ranking 4 (Outros/Diversos): <span class="font-bold">218 casos</span></div>
+                                    <div>• Ranking 5 (Falta de Engajamento/Adoção): <span class="font-bold">192 casos</span></div>
+                                </div>
+                            </div>
+                            <p class="font-semibold text-blue-600">
+                                Estes fatores combinados representam uma oportunidade estratégica significativa para retenção de clientes.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Critical Metrics -->
+            <div class="bg-white rounded-2xl shadow-lg p-8 border border-gray-200 mb-12 animate-slide-up" style="animation-delay: 0.9s">
+                <h3 class="text-2xl font-bold text-gray-900 mb-6 text-center">Métricas Críticas de Churn</h3>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                    <div class="text-center">
+                        <div class="w-16 h-16 bg-gradient-to-br from-red-500 to-red-700 rounded-full flex items-center justify-center mx-auto mb-4">
+                            <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1"></path>
+                            </svg>
+                        </div>
+                        <div class="text-sm font-semibold text-red-600 mb-2">MRR Médio no Churn</div>
+                        <div class="text-3xl font-bold text-gray-900">R$ 470,14</div>
+                    </div>
+                    <div class="text-center">
+                        <div class="w-16 h-16 bg-gradient-to-br from-blue-500 to-blue-700 rounded-full flex items-center justify-center mx-auto mb-4">
+                            <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+                            </svg>
+                        </div>
+                        <div class="text-sm font-semibold text-blue-600 mb-2">Leads/mês Médio</div>
+                        <div class="text-3xl font-bold text-gray-900">277 leads</div>
+                    </div>
+                    <div class="text-center">
+                        <div class="w-16 h-16 bg-gradient-to-br from-purple-500 to-purple-700 rounded-full flex items-center justify-center mx-auto mb-4">
+                            <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
+                            </svg>
+                        </div>
+                        <div class="text-sm font-semibold text-purple-600 mb-2">Ratio Crítico</div>
+                        <div class="text-3xl font-bold text-gray-900">R$ 1,70/lead</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Action Plan -->
+            <div class="bg-gradient-to-br from-blue-50 to-indigo-100 rounded-2xl shadow-lg p-8 border-2 border-blue-200 mb-12 animate-slide-up" style="animation-delay: 1s">
+                <h2 class="text-3xl font-bold text-center text-blue-800 mb-8">PLANO DE AÇÃO RECOMENDADO</h2>
+                
+                <!-- Priority 1 -->
+                <div class="mb-8 bg-white rounded-2xl p-6 border-l-4 border-blue-500 shadow-md">
+                    <div class="flex items-start">
+                        <div class="flex-shrink-0 mr-4">
+                            <div class="w-12 h-12 bg-gradient-to-br from-blue-500 to-blue-700 rounded-full flex items-center justify-center">
+                                <span class="text-white font-bold text-lg">1</span>
+                            </div>
+                        </div>
+                        <div class="flex-1">
+                            <h4 class="text-xl font-bold text-gray-900 mb-3">Prioridade 1 (3 meses): Programa de Retenção Financeira + Anti-Concorrência</h4>
+                            <div class="space-y-3 text-gray-700">
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                    <div class="p-3 bg-blue-50 rounded-lg border border-blue-200">
+                                        <strong>Foco:</strong> Flexibilidade de pagamento + Gestor Imobiliário MVP
+                                    </div>
+                                    <div class="p-3 bg-green-50 rounded-lg border border-green-200">
+                                        <strong>Resultado esperado:</strong> <span class="font-bold text-blue-600">48.4% de redução</span>
+                                    </div>
+                                    <div class="p-3 bg-yellow-50 rounded-lg border border-yellow-200">
+                                        <strong>Investimento:</strong> R$ 300-600k
+                                    </div>
+                                    <div class="p-3 bg-purple-50 rounded-lg border border-purple-200">
+                                        <strong>Proteção:</strong> <span class="font-bold text-green-600">R$ 10-18M</span> em receita anual
+                                    </div>
+                                </div>
+                                <div class="p-4 bg-gray-50 rounded-lg border border-gray-200">
+                                    <strong>Subcategorias-alvo:</strong> "Não consegue pagar" (241 casos) + "Foi para concorrência" (235 casos)
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Priority 2 -->
+                <div class="mb-8 bg-white rounded-2xl p-6 border-l-4 border-indigo-500 shadow-md">
+                    <div class="flex items-start">
+                        <div class="flex-shrink-0 mr-4">
+                            <div class="w-12 h-12 bg-gradient-to-br from-indigo-500 to-indigo-700 rounded-full flex items-center justify-center">
+                                <span class="text-white font-bold text-lg">2</span>
+                            </div>
+                        </div>
+                        <div class="flex-1">
+                            <h4 class="text-xl font-bold text-gray-900 mb-3">Prioridade 2 (6 meses): Gaps Funcionais + Engajamento</h4>
+                            <div class="space-y-3 text-gray-700">
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                    <div class="p-3 bg-yellow-50 rounded-lg border border-yellow-200">
+                                        <strong>Foco:</strong> "Solução não entregando" + "Faltou engajamento"
+                                    </div>
+                                    <div class="p-3 bg-green-50 rounded-lg border border-green-200">
+                                        <strong>Potencial adicional:</strong> <span class="font-bold text-indigo-600">+21.7%</span> de redução
+                                    </div>
+                                </div>
+                                <div class="p-4 bg-gray-50 rounded-lg border border-gray-200">
+                                    <strong>Ações:</strong> IA de qualificação, automações, onboarding melhorado (404 casos)
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Insights by Company Size -->
+                <div class="bg-white rounded-2xl p-6 border-l-4 border-purple-500 shadow-md">
+                    <div class="flex items-start">
+                        <div class="flex-shrink-0 mr-4">
+                            <div class="w-12 h-12 bg-gradient-to-br from-purple-500 to-purple-700 rounded-full flex items-center justify-center">
+                                <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
+                                </svg>
+                            </div>
+                        </div>
+                        <div class="flex-1">
+                            <h4 class="text-xl font-bold text-gray-900 mb-3">Insights por Tamanho de Empresa</h4>
+                            <div class="space-y-3 text-gray-700">
+                                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                                    <div class="p-3 bg-red-50 rounded-lg border border-red-200">
+                                        <strong>Empresas médias (54% do churn):</strong> Automação + planos escaláveis
+                                    </div>
+                                    <div class="p-3 bg-yellow-50 rounded-lg border border-yellow-200">
+                                        <strong>Grandes empresas (34% do churn):</strong> Funcionalidades enterprise
+                                    </div>
+                                    <div class="p-3 bg-purple-50 rounded-lg border border-purple-200">
+                                        <strong>Alertas preditivos:</strong> Ratio MRR/Lead < R$ 1,50 = risco alto
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Next Steps Button -->
+            <div class="text-center animate-slide-up" style="animation-delay: 1.1s">
+                <a href="6.2-insights_estrategicos_corrected.html" 
+                   class="inline-flex items-center px-8 py-4 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white font-bold rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105">
+                    <svg class="w-6 h-6 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
+                    </svg>
+                    Ver Detalhes dos Cálculos Financeiros
+                    <svg class="w-6 h-6 ml-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"></path>
+                    </svg>
+                </a>
             </div>
         </div>
+    </main>
 
-        <div class="action-plan">
-            <div class="action-title">PLANO DE AÇÃO RECOMENDADO (CORRIGIDO)</div>
-            
-            <div class="priority-item">
-                <h4>Prioridade 1 (3 meses): Programa de Retenção Financeira + Anti-Concorrência</h4>
-                <div class="priority-details">
-                    • <strong>Foco:</strong> Flexibilidade de pagamento + Gestor Imobiliário MVP
-                    <br>• <strong>Resultado esperado:</strong> <span class="roi-highlight">48.4% de redução</span> atacando as 2 maiores categorias
-                    <br>• <strong>Investimento:</strong> R$ 300-600k para proteger <span class="roi-highlight">R$ 10-18M</span> em receita anual
-                    <br>• <strong>Subcategorias-alvo:</strong> "Não consegue pagar" (241 casos) + "Foi para concorrência" (235 casos)
-                </div>
-            </div>
-
-            <div class="priority-item">
-                <h4>Prioridade 2 (6 meses): Gaps Funcionais + Engajamento</h4>
-                <div class="priority-details">
-                    • <strong>Foco:</strong> "Solução não entregando" + "Faltou engajamento"
-                    <br>• <strong>Potencial adicional:</strong> <span class="roi-highlight">+21.7%</span> de redução (404 casos)
-                    <br>• <strong>Ações:</strong> IA de qualificação, automações, onboarding melhorado
-                </div>
-            </div>
-
-            <div class="priority-item">
-                <h4>Insights por Tamanho de Empresa</h4>
-                <div class="priority-details">
-                    • <strong>Empresas médias (54% do churn):</strong> Automação + planos escaláveis
-                    <br>• <strong>Grandes empresas (34% do churn):</strong> Funcionalidades enterprise
-                    <br>• <strong>Alertas preditivos:</strong> Ratio MRR/Lead < R$ 1,50 = risco alto
-                </div>
+    <!-- Footer -->
+    <footer class="bg-white border-t border-gray-200 mt-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+            <div class="text-center text-gray-500 text-sm">
+                Dashboard de Análise C2S • Insights Estratégicos • Versão Corrigida
             </div>
         </div>
-    </div>
+    </footer>
 </body>
+</html>

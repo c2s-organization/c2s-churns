@@ -4,418 +4,316 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Outcome: Eliminação da Fuga para Ingaia/Kenlo</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            min-height: 100vh;
-            padding: 20px;
-        }
-
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            background: white;
-            border-radius: 20px;
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
-            overflow: hidden;
-        }
-
-        .header {
-            background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);
-            color: white;
-            padding: 40px 30px;
-            text-align: center;
-        }
-
-        .header h1 {
-            font-size: 2.2em;
-            margin-bottom: 10px;
-            font-weight: 700;
-        }
-
-        .header p {
-            font-size: 1.1em;
-            opacity: 0.9;
-        }
-
-        .outcome-card {
-            background: linear-gradient(135deg, #ff6b6b 0%, #ee5a24 100%);
-            margin: 30px;
-            padding: 30px;
-            border-radius: 20px;
-            color: white;
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
-        }
-
-        .outcome-title {
-            font-size: 1.8em;
-            font-weight: 700;
-            margin-bottom: 20px;
-            text-align: center;
-        }
-
-        .outcome-description {
-            font-size: 1.1em;
-            line-height: 1.6;
-            margin-bottom: 25px;
-            opacity: 0.95;
-        }
-
-        .metrics-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 20px;
-            margin: 30px;
-        }
-
-        .metric-card {
-            background: white;
-            padding: 25px;
-            border-radius: 15px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-            text-align: center;
-            border-left: 6px solid;
-        }
-
-        .metric-card.baseline {
-            border-left-color: #e74c3c;
-        }
-
-        .metric-card.meta {
-            border-left-color: #27ae60;
-        }
-
-        .metric-card.reducao {
-            border-left-color: #3498db;
-        }
-
-        .metric-card.estrategia {
-            border-left-color: #f39c12;
-        }
-
-        .metric-number {
-            font-size: 2.5em;
-            font-weight: 700;
-            margin-bottom: 10px;
-            color: #2c3e50;
-        }
-
-        .metric-label {
-            color: #7f8c8d;
-            font-size: 1em;
-            line-height: 1.4;
-            font-weight: 500;
-        }
-
-        .validation-section {
-            background: #f8f9fa;
-            margin: 30px;
-            padding: 25px;
-            border-radius: 15px;
-            border-left: 6px solid #e74c3c;
-        }
-
-        .validation-title {
-            color: #2c3e50;
-            font-size: 1.4em;
-            margin-bottom: 20px;
-            font-weight: 600;
-        }
-
-        .validation-item {
-            background: white;
-            padding: 20px;
-            border-radius: 10px;
-            margin-bottom: 15px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
-        }
-
-        .validation-item h4 {
-            color: #2c3e50;
-            margin-bottom: 10px;
-            font-weight: 600;
-        }
-
-        .status-correct {
-            color: #27ae60;
-            font-weight: 600;
-        }
-
-        .status-critical {
-            color: #e74c3c;
-            font-weight: 600;
-        }
-
-        .status-update {
-            color: #f39c12;
-            font-weight: 600;
-        }
-
-        .breakdown-section {
-            background: linear-gradient(135deg, #ffeaa7 0%, #fab1a0 100%);
-            margin: 30px;
-            padding: 25px;
-            border-radius: 15px;
-            border-left: 6px solid #e17055;
-        }
-
-        .breakdown-title {
-            color: #2d3436;
-            font-size: 1.4em;
-            margin-bottom: 20px;
-            font-weight: 600;
-        }
-
-        .breakdown-item {
-            background: white;
-            padding: 15px;
-            border-radius: 8px;
-            margin-bottom: 12px;
-            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .competitor-name {
-            font-weight: 600;
-            color: #2c3e50;
-        }
-
-        .competitor-cases {
-            font-weight: 700;
-            color: #e74c3c;
-            font-size: 1.1em;
-        }
-
-        .highlight-number {
-            font-size: 1.3em;
-            font-weight: 700;
-            color: #e17055;
-            background: rgba(225, 112, 85, 0.1);
-            padding: 2px 6px;
-            border-radius: 4px;
-        }
-
-        .visual-indicator {
-            width: 100%;
-            height: 40px;
-            background: #ecf0f1;
-            border-radius: 20px;
-            margin: 20px 0;
-            overflow: hidden;
-            position: relative;
-        }
-
-        .progress-fill {
-            height: 100%;
-            background: linear-gradient(135deg, #ff6b6b 0%, #ee5a24 100%);
-            border-radius: 20px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-weight: 600;
-            font-size: 1.1em;
-        }
-
-        .strategy-section {
-            background: #e8f4f8;
-            margin: 30px;
-            padding: 25px;
-            border-radius: 15px;
-            border-left: 6px solid #3498db;
-        }
-
-        .strategy-title {
-            color: #2c3e50;
-            font-size: 1.4em;
-            margin-bottom: 20px;
-            font-weight: 600;
-        }
-
-        .strategy-item {
-            background: white;
-            padding: 15px;
-            border-radius: 8px;
-            margin-bottom: 12px;
-            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
-        }
-
-        @media (max-width: 768px) {
-            .metrics-grid {
-                grid-template-columns: 1fr;
-            }
-            
-            .header h1 {
-                font-size: 1.8em;
-            }
-            
-            .metric-number {
-                font-size: 2em;
-            }
-            
-            .breakdown-item {
-                flex-direction: column;
-                align-items: flex-start;
-                gap: 8px;
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    animation: {
+                        'fade-in': 'fadeIn 0.8s ease-in-out',
+                        'slide-up': 'slideUp 0.6s ease-out',
+                        'pulse-slow': 'pulse 3s infinite',
+                        'bounce-slow': 'bounce 2s infinite',
+                    },
+                    keyframes: {
+                        fadeIn: {
+                            '0%': { opacity: '0' },
+                            '100%': { opacity: '1' }
+                        },
+                        slideUp: {
+                            '0%': { transform: 'translateY(20px)', opacity: '0' },
+                            '100%': { transform: 'translateY(0)', opacity: '1' }
+                        }
+                    }
+                }
             }
         }
-    </style>
-<style>
-    .nav-buttons {
-        position: fixed;
-        bottom: 30px;
-        right: 30px;
-        display: flex;
-        gap: 15px;
-        z-index: 1000;
-    }
-
-    .nav-button {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        width: 60px;
-        height: 60px;
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-        color: white;
-        border-radius: 50%;
-        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
-        text-decoration: none;
-        font-size: 1.5em;
-        transition: transform 0.3s ease, box-shadow 0.3s ease;
-    }
-
-    .nav-button:hover {
-        transform: translateY(-5px);
-        box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
-    }
-
-    .home-button {
-        background: linear-gradient(135deg, #ff6b6b 0%, #ee5a24 100%);
-    }
-</style>
+    </script>
 </head>
-<body>
-<div class="nav-buttons">
-        <a href="../index.html" class="nav-button home-button" title="Página Inicial">🏠</a>
-        <a href="1.0-q3-outcome_migracao_c2s.html" class="nav-button" title="Página Anterior">←</a>
-        <a href="1.2-q3-outcome_migracao_c2s.html" class="nav-button" title="Próxima Página">→</a>
-    </div>
-    <div class="container">
-        <div class="header">
-            <h1>OUTCOME: ELIMINAÇÃO DA FUGA PARA INGAIA/KENLO</h1>
-            <p>Análise Validada e Atualizada com Dados Reais de Churn</p>
-        </div>
-
-        <div class="outcome-card">
-            <div class="outcome-title">Eliminação da Fuga para Ingaia/Kenlo</div>
-            <div class="outcome-description">
-                Com Gestor Básico, eliminar 80% das migrações para Ingaia/Kenlo identificadas na churn analysis (105+ casos). Funcionalidades básicas suficientes para reter clientes em risco.
+<body class="bg-gradient-to-br from-slate-50 to-red-50 min-h-screen">
+    <!-- Navigation -->
+    <nav class="fixed top-0 left-0 right-0 bg-white/90 backdrop-blur-md shadow-sm z-50 border-b border-gray-200">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <div class="flex items-center space-x-4">
+                    <a href="../index.html" 
+                       class="flex items-center justify-center w-10 h-10 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors duration-200 shadow-md hover:shadow-lg transform hover:scale-105">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path>
+                        </svg>
+                    </a>
+                    <span class="text-gray-600 font-medium">Eliminação Fuga Concorrência</span>
+                </div>
+                <div class="flex items-center space-x-2">
+                    <a href="1.0-q3-outcome_migracao_c2s.html" 
+                       class="flex items-center justify-center w-10 h-10 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-lg transition-colors duration-200 shadow-md hover:shadow-lg transform hover:scale-105">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
+                        </svg>
+                    </a>
+                    <a href="1.2-q3-outcome_migracao_c2s.html" 
+                       class="flex items-center justify-center w-10 h-10 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-lg transition-colors duration-200 shadow-md hover:shadow-lg transform hover:scale-105">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                        </svg>
+                    </a>
+                </div>
             </div>
         </div>
+    </nav>
 
-        <div class="metrics-grid">
-            <div class="metric-card baseline">
-                <div class="metric-number">105</div>
-                <div class="metric-label">Baseline Confirmado<br/>Casos Diretos Ingaia/Kenlo</div>
+    <!-- Main Content -->
+    <main class="pt-24 pb-12 px-4 sm:px-6 lg:px-8">
+        <div class="max-w-7xl mx-auto">
+            <!-- Header -->
+            <div class="text-center mb-12 animate-fade-in">
+                <h1 class="text-4xl md:text-5xl font-bold text-gray-900 mb-2">
+                    OUTCOME Q3: ESPECÍFICO
+                </h1>
+                <h2 class="text-3xl md:text-4xl font-bold text-red-600 mb-4">
+                    ELIMINAÇÃO DA FUGA PARA INGAIA/KENLO
+                </h2>
+                <div class="mt-6 w-24 h-1 bg-gradient-to-r from-red-500 to-orange-500 mx-auto rounded-full"></div>
             </div>
 
-            <div class="metric-card meta">
-                <div class="metric-number">84</div>
-                <div class="metric-label">Meta Q3<br/>Casos Evitados (80%)</div>
+            <!-- Outcome Card -->
+            <div class="bg-gradient-to-r from-red-500 to-red-600 rounded-2xl shadow-xl p-8 mb-12 text-white animate-slide-up">
+                <div class="flex items-start space-x-4">
+                    <div class="flex-shrink-0">
+                        <div class="w-12 h-12 bg-white/20 rounded-full flex items-center justify-center">
+                            <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.732-.833-2.464 0L4.35 16.5c-.77.833.192 2.5 1.732 2.5z"></path>
+                            </svg>
+                        </div>
+                    </div>
+                    <div class="flex-1">
+                        <h3 class="text-2xl font-bold mb-3">
+                            Eliminação da Fuga para Ingaia/Kenlo
+                        </h3>
+                        <p class="text-red-100 text-lg leading-relaxed">
+                            Com Gestor Básico, eliminar 80% das migrações para Ingaia/Kenlo identificadas na churn analysis (105+ casos). Funcionalidades básicas suficientes para reter clientes em risco.
+                        </p>
+                    </div>
+                </div>
             </div>
 
-            <div class="metric-card reducao">
-                <div class="metric-number">80%</div>
-                <div class="metric-label">Redução de Churn<br/>Para Este Concorrente</div>
+            <!-- Metrics Grid -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
+                <!-- Baseline -->
+                <div class="bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 p-8 border border-orange-100 transform hover:scale-105 animate-slide-up">
+                    <div class="text-center">
+                        <div class="w-16 h-16 bg-gradient-to-br from-orange-500 to-orange-700 rounded-full flex items-center justify-center mx-auto mb-4 shadow-lg">
+                            <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
+                            </svg>
+                        </div>
+                        <div class="text-4xl font-bold text-orange-700 mb-2">105</div>
+                        <div class="text-gray-600 font-medium">Baseline Confirmado</div>
+                        <div class="text-sm text-orange-600">Casos Diretos Ingaia/Kenlo</div>
+                    </div>
+                </div>
+
+                <!-- Meta Q3 -->
+                <div class="bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 p-8 border border-green-100 transform hover:scale-105 animate-slide-up" style="animation-delay: 0.1s">
+                    <div class="text-center">
+                        <div class="w-16 h-16 bg-gradient-to-br from-green-500 to-green-700 rounded-full flex items-center justify-center mx-auto mb-4 shadow-lg">
+                            <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                            </svg>
+                        </div>
+                        <div class="text-4xl font-bold text-green-700 mb-2">84</div>
+                        <div class="text-gray-600 font-medium">Meta Q3</div>
+                        <div class="text-sm text-green-600">Casos Evitados (80%)</div>
+                    </div>
+                </div>
+
+                <!-- Redução -->
+                <div class="bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 p-8 border border-blue-100 transform hover:scale-105 animate-slide-up" style="animation-delay: 0.2s">
+                    <div class="text-center">
+                        <div class="w-16 h-16 bg-gradient-to-br from-blue-500 to-blue-700 rounded-full flex items-center justify-center mx-auto mb-4 shadow-lg">
+                            <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"></path>
+                            </svg>
+                        </div>
+                        <div class="text-4xl font-bold text-blue-700 mb-2">80%</div>
+                        <div class="text-gray-600 font-medium">Redução de Churn</div>
+                        <div class="text-sm text-blue-600">Para Este Concorrente</div>
+                    </div>
+                </div>
+
+                <!-- Casos Remanescentes -->
+                <div class="bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 p-8 border border-purple-100 transform hover:scale-105 animate-slide-up" style="animation-delay: 0.3s">
+                    <div class="text-center">
+                        <div class="w-16 h-16 bg-gradient-to-br from-purple-500 to-purple-700 rounded-full flex items-center justify-center mx-auto mb-4 shadow-lg">
+                            <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                            </svg>
+                        </div>
+                        <div class="text-4xl font-bold text-purple-700 mb-2">21</div>
+                        <div class="text-gray-600 font-medium">Casos Remanescentes</div>
+                        <div class="text-sm text-purple-600">Aceitáveis (20%)</div>
+                    </div>
+                </div>
             </div>
 
-            <div class="metric-card estrategia">
-                <div class="metric-number">21</div>
-                <div class="metric-label">Casos Remanescentes<br/>Aceitáveis (20%)</div>
+            <!-- Progress Visualization -->
+            <div class="bg-white rounded-2xl shadow-lg p-8 mb-12 border border-gray-100 animate-slide-up" style="animation-delay: 0.4s">
+                <h3 class="text-xl font-bold text-gray-900 mb-6 text-center">Redução da Fuga para Concorrência</h3>
+                <div class="bg-gray-200 rounded-full h-6 overflow-hidden">
+                    <div class="h-full bg-gradient-to-r from-red-500 to-green-500 rounded-full flex items-center justify-center text-white font-semibold text-sm animate-pulse-slow" style="width: 80%;">
+                        84 de 105 casos evitados (80% de redução)
+                    </div>
+                </div>
+                <div class="flex justify-between text-sm text-gray-600 mt-2">
+                    <span>0</span>
+                    <span class="font-semibold">Meta: 80%</span>
+                    <span>105</span>
+                </div>
+            </div>
+
+            <!-- Validation Section -->
+            <div class="bg-white rounded-2xl shadow-lg p-8 mb-12 border border-gray-100 animate-slide-up" style="animation-delay: 0.5s">
+                <div class="flex items-center space-x-3 mb-6">
+                    <div class="w-10 h-10 bg-gradient-to-br from-red-500 to-orange-500 rounded-full flex items-center justify-center">
+                        <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                        </svg>
+                    </div>
+                    <h3 class="text-2xl font-bold text-gray-900">VALIDAÇÃO COM DADOS REAIS DE CHURN</h3>
+                </div>
+
+                <div class="space-y-6">
+                    <!-- Confirmed Status -->
+                    <div class="flex items-start space-x-4 p-4 bg-green-50 rounded-lg border-l-4 border-green-500">
+                        <div class="flex-shrink-0">
+                            <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-green-100 text-green-800">
+                                CONFIRMADO
+                            </span>
+                        </div>
+                        <div class="flex-1">
+                            <h4 class="font-semibold text-gray-900 mb-1">Baseline de 105 Casos</h4>
+                            <p class="text-gray-700">Dados de churn confirmam exatamente <strong>105 casos diretos</strong> de migração para Ingaia/Kenlo, representando <strong>5.7% do churn total</strong>.</p>
+                        </div>
+                    </div>
+
+                    <!-- Validated Status -->
+                    <div class="flex items-start space-x-4 p-4 bg-green-50 rounded-lg border-l-4 border-green-500">
+                        <div class="flex-shrink-0">
+                            <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-green-100 text-green-800">
+                                VALIDADA
+                            </span>
+                        </div>
+                        <div class="flex-1">
+                            <h4 class="font-semibold text-gray-900 mb-1">Meta de 80% de Redução</h4>
+                            <p class="text-gray-700">Meta de redução de 80% é <strong>realista e agressiva</strong>, considerando que funcionalidades básicas de gestão podem reter a maioria desses clientes.</p>
+                        </div>
+                    </div>
+
+                    <!-- Expanded Status -->
+                    <div class="flex items-start space-x-4 p-4 bg-blue-50 rounded-lg border-l-4 border-blue-500">
+                        <div class="flex-shrink-0">
+                            <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
+                                AMPLIADO
+                            </span>
+                        </div>
+                        <div class="flex-1">
+                            <h4 class="font-semibold text-gray-900 mb-1">Impacto Total Maior</h4>
+                            <p class="text-gray-700">Além dos 105 casos diretos, existem <strong>218 casos de "outros concorrentes"</strong>, totalizando <strong>323 casos de migração</strong> (17.4% do churn).</p>
+                        </div>
+                    </div>
+
+                    <!-- Strategic Status -->
+                    <div class="flex items-start space-x-4 p-4 bg-red-50 rounded-lg border-l-4 border-red-500">
+                        <div class="flex-shrink-0">
+                            <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-red-100 text-red-800">
+                                ESTRATÉGICO
+                            </span>
+                        </div>
+                        <div class="flex-1">
+                            <h4 class="font-semibold text-gray-900 mb-1">Urgência Confirmada</h4>
+                            <p class="text-gray-700">Estratégia de "oferta de migração urgente para clientes em risco" é <strong>crítica</strong> - Ingaia/Kenlo está capturando clientes ativamente.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Breakdown Section -->
+            <div class="bg-white rounded-2xl shadow-lg p-8 mb-12 border border-gray-100 animate-slide-up" style="animation-delay: 0.6s">
+                <div class="flex items-center space-x-3 mb-6">
+                    <div class="w-10 h-10 bg-gradient-to-br from-orange-500 to-red-500 rounded-full flex items-center justify-center">
+                        <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
+                        </svg>
+                    </div>
+                    <h3 class="text-2xl font-bold text-gray-900">BREAKDOWN DETALHADO DA CONCORRÊNCIA</h3>
+                </div>
+
+                <div class="space-y-4">
+                    <div class="flex justify-between items-center p-4 bg-red-50 rounded-lg border border-red-100">
+                        <div class="font-semibold text-red-700">Ingaia/Kenlo (Direto)</div>
+                        <div class="text-2xl font-bold text-red-600">105 casos</div>
+                    </div>
+
+                    <div class="flex justify-between items-center p-4 bg-orange-50 rounded-lg border border-orange-100">
+                        <div class="font-semibold text-orange-700">Outros Concorrentes</div>
+                        <div class="text-2xl font-bold text-orange-600">218 casos</div>
+                    </div>
+
+                    <div class="flex justify-between items-center p-4 bg-gray-50 rounded-lg border border-gray-200 border-2">
+                        <div class="font-bold text-gray-900">TOTAL - Migração para Concorrência</div>
+                        <div class="text-3xl font-bold text-gray-900">323 casos (17.4%)</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Strategic Insights -->
+            <div class="bg-white rounded-2xl shadow-lg p-8 border border-gray-100 animate-slide-up" style="animation-delay: 0.7s">
+                <div class="flex items-center space-x-3 mb-6">
+                    <div class="w-10 h-10 bg-gradient-to-br from-purple-500 to-pink-500 rounded-full flex items-center justify-center">
+                        <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"></path>
+                        </svg>
+                    </div>
+                    <h3 class="text-2xl font-bold text-gray-900">ESTRATÉGIAS ADICIONAIS IDENTIFICADAS</h3>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="p-4 bg-gradient-to-br from-blue-50 to-cyan-50 rounded-lg border border-blue-100">
+                        <h4 class="font-bold text-blue-700 mb-2">Migração Preventiva</h4>
+                        <p class="text-gray-700">Identificar clientes com perfil similar aos 105 que migraram e oferecer Gestor Básico proativamente.</p>
+                    </div>
+
+                    <div class="p-4 bg-gradient-to-br from-green-50 to-emerald-50 rounded-lg border border-green-100">
+                        <h4 class="font-bold text-green-700 mb-2">Win-Back Campaign</h4>
+                        <p class="text-gray-700">Dos <span class="font-bold text-green-600">323 casos totais</span> de concorrência, focar nos mais recentes para tentativa de reconquista.</p>
+                    </div>
+
+                    <div class="p-4 bg-gradient-to-br from-purple-50 to-indigo-50 rounded-lg border border-purple-100">
+                        <h4 class="font-bold text-purple-700 mb-2">Análise Competitiva</h4>
+                        <p class="text-gray-700">Estudar o que Ingaia/Kenlo oferece para criar <span class="font-bold text-purple-600">paridade funcional</span> no Gestor Básico.</p>
+                    </div>
+
+                    <div class="p-4 bg-gradient-to-br from-yellow-50 to-orange-50 rounded-lg border border-yellow-100">
+                        <h4 class="font-bold text-yellow-700 mb-2">ROI Defensivo</h4>
+                        <p class="text-gray-700">Reter esses 105 casos pode preservar <span class="font-bold text-yellow-600">R$ 2.5M+ em MRR anual</span> (assumindo MRR médio de R$ 470).</p>
+                    </div>
+
+                    <div class="p-4 bg-gradient-to-br from-red-50 to-pink-50 rounded-lg border border-red-100 md:col-span-2">
+                        <h4 class="font-bold text-red-700 mb-2">Early Warning System</h4>
+                        <p class="text-gray-700">Implementar alertas para clientes com características similares aos que migraram para Ingaia/Kenlo.</p>
+                    </div>
+                </div>
             </div>
         </div>
+    </main>
 
-        <div class="visual-indicator">
-            <div class="progress-fill" style="width: 80%;">
-                84 de 105 casos evitados (80% de redução)
+    <!-- Footer -->
+    <footer class="bg-white border-t border-gray-200 mt-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+            <div class="text-center text-gray-500 text-sm">
+                Dashboard Q3 Outcome • Eliminação da Fuga para Ingaia/Kenlo
             </div>
         </div>
-
-        <div class="validation-section">
-            <div class="validation-title">VALIDAÇÃO COM DADOS REAIS DE CHURN</div>
-            
-            <div class="validation-item">
-                <h4><span class="status-correct">CONFIRMADO:</span> Baseline de 105 Casos</h4>
-                <p>Dados de churn confirmam exatamente <strong>105 casos diretos</strong> de migração para Ingaia/Kenlo, representando <strong>5.7% do churn total</strong>.</p>
-            </div>
-
-            <div class="validation-item">
-                <h4><span class="status-correct">VALIDADA:</span> Meta de 80% de Redução</h4>
-                <p>Meta de redução de 80% é <strong>realista e agressiva</strong>, considerando que funcionalidades básicas de gestão podem reter a maioria desses clientes.</p>
-            </div>
-
-            <div class="validation-item">
-                <h4><span class="status-update">AMPLIADO:</span> Impacto Total Maior</h4>
-                <p>Além dos 105 casos diretos, existem <strong>218 casos de "outros concorrentes"</strong>, totalizando <strong>323 casos de migração</strong> (17.4% do churn).</p>
-            </div>
-
-            <div class="validation-item">
-                <h4><span class="status-critical">ESTRATÉGICO:</span> Urgência Confirmada</h4>
-                <p>Estratégia de "oferta de migração urgente para clientes em risco" é <strong>crítica</strong> - Ingaia/Kenlo está capturando clientes ativamente.</p>
-            </div>
-        </div>
-
-        <div class="breakdown-section">
-            <div class="breakdown-title">BREAKDOWN DETALHADO DA CONCORRÊNCIA</div>
-            
-            <div class="breakdown-item">
-                <div class="competitor-name">Ingaia/Kenlo (Direto)</div>
-                <div class="competitor-cases">105 casos</div>
-            </div>
-
-            <div class="breakdown-item">
-                <div class="competitor-name">Outros Concorrentes</div>
-                <div class="competitor-cases">218 casos</div>
-            </div>
-
-            <div class="breakdown-item">
-                <div class="competitor-name"><strong>TOTAL - Migração para Concorrência</strong></div>
-                <div class="competitor-cases"><strong>323 casos (17.4%)</strong></div>
-            </div>
-        </div>
-
-        <div class="strategy-section">
-            <div class="strategy-title">ESTRATÉGIAS ADICIONAIS IDENTIFICADAS</div>
-            
-            <div class="strategy-item">
-                <strong>Migração Preventiva:</strong> Identificar clientes com perfil similar aos 105 que migraram e oferecer Gestor Básico proativamente.
-            </div>
-
-            <div class="strategy-item">
-                <strong>Win-Back Campaign:</strong> Dos <span class="highlight-number">323 casos totais</span> de concorrência, focar nos mais recentes para tentativa de reconquista.
-            </div>
-
-            <div class="strategy-item">
-                <strong>Análise Competitiva:</strong> Estudar o que Ingaia/Kenlo oferece para criar <span class="highlight-number">paridade funcional</span> no Gestor Básico.
-            </div>
-
-            <div class="strategy-item">
-                <strong>ROI Defensivo:</strong> Reter esses 105 casos pode preservar <span class="highlight-number">R$ 2.5M+ em MRR anual</span> (assumindo MRR médio de R$ 470).
-            </div>
-
-            <div class="strategy-item">
-                <strong>Early Warning System:</strong> Implementar alertas para clientes com características similares aos que migraram para Ingaia/Kenlo.
-            </div>
-        </div>
-    </div>
+    </footer>
 </body>
+</html>

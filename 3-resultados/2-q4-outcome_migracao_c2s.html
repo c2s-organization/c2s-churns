@@ -1,863 +1,390 @@
+
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>C2S Digital Lock-in Strategy - Executive Summary</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            min-height: 100vh;
-            color: #333;
-            overflow-x: hidden;
-        }
-
-        .container {
-            max-width: 1400px;
-            margin: 0 auto;
-            padding: 20px;
-        }
-
-        .hero-section {
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(20px);
-            border-radius: 30px;
-            padding: 60px;
-            text-align: center;
-            margin-bottom: 40px;
-            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.1);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .hero-section::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            right: 0;
-            width: 200px;
-            height: 200px;
-            background: linear-gradient(135deg, transparent 0%, rgba(102, 126, 234, 0.1) 100%);
-            border-radius: 0 30px 0 200px;
-        }
-
-        .hero-title {
-            font-size: 3.5em;
-            font-weight: 800;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            margin-bottom: 20px;
-            line-height: 1.1;
-            position: relative;
-            z-index: 1;
-        }
-
-        .hero-subtitle {
-            font-size: 1.4em;
-            color: #666;
-            font-weight: 500;
-            max-width: 900px;
-            margin: 0 auto 30px;
-            line-height: 1.6;
-            position: relative;
-            z-index: 1;
-        }
-
-        .strategy-badge {
-            display: inline-block;
-            background: linear-gradient(135deg, #ff6b6b 0%, #ee5a24 100%);
-            color: white;
-            padding: 15px 30px;
-            border-radius: 50px;
-            font-weight: 700;
-            font-size: 1.1em;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            box-shadow: 0 10px 30px rgba(255, 107, 107, 0.3);
-            position: relative;
-            z-index: 1;
-            animation: pulse-badge 2s ease-in-out infinite;
-        }
-
-        @keyframes pulse-badge {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.05); }
-        }
-
-        .main-metrics {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 30px;
-            margin-bottom: 50px;
-        }
-
-        .metric-card {
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(20px);
-            border-radius: 25px;
-            padding: 40px;
-            text-align: center;
-            border-left: 8px solid;
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
-            transition: all 0.3s ease;
-            position: relative;
-            overflow: hidden;
-            cursor: pointer;
-        }
-
-        .metric-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            right: 0;
-            width: 100px;
-            height: 100px;
-            background: linear-gradient(135deg, transparent 0%, rgba(255, 255, 255, 0.2) 100%);
-            border-radius: 0 25px 0 100px;
-        }
-
-        .metric-card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.15);
-        }
-
-        .metric-card.rede { border-left-color: #10b981; }
-        .metric-card.lock { border-left-color: #8b5cf6; }
-        .metric-card.churn { border-left-color: #ef4444; }
-        .metric-card.custo { border-left-color: #f59e0b; }
-
-        .metric-icon {
-            font-size: 3rem;
-            margin-bottom: 20px;
-            filter: drop-shadow(0 5px 15px rgba(0,0,0,0.2));
-        }
-
-        .metric-number {
-            font-size: 3.5em;
-            font-weight: 900;
-            margin-bottom: 15px;
-            position: relative;
-            z-index: 1;
-        }
-
-        .metric-card.rede .metric-number { color: #10b981; }
-        .metric-card.lock .metric-number { color: #8b5cf6; }
-        .metric-card.churn .metric-number { color: #ef4444; }
-        .metric-card.custo .metric-number { color: #f59e0b; }
-
-        .metric-label {
-            font-size: 1.1rem;
-            color: #64748b;
-            line-height: 1.4;
-            font-weight: 600;
-            position: relative;
-            z-index: 1;
-        }
-
-        .journey-section {
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(20px);
-            border-radius: 30px;
-            padding: 50px;
-            margin-bottom: 40px;
-            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.1);
-        }
-
-        .section-title {
-            font-size: 2.5em;
-            font-weight: 800;
-            text-align: center;
-            margin-bottom: 20px;
-            color: #2c3e50;
-            background: linear-gradient(135deg, #2c3e50 0%, #3498db 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-
-        .section-subtitle {
-            font-size: 1.2rem;
-            color: #64748b;
-            text-align: center;
-            margin-bottom: 40px;
-            max-width: 600px;
-            margin-left: auto;
-            margin-right: auto;
-        }
-
-        .outcomes-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-            gap: 30px;
-            margin-bottom: 40px;
-        }
-
-        .outcome-card {
-            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
-            border-radius: 25px;
-            padding: 40px;
-            border-left: 8px solid;
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.08);
-            transition: all 0.3s ease;
-            position: relative;
-            overflow: hidden;
-            cursor: pointer;
-        }
-
-        .outcome-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            right: 0;
-            width: 100px;
-            height: 100px;
-            background: linear-gradient(135deg, transparent 0%, rgba(255, 255, 255, 0.3) 100%);
-            border-radius: 0 25px 0 100px;
-        }
-
-        .outcome-card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.12);
-        }
-
-        .outcome-card.step1 { border-left-color: #10b981; }
-        .outcome-card.step2 { border-left-color: #ef4444; }
-        .outcome-card.step3 { border-left-color: #f59e0b; }
-        .outcome-card.step4 { border-left-color: #8b5cf6; }
-
-        .outcome-number {
-            font-size: 4em;
-            font-weight: 900;
-            margin-bottom: 15px;
-            opacity: 0.9;
-            position: relative;
-            z-index: 1;
-        }
-
-        .outcome-card.step1 .outcome-number { color: #10b981; }
-        .outcome-card.step2 .outcome-number { color: #ef4444; }
-        .outcome-card.step3 .outcome-number { color: #f59e0b; }
-        .outcome-card.step4 .outcome-number { color: #8b5cf6; }
-
-        .outcome-title {
-            font-size: 1.6em;
-            font-weight: 700;
-            margin-bottom: 15px;
-            color: #2c3e50;
-            position: relative;
-            z-index: 1;
-        }
-
-        .outcome-description {
-            color: #666;
-            line-height: 1.6;
-            font-size: 1.1em;
-            margin-bottom: 20px;
-            position: relative;
-            z-index: 1;
-        }
-
-        .outcome-meta {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-            gap: 15px;
-            margin-top: 20px;
-            position: relative;
-            z-index: 1;
-        }
-
-        .meta-item {
-            background: white;
-            padding: 15px;
-            border-radius: 12px;
-            text-align: center;
-            border: 2px solid #e2e8f0;
-            transition: all 0.2s ease;
-        }
-
-        .meta-item:hover {
-            border-color: #3b82f6;
-            box-shadow: 0 5px 15px rgba(59, 130, 246, 0.1);
-        }
-
-        .meta-value {
-            font-size: 1.3rem;
-            font-weight: 800;
-            margin-bottom: 5px;
-        }
-
-        .outcome-card.step1 .meta-value { color: #10b981; }
-        .outcome-card.step2 .meta-value { color: #ef4444; }
-        .outcome-card.step3 .meta-value { color: #f59e0b; }
-        .outcome-card.step4 .meta-value { color: #8b5cf6; }
-
-        .meta-label {
-            font-size: 0.9rem;
-            color: #64748b;
-            font-weight: 500;
-        }
-
-        .flow-visualization {
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(20px);
-            border-radius: 30px;
-            padding: 50px;
-            margin-bottom: 40px;
-            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.1);
-            text-align: center;
-        }
-
-        .flow-steps {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 20px;
-            margin-top: 40px;
-        }
-
-        .flow-step {
-            flex: 1;
-            min-width: 200px;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            padding: 30px 20px;
-            border-radius: 20px;
-            position: relative;
-            box-shadow: 0 15px 35px rgba(102, 126, 234, 0.3);
-            transition: all 0.3s ease;
-        }
-
-        .flow-step:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 20px 40px rgba(102, 126, 234, 0.4);
-        }
-
-        .flow-step-number {
-            position: absolute;
-            top: -15px;
-            left: 20px;
-            background: #ff6b6b;
-            color: white;
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: 900;
-            font-size: 1.2em;
-            box-shadow: 0 5px 15px rgba(255, 107, 107, 0.4);
-        }
-
-        .flow-step-title {
-            font-size: 1.4em;
-            font-weight: 700;
-            margin-bottom: 10px;
-            margin-top: 10px;
-        }
-
-        .flow-step-desc {
-            opacity: 0.9;
-            line-height: 1.4;
-        }
-
-        .flow-arrow {
-            font-size: 2em;
-            color: #3498db;
-            margin: 0 10px;
-            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1));
-        }
-
-        .impact-section {
-            background: linear-gradient(135deg, #1e293b 0%, #334155 100%);
-            color: white;
-            border-radius: 30px;
-            padding: 60px 40px;
-            margin-bottom: 40px;
-            box-shadow: 0 25px 50px rgba(30, 41, 59, 0.3);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .impact-section::before {
-            content: '';
-            position: absolute;
-            top: -50%;
-            right: -50%;
-            width: 200%;
-            height: 200%;
-            background: conic-gradient(from 0deg, transparent, rgba(59, 130, 246, 0.1), transparent);
-            animation: rotate 15s linear infinite;
-        }
-
-        @keyframes rotate {
-            from { transform: rotate(0deg); }
-            to { transform: rotate(360deg); }
-        }
-
-        .impact-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 25px;
-            margin-top: 40px;
-            position: relative;
-            z-index: 1;
-        }
-
-        .impact-item {
-            background: rgba(255, 255, 255, 0.1);
-            padding: 30px;
-            border-radius: 20px;
-            border-left: 6px solid;
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            transition: all 0.3s ease;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .impact-item::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            right: 0;
-            width: 80px;
-            height: 80px;
-            background: linear-gradient(135deg, transparent 0%, rgba(255, 255, 255, 0.1) 100%);
-            border-radius: 0 20px 0 80px;
-        }
-
-        .impact-item:hover {
-            transform: translateY(-5px);
-            background: rgba(255, 255, 255, 0.15);
-        }
-
-        .impact-item.anti-churn { border-left-color: #ef4444; }
-        .impact-item.network { border-left-color: #10b981; }
-        .impact-item.defensive { border-left-color: #f59e0b; }
-        .impact-item.roi { border-left-color: #8b5cf6; }
-
-        .impact-label {
-            font-size: 1.3em;
-            font-weight: 700;
-            margin-bottom: 15px;
-            color: #e2e8f0;
-            position: relative;
-            z-index: 1;
-        }
-
-        .impact-value {
-            font-size: 2.2em;
-            font-weight: 900;
-            margin-bottom: 10px;
-            position: relative;
-            z-index: 1;
-        }
-
-        .impact-item.anti-churn .impact-value { color: #ef4444; }
-        .impact-item.network .impact-value { color: #10b981; }
-        .impact-item.defensive .impact-value { color: #f59e0b; }
-        .impact-item.roi .impact-value { color: #8b5cf6; }
-
-        .impact-description {
-            color: #cbd5e1;
-            line-height: 1.5;
-            font-size: 1.05em;
-            position: relative;
-            z-index: 1;
-        }
-
-        .final-cta {
-            background: linear-gradient(135deg, #ff6b6b 0%, #ee5a24 100%);
-            color: white;
-            border-radius: 30px;
-            padding: 60px;
-            text-align: center;
-            box-shadow: 0 25px 50px rgba(255, 107, 107, 0.3);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .final-cta::before {
-            content: '';
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 200px;
-            height: 200px;
-            background: linear-gradient(45deg, rgba(255,255,255,0.1), transparent);
-            border-radius: 50%;
-            opacity: 0.3;
-            animation: pulse-icon 3s ease-in-out infinite;
-        }
-
-        @keyframes pulse-icon {
-            0%, 100% { transform: translate(-50%, -50%) scale(1); }
-            50% { transform: translate(-50%, -50%) scale(1.1); }
-        }
-
-        .cta-title {
-            font-size: 2.8em;
-            font-weight: 800;
-            margin-bottom: 20px;
-            position: relative;
-            z-index: 1;
-        }
-
-        .cta-subtitle {
-            font-size: 1.3em;
-            opacity: 0.9;
-            margin-bottom: 40px;
-            max-width: 800px;
-            margin-left: auto;
-            margin-right: auto;
-            line-height: 1.6;
-            position: relative;
-            z-index: 1;
-        }
-
-        .cta-stats {
-            display: flex;
-            justify-content: space-around;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 30px;
-            margin-top: 40px;
-            position: relative;
-            z-index: 1;
-        }
-
-        .cta-stat {
-            text-align: center;
-        }
-
-        .cta-stat-number {
-            font-size: 3em;
-            font-weight: 900;
-            display: block;
-            margin-bottom: 5px;
-            text-shadow: 0 2px 4px rgba(0,0,0,0.3);
-        }
-
-        .cta-stat-label {
-            opacity: 0.8;
-            font-size: 1.1em;
-            font-weight: 600;
-        }
-
-        .highlight {
-            background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%);
-            padding: 4px 8px;
-            border-radius: 6px;
-            font-weight: 800;
-            color: #1e293b;
-            text-shadow: none;
-        }
-
-        @media (max-width: 768px) {
-            .hero-title {
-                font-size: 2.5em;
-            }
-            
-            .outcomes-grid, .main-metrics {
-                grid-template-columns: 1fr;
-            }
-            
-            .flow-steps {
-                flex-direction: column;
-            }
-            
-            .flow-arrow {
-                transform: rotate(90deg);
-            }
-            
-            .cta-stats {
-                flex-direction: column;
-                gap: 20px;
-            }
-
-            .section-title {
-                font-size: 2em;
-            }
-
-            .cta-title {
-                font-size: 2.2em;
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    animation: {
+                        'fade-in': 'fadeIn 0.8s ease-in-out',
+                        'slide-up': 'slideUp 0.6s ease-out',
+                        'pulse-slow': 'pulse 3s infinite',
+                        'bounce-slow': 'bounce 2s infinite',
+                        'pulse-badge': 'pulseBadge 2s ease-in-out infinite',
+                        'scale-pulse': 'scalePulse 2s infinite',
+                        'float': 'float 3s ease-in-out infinite',
+                    },
+                    keyframes: {
+                        fadeIn: {
+                            '0%': { opacity: '0' },
+                            '100%': { opacity: '1' }
+                        },
+                        slideUp: {
+                            '0%': { transform: 'translateY(20px)', opacity: '0' },
+                            '100%': { transform: 'translateY(0)', opacity: '1' }
+                        },
+                        pulseBadge: {
+                            '0%, 100%': { transform: 'scale(1)' },
+                            '50%': { transform: 'scale(1.05)' }
+                        },
+                        scalePulse: {
+                            '0%': { transform: 'scale(1)' },
+                            '50%': { transform: 'scale(1.05)' },
+                            '100%': { transform: 'scale(1)' }
+                        },
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0px)' },
+                            '50%': { transform: 'translateY(-10px)' }
+                        }
+                    }
+                }
             }
         }
-    </style>
-<style>
-    .nav-buttons {
-        position: fixed;
-        bottom: 30px;
-        right: 30px;
-        display: flex;
-        gap: 15px;
-        z-index: 1000;
-    }
-
-    .nav-button {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        width: 60px;
-        height: 60px;
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-        color: white;
-        border-radius: 50%;
-        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
-        text-decoration: none;
-        font-size: 1.5em;
-        transition: transform 0.3s ease, box-shadow 0.3s ease;
-    }
-
-    .nav-button:hover {
-        transform: translateY(-5px);
-        box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
-    }
-
-    .home-button {
-        background: linear-gradient(135deg, #ff6b6b 0%, #ee5a24 100%);
-    }
-</style>
+    </script>
 </head>
-<body>
-<div class="nav-buttons">
-        <a href="../index.html" class="nav-button home-button" title="Página Inicial">🏠</a>
-        <a href="1-q3-outcome_migracao_c2s.html" class="nav-button" title="Página Anterior">←</a>
-        <a href="3-business_case_consolidado.html" class="nav-button" title="Próxima Página">→</a>
+<body class="bg-gradient-to-br from-slate-50 to-purple-50 min-h-screen">
+<!-- Navigation -->
+<nav class="fixed top-0 left-0 right-0 bg-white/90 backdrop-blur-md shadow-sm z-50 border-b border-gray-200">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex justify-between items-center h-16">
+            <div class="flex items-center space-x-4">
+                <a href="../index.html"
+                   class="flex items-center justify-center w-10 h-10 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-colors duration-200 shadow-md hover:shadow-lg transform hover:scale-105">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path>
+                    </svg>
+                </a>
+                <span class="text-gray-600 font-medium">C2S Digital Lock-in Strategy</span>
+            </div>
+            <div class="flex items-center space-x-2">
+                <a href="1-q3-outcome_migracao_c2s.html"
+                   class="flex items-center justify-center w-10 h-10 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-lg transition-colors duration-200 shadow-md hover:shadow-lg transform hover:scale-105">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
+                    </svg>
+                </a>
+                <a href="3-business_case_consolidado.html"
+                   class="flex items-center justify-center w-10 h-10 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-lg transition-colors duration-200 shadow-md hover:shadow-lg transform hover:scale-105">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                    </svg>
+                </a>
+            </div>
+        </div>
     </div>
-    <div class="container">
-        <div class="hero-section">
-            <h1 class="hero-title">C2S Digital Lock-in Strategy</h1>
-            <p class="hero-subtitle">
-                Transformação de <strong>1.071 imobiliárias brasileiras</strong> em uma rede colaborativa única que cria 
+</nav>
+
+<!-- Main Content -->
+<main class="pt-24 pb-12 px-4 sm:px-6 lg:px-8">
+    <div class="max-w-7xl mx-auto">
+        <!-- Header -->
+        <div class="text-center mb-12 animate-fade-in">
+            <h1 class="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
+                C2S Digital Lock-in Strategy
+            </h1>
+            <p class="text-xl text-gray-700 max-w-4xl mx-auto mb-6 leading-relaxed">
+                Transformação de <strong>1.071 imobiliárias brasileiras</strong> em uma rede colaborativa única que cria
                 <strong>dependência total</strong> através de múltiplas camadas de lock-in digital e operacional
             </p>
-            <div class="strategy-badge">Lock-in Total Absoluto Conquistado</div>
+            <div class="inline-block bg-gradient-to-r from-red-500 to-red-600 text-white px-6 py-3 rounded-full font-bold text-sm uppercase tracking-wide shadow-lg animate-pulse-badge">
+                Lock-in Total Absoluto Conquistado
+            </div>
+            <div class="mt-6 w-24 h-1 bg-gradient-to-r from-purple-500 to-pink-500 mx-auto rounded-full"></div>
         </div>
 
-        <div class="main-metrics">
-            <div class="metric-card rede">
-                <div class="metric-number">857</div>
-                <div class="metric-label">Imobiliárias na<br>Mega Rede Ativa</div>
+        <!-- Main Metrics -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
+            <!-- Mega Rede Ativa -->
+            <div class="bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 p-8 border border-gray-100 transform hover:scale-105 animate-slide-up">
+                <div class="text-center">
+                    <div class="w-16 h-16 bg-gradient-to-br from-purple-500 to-purple-700 rounded-full flex items-center justify-center mx-auto mb-4 shadow-lg animate-float">
+                        <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"></path>
+                        </svg>
+                    </div>
+                    <div class="text-4xl font-bold text-purple-700 mb-2">857</div>
+                    <div class="text-gray-600 font-medium">Imobiliárias na</div>
+                    <div class="text-sm text-purple-600">Mega Rede Ativa</div>
+                </div>
             </div>
-            <div class="metric-card lock">
-                <div class="metric-number">686</div>
-                <div class="metric-label">Lock-in Digital<br>Total Absoluto</div>
+
+            <!-- Lock-in Digital Total -->
+            <div class="bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 p-8 border border-gray-100 transform hover:scale-105 animate-slide-up" style="animation-delay: 0.1s">
+                <div class="text-center">
+                    <div class="w-16 h-16 bg-gradient-to-br from-red-500 to-red-700 rounded-full flex items-center justify-center mx-auto mb-4 shadow-lg animate-float" style="animation-delay: 0.5s">
+                        <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path>
+                        </svg>
+                    </div>
+                    <div class="text-4xl font-bold text-red-700 mb-2">686</div>
+                    <div class="text-gray-600 font-medium">Lock-in Digital</div>
+                    <div class="text-sm text-red-600">Total Absoluto</div>
+                </div>
             </div>
-            <div class="metric-card churn">
-                <div class="metric-number">&lt;0,5%</div>
-                <div class="metric-label">Taxa de Churn<br>Projetada</div>
+
+            <!-- Taxa de Churn -->
+            <div class="bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 p-8 border border-gray-100 transform hover:scale-105 animate-slide-up" style="animation-delay: 0.2s">
+                <div class="text-center">
+                    <div class="w-16 h-16 bg-gradient-to-br from-green-500 to-green-700 rounded-full flex items-center justify-center mx-auto mb-4 shadow-lg animate-float" style="animation-delay: 1s">
+                        <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                        </svg>
+                    </div>
+                    <div class="text-4xl font-bold text-green-700 mb-2">&lt;0,5%</div>
+                    <div class="text-gray-600 font-medium">Taxa de Churn</div>
+                    <div class="text-sm text-green-600">Projetada</div>
+                </div>
             </div>
-            <div class="metric-card custo">
-                <div class="metric-number">R$ 50-100k</div>
-                <div class="metric-label">Custo de Migração<br>Por Imobiliária</div>
+
+            <!-- Custo de Migração -->
+            <div class="bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 p-8 border border-gray-100 transform hover:scale-105 animate-slide-up" style="animation-delay: 0.3s">
+                <div class="text-center">
+                    <div class="w-16 h-16 bg-gradient-to-br from-orange-500 to-orange-700 rounded-full flex items-center justify-center mx-auto mb-4 shadow-lg animate-float" style="animation-delay: 1.5s">
+                        <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1"></path>
+                        </svg>
+                    </div>
+                    <div class="text-3xl font-bold text-orange-700 mb-2">R$ 50-100k</div>
+                    <div class="text-gray-600 font-medium">Custo de Migração</div>
+                    <div class="text-sm text-orange-600">Por Imobiliária</div>
+                </div>
             </div>
         </div>
 
-        <div class="journey-section">
-            <h2 class="section-title">Jornada de Transformação Digital</h2>
-            <p class="section-subtitle">Quatro etapas estratégicas que criam dependência absoluta e eliminam competição</p>
-            
-            <div class="outcomes-grid">
-                <div class="outcome-card step1">
-                    <div class="outcome-number">857</div>
-                    <div class="outcome-title">Mega Rede Colaborativa</div>
-                    <div class="outcome-description">
-                        Primeira rede colaborativa nacional do Brasil, conectando imobiliárias em ecossistema único 
+        <!-- Journey Section -->
+        <div class="bg-white rounded-2xl shadow-lg p-8 mb-12 animate-slide-up" style="animation-delay: 0.4s">
+            <h2 class="text-3xl font-bold text-gray-900 text-center mb-4">Jornada de Transformação Digital</h2>
+            <p class="text-lg text-gray-600 text-center mb-8 max-w-3xl mx-auto">
+                Quatro etapas estratégicas que criam dependência absoluta e eliminam competição
+            </p>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <!-- Mega Rede Colaborativa -->
+                <div class="bg-gradient-to-br from-purple-50 to-purple-100 rounded-2xl p-8 border-l-8 border-purple-500 transform hover:scale-105 transition-all duration-300">
+                    <div class="text-5xl font-black text-purple-600 mb-4">857</div>
+                    <h3 class="text-2xl font-bold text-gray-900 mb-3">Mega Rede Colaborativa</h3>
+                    <p class="text-gray-700 mb-6 leading-relaxed">
+                        Primeira rede colaborativa nacional do Brasil, conectando imobiliárias em ecossistema único
                         de compartilhamento de inventário e geração de leads cruzados.
-                    </div>
-                    <div class="outcome-meta">
-                        <div class="meta-item">
-                            <div class="meta-value">~25.000</div>
-                            <div class="meta-label">Imóveis compartilhados</div>
+                    </p>
+                    <div class="grid grid-cols-3 gap-4">
+                        <div class="text-center">
+                            <div class="text-2xl font-bold text-purple-600">~25.000</div>
+                            <div class="text-xs text-gray-600">Imóveis compartilhados</div>
                         </div>
-                        <div class="meta-item">
-                            <div class="meta-value">80%</div>
-                            <div class="meta-label">Taxa de adesão</div>
+                        <div class="text-center">
+                            <div class="text-2xl font-bold text-purple-600">80%</div>
+                            <div class="text-xs text-gray-600">Taxa de adesão</div>
                         </div>
-                        <div class="meta-item">
-                            <div class="meta-value">Nacional</div>
-                            <div class="meta-label">Cobertura</div>
+                        <div class="text-center">
+                            <div class="text-lg font-bold text-purple-600">Nacional</div>
+                            <div class="text-xs text-gray-600">Cobertura</div>
                         </div>
                     </div>
                 </div>
 
-                <div class="outcome-card step2">
-                    <div class="outcome-number">343</div>
-                    <div class="outcome-title">Vendas Cross Validadas</div>
-                    <div class="outcome-description">
-                        Prova de conceito através de vendas colaborativas entre imobiliárias, demonstrando 
+                <!-- Vendas Cross Validadas -->
+                <div class="bg-gradient-to-br from-blue-50 to-blue-100 rounded-2xl p-8 border-l-8 border-blue-500 transform hover:scale-105 transition-all duration-300">
+                    <div class="text-5xl font-black text-blue-600 mb-4">343</div>
+                    <h3 class="text-2xl font-bold text-gray-900 mb-3">Vendas Cross Validadas</h3>
+                    <p class="text-gray-700 mb-6 leading-relaxed">
+                        Prova de conceito através de vendas colaborativas entre imobiliárias, demonstrando
                         valor comercial real da rede e criando dependência através de receita adicional.
-                    </div>
-                    <div class="outcome-meta">
-                        <div class="meta-item">
-                            <div class="meta-value">686</div>
-                            <div class="meta-label">Vendas cross/mês</div>
+                    </p>
+                    <div class="grid grid-cols-3 gap-4">
+                        <div class="text-center">
+                            <div class="text-2xl font-bold text-blue-600">686</div>
+                            <div class="text-xs text-gray-600">Vendas cross/mês</div>
                         </div>
-                        <div class="meta-item">
-                            <div class="meta-value">8.232</div>
-                            <div class="meta-label">Vendas anuais</div>
+                        <div class="text-center">
+                            <div class="text-2xl font-bold text-blue-600">8.232</div>
+                            <div class="text-xs text-gray-600">Vendas anuais</div>
                         </div>
-                        <div class="meta-item">
-                            <div class="meta-value">40%</div>
-                            <div class="meta-label">Participação ativa</div>
+                        <div class="text-center">
+                            <div class="text-2xl font-bold text-blue-600">40%</div>
+                            <div class="text-xs text-gray-600">Participação ativa</div>
                         </div>
                     </div>
                 </div>
 
-                <div class="outcome-card step3">
-                    <div class="outcome-number">600</div>
-                    <div class="outcome-title">Lock-in Financeiro Total</div>
-                    <div class="outcome-description">
-                        Controle completo de comissões e contratos cria dependência operacional crítica. 
+                <!-- Lock-in Financeiro Total -->
+                <div class="bg-gradient-to-br from-green-50 to-green-100 rounded-2xl p-8 border-l-8 border-green-500 transform hover:scale-105 transition-all duration-300">
+                    <div class="text-5xl font-black text-green-600 mb-4">600</div>
+                    <h3 class="text-2xl font-bold text-gray-900 mb-3">Lock-in Financeiro Total</h3>
+                    <p class="text-gray-700 mb-6 leading-relaxed">
+                        Controle completo de comissões e contratos cria dependência operacional crítica.
                         Migração significa perda total de histórico financeiro e fluxo de caixa integrado.
-                    </div>
-                    <div class="outcome-meta">
-                        <div class="meta-item">
-                            <div class="meta-value">R$ 50M+</div>
-                            <div class="meta-label">Volume mensal</div>
+                    </p>
+                    <div class="grid grid-cols-3 gap-4">
+                        <div class="text-center">
+                            <div class="text-xl font-bold text-green-600">R$ 50M+</div>
+                            <div class="text-xs text-gray-600">Volume mensal</div>
                         </div>
-                        <div class="meta-item">
-                            <div class="meta-value">R$ 600M+</div>
-                            <div class="meta-label">Volume anual</div>
+                        <div class="text-center">
+                            <div class="text-xl font-bold text-green-600">R$ 600M+</div>
+                            <div class="text-xs text-gray-600">Volume anual</div>
                         </div>
-                        <div class="meta-item">
-                            <div class="meta-value">70%</div>
-                            <div class="meta-label">Taxa de adoção</div>
+                        <div class="text-center">
+                            <div class="text-2xl font-bold text-green-600">70%</div>
+                            <div class="text-xs text-gray-600">Taxa de adoção</div>
                         </div>
                     </div>
                 </div>
 
-                <div class="outcome-card step4">
-                    <div class="outcome-number">686</div>
-                    <div class="outcome-title">Dependência Digital Absoluta</div>
-                    <div class="outcome-description">
-                        Integração total: leads + portal + site + finanças. Sair significa reconstruir 
+                <!-- Dependência Digital Absoluta -->
+                <div class="bg-gradient-to-br from-red-50 to-red-100 rounded-2xl p-8 border-l-8 border-red-500 transform hover:scale-105 transition-all duration-300">
+                    <div class="text-5xl font-black text-red-600 mb-4">686</div>
+                    <h3 class="text-2xl font-bold text-gray-900 mb-3">Dependência Digital Absoluta</h3>
+                    <p class="text-gray-700 mb-6 leading-relaxed">
+                        Integração total: leads + portal + site + finanças. Sair significa reconstruir
                         TODA operação digital do zero com custo proibitivo de R$ 50-100k por imobiliária.
-                    </div>
-                    <div class="outcome-meta">
-                        <div class="meta-item">
-                            <div class="meta-value">100%</div>
-                            <div class="meta-label">Dependência operacional</div>
+                    </p>
+                    <div class="grid grid-cols-3 gap-4">
+                        <div class="text-center">
+                            <div class="text-2xl font-bold text-red-600">100%</div>
+                            <div class="text-xs text-gray-600">Dependência operacional</div>
                         </div>
-                        <div class="meta-item">
-                            <div class="meta-value">5 Produtos</div>
-                            <div class="meta-label">Integrados</div>
+                        <div class="text-center">
+                            <div class="text-xl font-bold text-red-600">5 Produtos</div>
+                            <div class="text-xs text-gray-600">Integrados</div>
                         </div>
-                        <div class="meta-item">
-                            <div class="meta-value">80%</div>
-                            <div class="meta-label">Meta atingida</div>
+                        <div class="text-center">
+                            <div class="text-2xl font-bold text-red-600">80%</div>
+                            <div class="text-xs text-gray-600">Meta atingida</div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
 
-        <div class="flow-visualization">
-            <h2 class="section-title">Evolução Estratégica</h2>
-            <div class="flow-steps">
-                <div class="flow-step">
-                    <div class="flow-step-number">Q3</div>
-                    <div class="flow-step-title">Foundation</div>
-                    <div class="flow-step-desc">1.071 imobiliárias preparadas com ecossistema completo</div>
+        <!-- Evolution Flow -->
+        <div class="bg-white rounded-2xl shadow-lg p-8 mb-12 animate-slide-up" style="animation-delay: 0.5s">
+            <h2 class="text-3xl font-bold text-gray-900 text-center mb-8">Evolução Estratégica</h2>
+            <div class="flex flex-col md:flex-row items-center justify-center space-y-6 md:space-y-0 md:space-x-6">
+                <!-- Q3 -->
+                <div class="flex-1 bg-gradient-to-br from-slate-50 to-slate-100 p-6 rounded-2xl text-center border border-slate-200">
+                    <div class="w-12 h-12 bg-slate-600 text-white rounded-full flex items-center justify-center mx-auto mb-4 font-bold text-lg">Q3</div>
+                    <h3 class="text-lg font-bold text-gray-900 mb-2">Foundation</h3>
+                    <p class="text-sm text-gray-700">1.071 imobiliárias preparadas com ecossistema completo</p>
                 </div>
-                <div class="flow-arrow">→</div>
-                <div class="flow-step">
-                    <div class="flow-step-number">Q4.1</div>
-                    <div class="flow-step-title">Rede Ativa</div>
-                    <div class="flow-step-desc">857 imobiliárias conectadas em mega rede colaborativa</div>
+
+                <!-- Arrow -->
+                <div class="hidden md:block text-gray-400 text-2xl">→</div>
+
+                <!-- Q4.1 -->
+                <div class="flex-1 bg-gradient-to-br from-purple-50 to-purple-100 p-6 rounded-2xl text-center border border-purple-200">
+                    <div class="w-12 h-12 bg-purple-600 text-white rounded-full flex items-center justify-center mx-auto mb-4 font-bold text-sm">Q4.1</div>
+                    <h3 class="text-lg font-bold text-gray-900 mb-2">Rede Ativa</h3>
+                    <p class="text-sm text-gray-700">857 imobiliárias conectadas em mega rede colaborativa</p>
                 </div>
-                <div class="flow-arrow">→</div>
-                <div class="flow-step">
-                    <div class="flow-step-number">Q4.2</div>
-                    <div class="flow-step-title">Vendas Cross</div>
-                    <div class="flow-step-desc">343 imobiliárias gerando receita colaborativa</div>
+
+                <!-- Arrow -->
+                <div class="hidden md:block text-gray-400 text-2xl">→</div>
+
+                <!-- Q4.2 -->
+                <div class="flex-1 bg-gradient-to-br from-blue-50 to-blue-100 p-6 rounded-2xl text-center border border-blue-200">
+                    <div class="w-12 h-12 bg-blue-600 text-white rounded-full flex items-center justify-center mx-auto mb-4 font-bold text-sm">Q4.2</div>
+                    <h3 class="text-lg font-bold text-gray-900 mb-2">Vendas Cross</h3>
+                    <p class="text-sm text-gray-700">343 imobiliárias gerando receita colaborativa</p>
                 </div>
-                <div class="flow-arrow">→</div>
-                <div class="flow-step">
-                    <div class="flow-step-number">Q4.3</div>
-                    <div class="flow-step-title">Lock-in Total</div>
-                    <div class="flow-step-desc">686 em dependência digital absoluta</div>
+
+                <!-- Arrow -->
+                <div class="hidden md:block text-gray-400 text-2xl">→</div>
+
+                <!-- Q4.3 -->
+                <div class="flex-1 bg-gradient-to-br from-red-50 to-red-100 p-6 rounded-2xl text-center border border-red-200">
+                    <div class="w-12 h-12 bg-red-600 text-white rounded-full flex items-center justify-center mx-auto mb-4 font-bold text-sm">Q4.3</div>
+                    <h3 class="text-lg font-bold text-gray-900 mb-2">Lock-in Total</h3>
+                    <p class="text-sm text-gray-700">686 em dependência digital absoluta</p>
                 </div>
             </div>
         </div>
 
-        <div class="impact-section">
-            <h2 class="section-title">Impacto Revolucionário</h2>
-            <div class="impact-grid">
-                <div class="impact-item anti-churn">
-                    <div class="impact-label">Churn Elimination</div>
-                    <div class="impact-value">&lt; 0,5%</div>
-                    <div class="impact-description">
+        <!-- Impact Section -->
+        <div class="bg-white rounded-2xl shadow-lg p-8 mb-12 animate-slide-up" style="animation-delay: 0.6s">
+            <h2 class="text-3xl font-bold text-gray-900 text-center mb-8">Impacto Revolucionário</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                <!-- Churn Elimination -->
+                <div class="bg-gradient-to-br from-green-50 to-emerald-50 p-6 rounded-xl border border-green-100">
+                    <div class="text-sm font-semibold text-green-700 mb-2">Churn Elimination</div>
+                    <div class="text-3xl font-bold text-green-600 mb-2">&lt; 0,5%</div>
+                    <div class="text-sm text-gray-700">
                         Taxa de abandono para imobiliárias em lock-in total - dependência absoluta conquistada
                     </div>
                 </div>
 
-                <div class="impact-item network">
-                    <div class="impact-label">Market Domination</div>
-                    <div class="impact-value">686</div>
-                    <div class="impact-description">
+                <!-- Market Domination -->
+                <div class="bg-gradient-to-br from-purple-50 to-indigo-50 p-6 rounded-xl border border-purple-100">
+                    <div class="text-sm font-semibold text-purple-700 mb-2">Market Domination</div>
+                    <div class="text-3xl font-bold text-purple-600 mb-2">686</div>
+                    <div class="text-sm text-gray-700">
                         Imobiliárias dependentes = posição monopolística no setor imobiliário brasileiro
                     </div>
                 </div>
 
-                <div class="impact-item defensive">
-                    <div class="impact-label">Competitive Moat</div>
-                    <div class="impact-value">5 Produtos</div>
-                    <div class="impact-description">
+                <!-- Competitive Moat -->
+                <div class="bg-gradient-to-br from-blue-50 to-cyan-50 p-6 rounded-xl border border-blue-100">
+                    <div class="text-sm font-semibold text-blue-700 mb-2">Competitive Moat</div>
+                    <div class="text-3xl font-bold text-blue-600 mb-2">5 Produtos</div>
+                    <div class="text-sm text-gray-700">
                         Concorrentes precisariam recriar 5 produtos integrados simultaneamente - impossível
                     </div>
                 </div>
 
-                <div class="impact-item roi">
-                    <div class="impact-label">Revenue Expansion</div>
-                    <div class="impact-value">R$ 3M+</div>
-                    <div class="impact-description">
+                <!-- Revenue Expansion -->
+                <div class="bg-gradient-to-br from-orange-50 to-amber-50 p-6 rounded-xl border border-orange-100">
+                    <div class="text-sm font-semibold text-orange-700 mb-2">Revenue Expansion</div>
+                    <div class="text-3xl font-bold text-orange-600 mb-2">R$ 3M+</div>
+                    <div class="text-sm text-gray-700">
                         Anuais em novas revenue streams através de gestão integrada e facilitação de vendas
                     </div>
                 </div>
             </div>
         </div>
 
-        <div class="final-cta">
-            <h2 class="cta-title">REVOLUÇÃO COMPLETA - MISSÃO CUMPRIDA</h2>
-            <p class="cta-subtitle">
-                C2S evolui de <span class="highlight">ferramenta</span> para <span class="highlight">plataforma</span> 
-                e finalmente para <span class="highlight">infraestrutura essencial</span> do mercado imobiliário brasileiro. 
+        <!-- Final CTA -->
+        <div class="bg-gradient-to-r from-purple-600 to-red-600 rounded-2xl shadow-xl p-8 text-white text-center animate-slide-up" style="animation-delay: 0.7s">
+            <h2 class="text-3xl font-bold mb-4">REVOLUÇÃO COMPLETA - MISSÃO CUMPRIDA</h2>
+            <p class="text-xl mb-8 max-w-4xl mx-auto leading-relaxed">
+                C2S evolui de <span class="font-bold bg-white/20 px-3 py-1 rounded-full">ferramenta</span> para <span class="font-bold bg-white/20 px-3 py-1 rounded-full">plataforma</span>
+                e finalmente para <span class="font-bold bg-white/20 px-3 py-1 rounded-full">infraestrutura essencial</span> do mercado imobiliário brasileiro.
                 Network effect + dependência total = crescimento auto-sustentável e posição defensável permanente.
             </p>
-            
-            <div class="cta-stats">
-                <div class="cta-stat">
-                    <span class="cta-stat-number">686</span>
-                    <span class="cta-stat-label">Lock-in Total</span>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                <div class="bg-white/10 rounded-xl p-6 backdrop-blur-sm animate-scale-pulse">
+                    <div class="text-4xl font-bold mb-2">686</div>
+                    <div class="text-sm opacity-90">Lock-in Total</div>
                 </div>
-                <div class="cta-stat">
-                    <span class="cta-stat-number">R$ 600M+</span>
-                    <span class="cta-stat-label">Volume Anual Controlado</span>
+                <div class="bg-white/10 rounded-xl p-6 backdrop-blur-sm animate-scale-pulse" style="animation-delay: 0.2s">
+                    <div class="text-3xl font-bold mb-2">R$ 600M+</div>
+                    <div class="text-sm opacity-90">Volume Anual Controlado</div>
                 </div>
-                <div class="cta-stat">
-                    <span class="cta-stat-number">25.000+</span>
-                    <span class="cta-stat-label">Imóveis na Rede</span>
+                <div class="bg-white/10 rounded-xl p-6 backdrop-blur-sm animate-scale-pulse" style="animation-delay: 0.4s">
+                    <div class="text-4xl font-bold mb-2">25.000+</div>
+                    <div class="text-sm opacity-90">Imóveis na Rede</div>
                 </div>
-                <div class="cta-stat">
-                    <span class="cta-stat-number">Infraestrutura</span>
-                    <span class="cta-stat-label">Status Conquistado</span>
+                <div class="bg-white/10 rounded-xl p-6 backdrop-blur-sm animate-scale-pulse" style="animation-delay: 0.6s">
+                    <div class="text-2xl font-bold mb-2">Infraestrutura</div>
+                    <div class="text-sm opacity-90">Status Conquistado</div>
                 </div>
             </div>
         </div>
     </div>
+</main>
+
+<!-- Footer -->
+<footer class="bg-white border-t border-gray-200 mt-12">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+        <div class="text-center text-gray-500 text-sm">
+            Dashboard Q4 • C2S Digital Lock-in Strategy
+        </div>
+    </div>
+</footer>
 </body>
+</html>

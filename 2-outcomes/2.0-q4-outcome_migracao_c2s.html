@@ -4,493 +4,391 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Outcome: Ativação da Mega Rede C2S de Compartilhamento</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: #f5f6fa;
-            min-height: 100vh;
-            padding: 20px;
-        }
-
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            background: white;
-            border-radius: 20px;
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
-            overflow: hidden;
-        }
-
-        .header {
-            background: #2c3e50;
-            color: white;
-            padding: 40px 30px;
-            text-align: center;
-        }
-
-        .header h1 {
-            font-size: 2.2em;
-            margin-bottom: 10px;
-            font-weight: 700;
-        }
-
-        .header p {
-            font-size: 1.1em;
-            opacity: 0.9;
-        }
-
-        .outcome-card {
-            background: #27ae60;
-            margin: 30px;
-            padding: 30px;
-            border-radius: 20px;
-            color: white;
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
-        }
-
-        .outcome-title {
-            font-size: 1.8em;
-            font-weight: 700;
-            margin-bottom: 20px;
-            text-align: center;
-        }
-
-        .outcome-description {
-            font-size: 1.1em;
-            line-height: 1.6;
-            margin-bottom: 25px;
-            opacity: 0.95;
-        }
-
-        .metrics-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 20px;
-            margin: 30px;
-        }
-
-        .metric-card {
-            background: white;
-            padding: 25px;
-            border-radius: 15px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-            text-align: center;
-            border-left: 6px solid;
-        }
-
-        .metric-card.base {
-            border-left-color: #3498db;
-        }
-
-        .metric-card.meta {
-            border-left-color: #27ae60;
-        }
-
-        .metric-card.resultado {
-            border-left-color: #e74c3c;
-        }
-
-        .metric-card.inventario {
-            border-left-color: #f39c12;
-        }
-
-        .metric-number {
-            font-size: 2.5em;
-            font-weight: 700;
-            margin-bottom: 10px;
-            color: #2c3e50;
-        }
-
-        .metric-label {
-            color: #7f8c8d;
-            font-size: 1em;
-            line-height: 1.4;
-            font-weight: 500;
-        }
-
-        .validation-section {
-            background: #f8f9fa;
-            margin: 30px;
-            padding: 25px;
-            border-radius: 15px;
-            border-left: 6px solid #e74c3c;
-        }
-
-        .validation-title {
-            color: #2c3e50;
-            font-size: 1.4em;
-            margin-bottom: 20px;
-            font-weight: 600;
-        }
-
-        .validation-item {
-            background: white;
-            padding: 20px;
-            border-radius: 10px;
-            margin-bottom: 15px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
-        }
-
-        .validation-item h4 {
-            color: #2c3e50;
-            margin-bottom: 10px;
-            font-weight: 600;
-        }
-
-        .status-correct {
-            color: #27ae60;
-            font-weight: 600;
-        }
-
-        .status-critical {
-            color: #e74c3c;
-            font-weight: 600;
-        }
-
-        .status-warning {
-            color: #f39c12;
-            font-weight: 600;
-        }
-
-        .status-strategic {
-            color: #9b59b6;
-            font-weight: 600;
-        }
-
-        .calculation-section {
-            background: #ecf0f1;
-            margin: 30px;
-            padding: 25px;
-            border-radius: 15px;
-            border-left: 6px solid #9b59b6;
-        }
-
-        .calculation-title {
-            color: #2c3e50;
-            font-size: 1.4em;
-            margin-bottom: 20px;
-            font-weight: 600;
-        }
-
-        .calculation-item {
-            background: white;
-            padding: 15px;
-            border-radius: 8px;
-            margin-bottom: 12px;
-            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
-        }
-
-        .calculation-formula {
-            font-family: 'Courier New', monospace;
-            background: #f8f9fa;
-            padding: 10px;
-            border-radius: 5px;
-            margin: 8px 0;
-            border-left: 3px solid #3498db;
-        }
-
-        .highlight-number {
-            font-size: 1.3em;
-            font-weight: 700;
-            color: #e74c3c;
-            background: rgba(231, 76, 60, 0.1);
-            padding: 2px 6px;
-            border-radius: 4px;
-        }
-
-        .visual-indicator {
-            width: 100%;
-            height: 40px;
-            background: #ecf0f1;
-            border-radius: 20px;
-            margin: 20px 0;
-            overflow: hidden;
-            position: relative;
-        }
-
-        .progress-fill {
-            height: 100%;
-            background: #27ae60;
-            border-radius: 20px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-weight: 600;
-            font-size: 1.1em;
-        }
-
-        .strategic-section {
-            background: #e8f4f8;
-            margin: 30px;
-            padding: 25px;
-            border-radius: 15px;
-            border-left: 6px solid #3498db;
-        }
-
-        .strategic-title {
-            color: #2c3e50;
-            font-size: 1.4em;
-            margin-bottom: 20px;
-            font-weight: 600;
-        }
-
-        .strategic-item {
-            background: white;
-            padding: 15px;
-            border-radius: 8px;
-            margin-bottom: 12px;
-            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
-        }
-
-        .impact-section {
-            background: #27ae60;
-            margin: 30px;
-            padding: 25px;
-            border-radius: 15px;
-            color: white;
-        }
-
-        .impact-title {
-            font-size: 1.4em;
-            margin-bottom: 20px;
-            font-weight: 600;
-        }
-
-        .impact-item {
-            background: rgba(255, 255, 255, 0.1);
-            padding: 15px;
-            border-radius: 8px;
-            margin-bottom: 12px;
-            backdrop-filter: blur(10px);
-        }
-
-        .warning-box {
-            background: #fff3cd;
-            border: 1px solid #ffeaa7;
-            border-radius: 8px;
-            padding: 15px;
-            margin: 15px 0;
-            border-left: 4px solid #f39c12;
-        }
-
-        .warning-box h5 {
-            color: #856404;
-            margin-bottom: 8px;
-            font-weight: 600;
-        }
-
-        .warning-box p {
-            color: #856404;
-            margin: 0;
-            line-height: 1.4;
-        }
-
-        @media (max-width: 768px) {
-            .metrics-grid {
-                grid-template-columns: 1fr;
-            }
-            
-            .header h1 {
-                font-size: 1.8em;
-            }
-            
-            .metric-number {
-                font-size: 2em;
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    animation: {
+                        'fade-in': 'fadeIn 0.8s ease-in-out',
+                        'slide-up': 'slideUp 0.6s ease-out',
+                        'pulse-slow': 'pulse 3s infinite',
+                        'bounce-slow': 'bounce 2s infinite',
+                        'spin-slow': 'spin 4s linear infinite',
+                        'pulse-ring': 'pulseRing 2s infinite',
+                    },
+                    keyframes: {
+                        fadeIn: {
+                            '0%': { opacity: '0' },
+                            '100%': { opacity: '1' }
+                        },
+                        slideUp: {
+                            '0%': { transform: 'translateY(20px)', opacity: '0' },
+                            '100%': { transform: 'translateY(0)', opacity: '1' }
+                        },
+                        pulseRing: {
+                            '0%': { transform: 'scale(1)', opacity: '1' },
+                            '50%': { transform: 'scale(1.1)', opacity: '0.8' },
+                            '100%': { transform: 'scale(1)', opacity: '1' }
+                        }
+                    }
+                }
             }
         }
-    </style>
-<style>
-    .nav-buttons {
-        position: fixed;
-        bottom: 30px;
-        right: 30px;
-        display: flex;
-        gap: 15px;
-        z-index: 1000;
-    }
-
-    .nav-button {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        width: 60px;
-        height: 60px;
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-        color: white;
-        border-radius: 50%;
-        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
-        text-decoration: none;
-        font-size: 1.5em;
-        transition: transform 0.3s ease, box-shadow 0.3s ease;
-    }
-
-    .nav-button:hover {
-        transform: translateY(-5px);
-        box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
-    }
-
-    .home-button {
-        background: linear-gradient(135deg, #ff6b6b 0%, #ee5a24 100%);
-    }
-</style>
+    </script>
 </head>
-<body>
-<div class="nav-buttons">
-        <a href="../index.html" class="nav-button home-button" title="Página Inicial">🏠</a>
-        <a href="1.3-q3-outcome_migracao_c2s.html" class="nav-button" title="Página Anterior">←</a>
-        <a href="2.1-q4-outcome_migracao_c2s.html" class="nav-button" title="Próxima Página">→</a>
-    </div>
-    <div class="container">
-        <div class="header">
-            <h1>OUTCOME: ATIVAÇÃO DA MEGA REDE C2S DE COMPARTILHAMENTO</h1>
-            <p>Revolução no Modelo Imobiliário Brasileiro - Análise Validada</p>
-        </div>
-
-        <div class="outcome-card">
-            <div class="outcome-title">Ativação da Mega Rede C2S de Compartilhamento</div>
-            <div class="outcome-description">
-                Transformar 1.071 imobiliárias isoladas na maior rede colaborativa do Brasil. Imóveis que não vendem em uma imobiliária ficam disponíveis para toda a rede. Revolução no modelo de negócio imobiliário brasileiro.
-            </div>
-        </div>
-
-        <div class="metrics-grid">
-            <div class="metric-card base">
-                <div class="metric-number">1.071</div>
-                <div class="metric-label">Base Preparada<br/>Imobiliárias com Match Funcional</div>
-            </div>
-
-            <div class="metric-card meta">
-                <div class="metric-number">80%</div>
-                <div class="metric-label">Meta Q4<br/>Aderindo à Rede de Compartilhamento</div>
-            </div>
-
-            <div class="metric-card resultado">
-                <div class="metric-number">857</div>
-                <div class="metric-label">Resultado<br/>Imobiliárias na Mega Rede</div>
-            </div>
-
-            <div class="metric-card inventario">
-                <div class="metric-number">~19.000</div>
-                <div class="metric-label">Inventário Compartilhado<br/>Imóveis na Rede</div>
-            </div>
-        </div>
-
-        <div class="visual-indicator">
-            <div class="progress-fill" style="width: 80%;">
-                857 de 1.071 (80% de adesão à rede)
-            </div>
-        </div>
-
-        <div class="validation-section">
-            <div class="validation-title">VALIDAÇÃO CRÍTICA COM AJUSTES NECESSÁRIOS</div>
-            
-            <div class="validation-item">
-                <h4><span class="status-correct">VALIDADO:</span> Base de 1.071 Imobiliárias</h4>
-                <p>Base preparada de <strong>1.071 imobiliárias</strong> está perfeitamente alinhada com o ecossistema completo do outcome anterior.</p>
-            </div>
-
-            <div class="validation-item">
-                <h4><span class="status-correct">VALIDADO:</span> Meta de 80% de Adesão</h4>
-                <p>Meta de 80% é <strong>realista</strong> considerando que imobiliárias já estão no ecossistema completo e verão valor imediato na rede.</p>
-            </div>
-
-            <div class="validation-item">
-                <h4><span class="status-correct">VALIDADO:</span> 857 Imobiliárias na Rede</h4>
-                <p>Resultado de <strong>857 imobiliárias</strong> conectadas cria massa crítica suficiente para network effect significativo.</p>
-            </div>
-
-            <div class="validation-item">
-                <h4><span class="status-warning">AJUSTE:</span> Inventário Compartilhado</h4>
-                <p>Estimativa de ~19.000 imóveis parece <strong>conservadora</strong>. Com 857 imobiliárias ativas, inventário pode ser 25.000-35.000 imóveis.</p>
-            </div>
-        </div>
-
-        <div class="calculation-section">
-            <div class="calculation-title">CÁLCULOS DETALHADOS DO INVENTÁRIO</div>
-            
-            <div class="calculation-item">
-                <h4>Cenário Atual (Imagem)</h4>
-                <div class="calculation-formula">
-                    857 imobiliárias × ~22 imóveis = ~19.000 imóveis
+<body class="bg-gradient-to-br from-slate-50 to-teal-50 min-h-screen">
+    <!-- Navigation -->
+    <nav class="fixed top-0 left-0 right-0 bg-white/90 backdrop-blur-md shadow-sm z-50 border-b border-gray-200">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <div class="flex items-center space-x-4">
+                    <a href="../index.html" 
+                       class="flex items-center justify-center w-10 h-10 bg-teal-600 text-white rounded-lg hover:bg-teal-700 transition-colors duration-200 shadow-md hover:shadow-lg transform hover:scale-105">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path>
+                        </svg>
+                    </a>
+                    <span class="text-gray-600 font-medium">Mega Rede C2S</span>
                 </div>
-                <p>Média conservadora baseada na estimativa apresentada.</p>
-            </div>
-
-            <div class="calculation-item">
-                <h4>Cenário Realista (Baseado em Dados)</h4>
-                <div class="calculation-formula">
-                    857 imobiliárias × 30 imóveis = 25.710 imóveis
+                <div class="flex items-center space-x-2">
+                    <a href="1.3-q3-outcome_migracao_c2s.html" 
+                       class="flex items-center justify-center w-10 h-10 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-lg transition-colors duration-200 shadow-md hover:shadow-lg transform hover:scale-105">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
+                        </svg>
+                    </a>
+                    <a href="2.1-q4-outcome_migracao_c2s.html" 
+                       class="flex items-center justify-center w-10 h-10 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-lg transition-colors duration-200 shadow-md hover:shadow-lg transform hover:scale-105">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                        </svg>
+                    </a>
                 </div>
-                <p>Considerando que imobiliárias ativas na rede tendem a ter inventário maior.</p>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="pt-24 pb-12 px-4 sm:px-6 lg:px-8">
+        <div class="max-w-7xl mx-auto">
+            <!-- Header -->
+            <div class="text-center mb-12 animate-fade-in">
+                <h1 class="text-4xl md:text-5xl font-bold text-gray-900 mb-2">
+                    OUTCOME Q4: GERAL
+                </h1>
+                <h2 class="text-3xl md:text-4xl font-bold bg-gradient-to-r from-teal-600 to-green-600 bg-clip-text text-transparent mb-4">
+                    ATIVAÇÃO DA MEGA REDE C2S DE COMPARTILHAMENTO
+                </h2>
+                <div class="mt-6 w-24 h-1 bg-gradient-to-r from-teal-500 to-green-500 mx-auto rounded-full"></div>
             </div>
 
-            <div class="calculation-item">
-                <h4>Cenário Otimista (Crescimento Natural)</h4>
-                <div class="calculation-formula">
-                    857 imobiliárias × 40 imóveis = 34.280 imóveis
+            <!-- Outcome Card -->
+            <div class="bg-gradient-to-r from-teal-500 to-green-500 rounded-2xl shadow-xl p-8 mb-12 text-white animate-slide-up relative overflow-hidden">
+                <div class="absolute top-0 right-0 w-32 h-32 bg-white/10 rounded-full -translate-y-16 translate-x-16"></div>
+                <div class="absolute bottom-0 left-0 w-24 h-24 bg-white/10 rounded-full translate-y-12 -translate-x-12"></div>
+                <div class="flex items-start space-x-4 relative z-10">
+                    <div class="flex-shrink-0">
+                        <div class="w-12 h-12 bg-white/20 rounded-full flex items-center justify-center animate-pulse-ring">
+                            <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"></path>
+                            </svg>
+                        </div>
+                    </div>
+                    <div class="flex-1">
+                        <h3 class="text-2xl font-bold mb-3">
+                            Ativação da Mega Rede C2S de Compartilhamento
+                        </h3>
+                        <p class="text-teal-100 text-lg leading-relaxed">
+                            Transformar 1.071 imobiliárias isoladas na maior rede colaborativa do Brasil. Imóveis que não vendem em uma imobiliária ficam disponíveis para toda a rede. Revolução no modelo de negócio imobiliário brasileiro.
+                        </p>
+                    </div>
                 </div>
-                <p>Rede incentiva cadastro de mais imóveis para maior visibilidade.</p>
+            </div>
+
+            <!-- Metrics Grid -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
+                <!-- Base Preparada -->
+                <div class="bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 p-8 border border-slate-100 transform hover:scale-105 animate-slide-up">
+                    <div class="text-center">
+                        <div class="w-16 h-16 bg-gradient-to-br from-slate-500 to-slate-700 rounded-full flex items-center justify-center mx-auto mb-4 shadow-lg">
+                            <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-4m-5 0H9m0 0H5m0 0h2m4 0v-3a2 2 0 00-2-2H9a2 2 0 00-2 2v3m8 0V9a2 2 0 00-2-2h-2a2 2 0 00-2 2v8"></path>
+                            </svg>
+                        </div>
+                        <div class="text-4xl font-bold text-slate-700 mb-2">1.071</div>
+                        <div class="text-gray-600 font-medium">Base Preparada</div>
+                        <div class="text-sm text-slate-600">Imobiliárias com Match Funcional</div>
+                    </div>
+                </div>
+
+                <!-- Meta Q4 -->
+                <div class="bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 p-8 border border-teal-100 transform hover:scale-105 animate-slide-up" style="animation-delay: 0.1s">
+                    <div class="text-center">
+                        <div class="w-16 h-16 bg-gradient-to-br from-teal-500 to-teal-700 rounded-full flex items-center justify-center mx-auto mb-4 shadow-lg">
+                            <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                            </svg>
+                        </div>
+                        <div class="text-4xl font-bold text-teal-700 mb-2">80%</div>
+                        <div class="text-gray-600 font-medium">Meta Q4</div>
+                        <div class="text-sm text-teal-600">Aderindo à Rede de Compartilhamento</div>
+                    </div>
+                </div>
+
+                <!-- Resultado -->
+                <div class="bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 p-8 border border-green-100 transform hover:scale-105 animate-slide-up" style="animation-delay: 0.2s">
+                    <div class="text-center">
+                        <div class="w-16 h-16 bg-gradient-to-br from-green-500 to-green-700 rounded-full flex items-center justify-center mx-auto mb-4 shadow-lg">
+                            <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"></path>
+                            </svg>
+                        </div>
+                        <div class="text-4xl font-bold text-green-700 mb-2">857</div>
+                        <div class="text-gray-600 font-medium">Resultado</div>
+                        <div class="text-sm text-green-600">Imobiliárias na Mega Rede</div>
+                    </div>
+                </div>
+
+                <!-- Inventário -->
+                <div class="bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 p-8 border border-cyan-100 transform hover:scale-105 animate-slide-up" style="animation-delay: 0.3s">
+                    <div class="text-center">
+                        <div class="w-16 h-16 bg-gradient-to-br from-cyan-500 to-cyan-700 rounded-full flex items-center justify-center mx-auto mb-4 shadow-lg">
+                            <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 7v10c0 2.21 3.582 4 8 4s8-1.79 8-4V7M4 7c0 2.21 3.582 4 8 4s8-1.79 8-4M4 7c0-2.21 3.582-4 8-4s8 1.79 8 4"></path>
+                            </svg>
+                        </div>
+                        <div class="text-4xl font-bold text-cyan-700 mb-2">~19.000</div>
+                        <div class="text-gray-600 font-medium">Inventário Compartilhado</div>
+                        <div class="text-sm text-cyan-600">Imóveis na Rede</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Progress Visualization -->
+            <div class="bg-white rounded-2xl shadow-lg p-8 mb-12 border border-gray-100 animate-slide-up" style="animation-delay: 0.4s">
+                <h3 class="text-xl font-bold text-gray-900 mb-6 text-center">Adesão à Mega Rede</h3>
+                <div class="bg-gray-200 rounded-full h-6 overflow-hidden">
+                    <div class="h-full bg-gradient-to-r from-teal-500 to-green-500 rounded-full flex items-center justify-center text-white font-semibold text-sm animate-pulse-slow" style="width: 80%;">
+                        857 de 1.071 (80% de adesão à rede)
+                    </div>
+                </div>
+                <div class="flex justify-between text-sm text-gray-600 mt-2">
+                    <span>0</span>
+                    <span class="font-semibold">Meta: 80%</span>
+                    <span>1.071</span>
+                </div>
+            </div>
+
+            <!-- Insight Box -->
+            <div class="bg-gradient-to-r from-amber-50 to-yellow-50 border-l-4 border-amber-400 p-6 mb-12 rounded-lg animate-slide-up" style="animation-delay: 0.5s">
+                <div class="flex items-center">
+                    <div class="flex-shrink-0">
+                        <svg class="w-8 h-8 text-amber-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"></path>
+                        </svg>
+                    </div>
+                    <div class="ml-3">
+                        <h3 class="text-lg font-semibold text-amber-800">💡 INSIGHT ESTRATÉGICO</h3>
+                        <p class="text-amber-700 mt-1">A rede de compartilhamento pode aumentar naturalmente o inventário médio por imobiliária de 20 para 30-40 imóveis, já que maior exposição = maior incentivo para cadastrar mais propriedades.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Validation Section -->
+            <div class="bg-white rounded-2xl shadow-lg p-8 mb-12 border border-gray-100 animate-slide-up" style="animation-delay: 0.6s">
+                <div class="flex items-center space-x-3 mb-6">
+                    <div class="w-10 h-10 bg-gradient-to-br from-teal-500 to-green-500 rounded-full flex items-center justify-center">
+                        <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                        </svg>
+                    </div>
+                    <h3 class="text-2xl font-bold text-gray-900">VALIDAÇÃO CRÍTICA COM AJUSTES NECESSÁRIOS</h3>
+                </div>
+
+                <div class="space-y-6">
+                    <!-- Validated Base -->
+                    <div class="flex items-start space-x-4 p-4 bg-green-50 rounded-lg border-l-4 border-green-500">
+                        <div class="flex-shrink-0">
+                            <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-green-100 text-green-800">
+                                VALIDADO
+                            </span>
+                        </div>
+                        <div class="flex-1">
+                            <h4 class="font-semibold text-gray-900 mb-1">Base de 1.071 Imobiliárias</h4>
+                            <p class="text-gray-700">Base preparada de <strong>1.071 imobiliárias</strong> está perfeitamente alinhada com o ecossistema completo do outcome anterior.</p>
+                        </div>
+                    </div>
+
+                    <!-- Validated Goal -->
+                    <div class="flex items-start space-x-4 p-4 bg-green-50 rounded-lg border-l-4 border-green-500">
+                        <div class="flex-shrink-0">
+                            <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-green-100 text-green-800">
+                                VALIDADO
+                            </span>
+                        </div>
+                        <div class="flex-1">
+                            <h4 class="font-semibold text-gray-900 mb-1">Meta de 80% de Adesão</h4>
+                            <p class="text-gray-700">Meta de 80% é <strong>realista</strong> considerando que imobiliárias já estão no ecossistema completo e verão valor imediato na rede.</p>
+                        </div>
+                    </div>
+
+                    <!-- Validated Result -->
+                    <div class="flex items-start space-x-4 p-4 bg-green-50 rounded-lg border-l-4 border-green-500">
+                        <div class="flex-shrink-0">
+                            <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-green-100 text-green-800">
+                                VALIDADO
+                            </span>
+                        </div>
+                        <div class="flex-1">
+                            <h4 class="font-semibold text-gray-900 mb-1">857 Imobiliárias na Rede</h4>
+                            <p class="text-gray-700">Resultado de <strong>857 imobiliárias</strong> conectadas cria massa crítica suficiente para network effect significativo.</p>
+                        </div>
+                    </div>
+
+                    <!-- Adjustment Needed -->
+                    <div class="flex items-start space-x-4 p-4 bg-amber-50 rounded-lg border-l-4 border-amber-500">
+                        <div class="flex-shrink-0">
+                            <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-amber-100 text-amber-800">
+                                AJUSTE
+                            </span>
+                        </div>
+                        <div class="flex-1">
+                            <h4 class="font-semibold text-gray-900 mb-1">Inventário Compartilhado</h4>
+                            <p class="text-gray-700">Estimativa de ~19.000 imóveis parece <strong>conservadora</strong>. Com 857 imobiliárias ativas, inventário pode ser 25.000-35.000 imóveis.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Calculations Section -->
+            <div class="bg-white rounded-2xl shadow-lg p-8 mb-12 border border-gray-100 animate-slide-up" style="animation-delay: 0.7s">
+                <div class="flex items-center space-x-3 mb-6">
+                    <div class="w-10 h-10 bg-gradient-to-br from-blue-500 to-purple-500 rounded-full flex items-center justify-center">
+                        <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z"></path>
+                        </svg>
+                    </div>
+                    <h3 class="text-2xl font-bold text-gray-900">CÁLCULOS DETALHADOS DO INVENTÁRIO</h3>
+                </div>
+
+                <div class="space-y-6">
+                    <!-- Current Scenario -->
+                    <div class="p-4 bg-gray-50 rounded-lg border border-gray-200">
+                        <h4 class="font-semibold text-gray-900 mb-2">Cenário Atual (Imagem)</h4>
+                        <div class="bg-white p-3 rounded border-l-4 border-gray-400 font-mono text-sm mb-2">
+                            857 imobiliárias × ~22 imóveis = ~19.000 imóveis
+                        </div>
+                        <p class="text-gray-600 text-sm">Média conservadora baseada na estimativa apresentada.</p>
+                    </div>
+
+                    <!-- Realistic Scenario -->
+                    <div class="p-4 bg-blue-50 rounded-lg border border-blue-200">
+                        <h4 class="font-semibold text-blue-900 mb-2">Cenário Realista (Baseado em Dados)</h4>
+                        <div class="bg-white p-3 rounded border-l-4 border-blue-400 font-mono text-sm mb-2">
+                            857 imobiliárias × 30 imóveis = 25.710 imóveis
+                        </div>
+                        <p class="text-blue-700 text-sm">Considerando que imobiliárias ativas na rede tendem a ter inventário maior.</p>
+                    </div>
+
+                    <!-- Optimistic Scenario -->
+                    <div class="p-4 bg-green-50 rounded-lg border border-green-200">
+                        <h4 class="font-semibold text-green-900 mb-2">Cenário Otimista (Crescimento Natural)</h4>
+                        <div class="bg-white p-3 rounded border-l-4 border-green-400 font-mono text-sm mb-2">
+                            857 imobiliárias × 40 imóveis = 34.280 imóveis
+                        </div>
+                        <p class="text-green-700 text-sm">Rede incentiva cadastro de mais imóveis para maior visibilidade.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Anti-Churn Section -->
+            <div class="bg-white rounded-2xl shadow-lg p-8 mb-12 border border-gray-100 animate-slide-up" style="animation-delay: 0.8s">
+                <div class="flex items-center space-x-3 mb-6">
+                    <div class="w-10 h-10 bg-gradient-to-br from-red-500 to-orange-500 rounded-full flex items-center justify-center">
+                        <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.732-.833-2.464 0L4.35 16.5c-.77.833.192 2.5 1.732 2.5z"></path>
+                        </svg>
+                    </div>
+                    <h3 class="text-2xl font-bold text-gray-900">IMPACTO ANTI-CHURN REVOLUCIONÁRIO</h3>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="p-4 bg-gradient-to-br from-teal-50 to-cyan-50 rounded-lg border border-teal-100">
+                        <h4 class="font-bold text-teal-700 mb-2">Stickiness Máximo</h4>
+                        <p class="text-gray-700">Imobiliária conectada à rede de <span class="font-bold text-teal-600">857 parceiros</span> não pode sair sem perder acesso a milhares de imóveis.</p>
+                    </div>
+
+                    <div class="p-4 bg-gradient-to-br from-green-50 to-emerald-50 rounded-lg border border-green-100">
+                        <h4 class="font-bold text-green-700 mb-2">Revenue Sharing</h4>
+                        <p class="text-gray-700">Modelo colaborativo gera <span class="font-bold text-green-600">receita adicional</span> através de comissões compartilhadas entre rede.</p>
+                    </div>
+
+                    <div class="p-4 bg-gradient-to-br from-red-50 to-pink-50 rounded-lg border border-red-100">
+                        <h4 class="font-bold text-red-700 mb-2">Barrier to Exit</h4>
+                        <p class="text-gray-700">Sair do C2S = perder acesso à <span class="font-bold text-red-600">maior rede imobiliária</span> do Brasil com 25.000+ imóveis.</p>
+                    </div>
+
+                    <div class="p-4 bg-gradient-to-br from-purple-50 to-indigo-50 rounded-lg border border-purple-100">
+                        <h4 class="font-bold text-purple-700 mb-2">Network Effect</h4>
+                        <p class="text-gray-700">Cada nova imobiliária aumenta valor para todas as outras - <span class="font-bold text-purple-600">efeito viral</span> de crescimento.</p>
+                    </div>
+
+                    <div class="p-4 bg-gradient-to-br from-orange-50 to-red-50 rounded-lg border border-orange-100 md:col-span-2">
+                        <h4 class="font-bold text-orange-700 mb-2">Competitive Moat</h4>
+                        <p class="text-gray-700">Concorrentes precisariam recriar rede inteira - <span class="font-bold text-orange-600">barreira intransponível</span> após ativação.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Revolution Section -->
+            <div class="bg-white rounded-2xl shadow-lg p-8 border border-gray-100 animate-slide-up" style="animation-delay: 0.9s">
+                <div class="flex items-center space-x-3 mb-6">
+                    <div class="w-10 h-10 bg-gradient-to-br from-purple-500 to-pink-500 rounded-full flex items-center justify-center">
+                        <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+                        </svg>
+                    </div>
+                    <h3 class="text-2xl font-bold text-gray-900">REVOLUÇÃO NO MERCADO IMOBILIÁRIO</h3>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <div class="p-4 bg-gradient-to-br from-blue-50 to-indigo-50 rounded-lg border border-blue-100">
+                        <h4 class="font-bold text-blue-700 mb-2">Primeira Rede Nacional</h4>
+                        <p class="text-gray-700"><span class="font-bold text-blue-600">857 imobiliárias</span> conectadas criará a primeira rede colaborativa nacional do Brasil.</p>
+                    </div>
+
+                    <div class="p-4 bg-gradient-to-br from-cyan-50 to-teal-50 rounded-lg border border-cyan-100">
+                        <h4 class="font-bold text-cyan-700 mb-2">Liquidity Pool</h4>
+                        <p class="text-gray-700"><span class="font-bold text-cyan-600">25.000+ imóveis</span> em pool compartilhado aumenta chance de venda para todas as imobiliárias.</p>
+                    </div>
+
+                    <div class="p-4 bg-gradient-to-br from-green-50 to-emerald-50 rounded-lg border border-green-100">
+                        <h4 class="font-bold text-green-700 mb-2">Eliminação do Churn</h4>
+                        <p class="text-gray-700">Rede ativa pode reduzir churn para <span class="font-bold text-green-600">menos de 5%</span> - quem sai perde tudo.</p>
+                    </div>
+
+                    <div class="p-4 bg-gradient-to-br from-purple-50 to-indigo-50 rounded-lg border border-purple-100">
+                        <h4 class="font-bold text-purple-700 mb-2">Modelo de Negócio Novo</h4>
+                        <p class="text-gray-700">Transforma C2S de <span class="font-bold text-purple-600">ferramenta em infraestrutura</span> essencial do mercado imobiliário.</p>
+                    </div>
+
+                    <div class="p-4 bg-gradient-to-br from-orange-50 to-red-50 rounded-lg border border-orange-100 md:col-span-2">
+                        <h4 class="font-bold text-orange-700 mb-2">Exponential Growth</h4>
+                        <p class="text-gray-700">Rede ativa atrai <span class="font-bold text-orange-600">novas imobiliárias organicamente</span> - crescimento auto-sustentável.</p>
+                    </div>
+                </div>
             </div>
         </div>
+    </main>
 
-        <div class="warning-box">
-            <h5>💡 INSIGHT ESTRATÉGICO</h5>
-            <p>A rede de compartilhamento pode aumentar naturalmente o inventário médio por imobiliária de 20 para 30-40 imóveis, já que maior exposição = maior incentivo para cadastrar mais propriedades.</p>
-        </div>
-
-        <div class="strategic-section">
-            <div class="strategic-title">IMPACTO ANTI-CHURN REVOLUCIONÁRIO</div>
-            
-            <div class="strategic-item">
-                <strong>Stickiness Máximo:</strong> Imobiliária conectada à rede de <span class="highlight-number">857 parceiros</span> não pode sair sem perder acesso a milhares de imóveis.
-            </div>
-
-            <div class="strategic-item">
-                <strong>Revenue Sharing:</strong> Modelo colaborativo gera <span class="highlight-number">receita adicional</span> através de comissões compartilhadas entre rede.
-            </div>
-
-            <div class="strategic-item">
-                <strong>Barrier to Exit:</strong> Sair do C2S = perder acesso à <span class="highlight-number">maior rede imobiliária</span> do Brasil com 25.000+ imóveis.
-            </div>
-
-            <div class="strategic-item">
-                <strong>Network Effect:</strong> Cada nova imobiliária aumenta valor para todas as outras - <span class="highlight-number">efeito viral</span> de crescimento.
-            </div>
-
-            <div class="strategic-item">
-                <strong>Competitive Moat:</strong> Concorrentes precisariam recriar rede inteira - <span class="highlight-number">barreira intransponível</span> após ativação.
+    <!-- Footer -->
+    <footer class="bg-white border-t border-gray-200 mt-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+            <div class="text-center text-gray-500 text-sm">
+                Dashboard Q4 Outcome • Ativação da Mega Rede C2S de Compartilhamento
             </div>
         </div>
-
-        <div class="impact-section">
-            <div class="impact-title">REVOLUÇÃO NO MERCADO IMOBILIÁRIO</div>
-            
-            <div class="impact-item">
-                <strong>Primeira Rede Nacional:</strong> <span class="highlight-number">857 imobiliárias</span> conectadas criará a primeira rede colaborativa nacional do Brasil.
-            </div>
-
-            <div class="impact-item">
-                <strong>Liquidity Pool:</strong> <span class="highlight-number">25.000+ imóveis</span> em pool compartilhado aumenta chance de venda para todas as imobiliárias.
-            </div>
-
-            <div class="impact-item">
-                <strong>Eliminação do Churn:</strong> Rede ativa pode reduzir churn para <span class="highlight-number">menos de 5%</span> - quem sai perde tudo.
-            </div>
-
-            <div class="impact-item">
-                <strong>Modelo de Negócio Novo:</strong> Transforma C2S de <span class="highlight-number">ferramenta em infraestrutura</span> essencial do mercado imobiliário.
-            </div>
-
-            <div class="impact-item">
-                <strong>Exponential Growth:</strong> Rede ativa atrai <span class="highlight-number">novas imobiliárias organicamente</span> - crescimento auto-sustentável.
-            </div>
-        </div>
-    </div>
+    </footer>
 </body>
+</html>

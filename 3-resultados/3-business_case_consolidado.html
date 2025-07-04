@@ -1,712 +1,386 @@
+
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Business Case Consolidado - Estratégia Anti-Churn C2S</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    animation: {
+                        'fade-in': 'fadeIn 0.8s ease-in-out',
+                        'slide-up': 'slideUp 0.6s ease-out',
+                        'pulse-slow': 'pulse 3s infinite',
+                        'bounce-slow': 'bounce 2s infinite',
+                        'pulse-badge': 'pulseBadge 2s ease-in-out infinite',
+                        'scale-pulse': 'scalePulse 2s infinite',
+                        'float': 'float 3s ease-in-out infinite',
+                        'glow': 'glow 2s ease-in-out infinite alternate',
+                    },
+                    keyframes: {
+                        fadeIn: {
+                            '0%': { opacity: '0' },
+                            '100%': { opacity: '1' }
+                        },
+                        slideUp: {
+                            '0%': { transform: 'translateY(20px)', opacity: '0' },
+                            '100%': { transform: 'translateY(0)', opacity: '1' }
+                        },
+                        pulseBadge: {
+                            '0%, 100%': { transform: 'scale(1)' },
+                            '50%': { transform: 'scale(1.05)' }
+                        },
+                        scalePulse: {
+                            '0%': { transform: 'scale(1)' },
+                            '50%': { transform: 'scale(1.05)' },
+                            '100%': { transform: 'scale(1)' }
+                        },
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0px)' },
+                            '50%': { transform: 'translateY(-10px)' }
+                        },
+                        glow: {
+                            '0%': { box-shadow: '0 0 20px rgba(34, 197, 94, 0.3)' },
+        '100%': { box-shadow: '0 0 30px rgba(34, 197, 94, 0.6)' }
         }
-
-        body {
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            min-height: 100vh;
-            color: #333;
-            overflow-x: hidden;
         }
-
-        .container {
-            max-width: 1400px;
-            margin: 0 auto;
-            padding: 20px;
         }
-
-        .hero-section {
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(20px);
-            border-radius: 30px;
-            padding: 60px;
-            text-align: center;
-            margin-bottom: 40px;
-            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.1);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            position: relative;
-            overflow: hidden;
         }
-
-        .hero-section::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            right: 0;
-            width: 200px;
-            height: 200px;
-            background: linear-gradient(135deg, transparent 0%, rgba(102, 126, 234, 0.1) 100%);
-            border-radius: 0 30px 0 200px;
         }
-
-        .hero-title {
-            font-size: 3.5em;
-            font-weight: 800;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            margin-bottom: 20px;
-            line-height: 1.1;
-            position: relative;
-            z-index: 1;
-        }
-
-        .hero-subtitle {
-            font-size: 1.4em;
-            color: #666;
-            font-weight: 500;
-            max-width: 900px;
-            margin: 0 auto 30px;
-            line-height: 1.6;
-            position: relative;
-            z-index: 1;
-        }
-
-        .strategy-badge {
-            display: inline-block;
-            background: linear-gradient(135deg, #ff6b6b 0%, #ee5a24 100%);
-            color: white;
-            padding: 15px 30px;
-            border-radius: 50px;
-            font-weight: 700;
-            font-size: 1.1em;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            box-shadow: 0 10px 30px rgba(255, 107, 107, 0.3);
-            position: relative;
-            z-index: 1;
-            animation: pulse-badge 2s ease-in-out infinite;
-        }
-
-        @keyframes pulse-badge {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.05); }
-        }
-
-        .main-metrics {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 30px;
-            margin-bottom: 50px;
-        }
-
-        .metric-card {
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(20px);
-            border-radius: 25px;
-            padding: 40px;
-            text-align: center;
-            border-left: 8px solid;
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
-            transition: all 0.3s ease;
-            position: relative;
-            overflow: hidden;
-            cursor: pointer;
-        }
-
-        .metric-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            right: 0;
-            width: 100px;
-            height: 100px;
-            background: linear-gradient(135deg, transparent 0%, rgba(255, 255, 255, 0.2) 100%);
-            border-radius: 0 25px 0 100px;
-        }
-
-        .metric-card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.15);
-        }
-
-        .metric-card.receita { border-left-color: #3498db; }
-        .metric-card.roi { border-left-color: #27ae60; }
-        .metric-card.churn { border-left-color: #e74c3c; }
-        .metric-card.rede { border-left-color: #8b5cf6; }
-        .metric-card.arpu { border-left-color: #f59e0b; }
-        .metric-card.ativa { border-left-color: #10b981; }
-
-        .metric-number {
-            font-size: 3.5em;
-            font-weight: 900;
-            margin-bottom: 15px;
-            position: relative;
-            z-index: 1;
-        }
-
-        .metric-card.receita .metric-number { color: #3498db; }
-        .metric-card.roi .metric-number { color: #27ae60; }
-        .metric-card.churn .metric-number { color: #e74c3c; }
-        .metric-card.rede .metric-number { color: #8b5cf6; }
-        .metric-card.arpu .metric-number { color: #f59e0b; }
-        .metric-card.ativa .metric-number { color: #10b981; }
-
-        .metric-label {
-            font-size: 1.1rem;
-            color: #64748b;
-            line-height: 1.4;
-            font-weight: 600;
-            position: relative;
-            z-index: 1;
-        }
-
-        .analysis-section {
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(20px);
-            border-radius: 30px;
-            padding: 50px;
-            margin-bottom: 40px;
-            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.1);
-        }
-
-        .section-title {
-            font-size: 2.5em;
-            font-weight: 800;
-            text-align: center;
-            margin-bottom: 20px;
-            color: #2c3e50;
-            background: linear-gradient(135deg, #2c3e50 0%, #3498db 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-
-        .churn-breakdown {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-            gap: 30px;
-            margin-bottom: 40px;
-        }
-
-        .churn-card {
-            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
-            border-radius: 25px;
-            padding: 40px;
-            border-left: 8px solid;
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.08);
-            transition: all 0.3s ease;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .churn-card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.12);
-        }
-
-        .churn-card.financeiro { border-left-color: #e74c3c; }
-        .churn-card.concorrencia { border-left-color: #f39c12; }
-        .churn-card.produto { border-left-color: #3498db; }
-        .churn-card.engajamento { border-left-color: #9b59b6; }
-
-        .churn-percentage {
-            font-size: 4em;
-            font-weight: 900;
-            margin-bottom: 15px;
-            opacity: 0.9;
-        }
-
-        .churn-card.financeiro .churn-percentage { color: #e74c3c; }
-        .churn-card.concorrencia .churn-percentage { color: #f39c12; }
-        .churn-card.produto .churn-percentage { color: #3498db; }
-        .churn-card.engajamento .churn-percentage { color: #9b59b6; }
-
-        .churn-title {
-            font-size: 1.6em;
-            font-weight: 700;
-            margin-bottom: 15px;
-            color: #2c3e50;
-        }
-
-        .churn-description {
-            color: #666;
-            line-height: 1.6;
-            font-size: 1.1em;
-            margin-bottom: 20px;
-        }
-
-        .churn-solutions {
-            background: rgba(255, 255, 255, 0.7);
-            padding: 20px;
-            border-radius: 15px;
-            margin-top: 20px;
-        }
-
-        .solution-title {
-            font-weight: 700;
-            color: #2c3e50;
-            margin-bottom: 10px;
-        }
-
-        .solution-list {
-            color: #666;
-            font-size: 0.95em;
-            line-height: 1.5;
-        }
-
-        .roi-section {
-            background: linear-gradient(135deg, #1e293b 0%, #334155 100%);
-            color: white;
-            border-radius: 30px;
-            padding: 60px 40px;
-            margin-bottom: 40px;
-            box-shadow: 0 25px 50px rgba(30, 41, 59, 0.3);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .roi-section::before {
-            content: '';
-            position: absolute;
-            top: -50%;
-            right: -50%;
-            width: 200%;
-            height: 200%;
-            background: conic-gradient(from 0deg, transparent, rgba(59, 130, 246, 0.1), transparent);
-            animation: rotate 15s linear infinite;
-        }
-
-        @keyframes rotate {
-            from { transform: rotate(0deg); }
-            to { transform: rotate(360deg); }
-        }
-
-        .roi-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 25px;
-            margin-top: 40px;
-            position: relative;
-            z-index: 1;
-        }
-
-        .roi-item {
-            background: rgba(255, 255, 255, 0.1);
-            padding: 30px;
-            border-radius: 20px;
-            border-left: 6px solid;
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            transition: all 0.3s ease;
-        }
-
-        .roi-item:hover {
-            transform: translateY(-5px);
-            background: rgba(255, 255, 255, 0.15);
-        }
-
-        .roi-item.receita { border-left-color: #3498db; }
-        .roi-item.investimento { border-left-color: #e74c3c; }
-        .roi-item.payback { border-left-color: #27ae60; }
-        .roi-item.multiplicador { border-left-color: #f39c12; }
-
-        .roi-label {
-            font-size: 1.3em;
-            font-weight: 700;
-            margin-bottom: 15px;
-            color: #e2e8f0;
-        }
-
-        .roi-value {
-            font-size: 2.2em;
-            font-weight: 900;
-            margin-bottom: 10px;
-        }
-
-        .roi-item.receita .roi-value { color: #3498db; }
-        .roi-item.investimento .roi-value { color: #e74c3c; }
-        .roi-item.payback .roi-value { color: #27ae60; }
-        .roi-item.multiplicador .roi-value { color: #f39c12; }
-
-        .roi-description {
-            color: #cbd5e1;
-            line-height: 1.5;
-            font-size: 1.05em;
-        }
-
-        .roadmap-section {
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(20px);
-            border-radius: 30px;
-            padding: 50px;
-            margin-bottom: 40px;
-            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.1);
-        }
-
-        .roadmap-steps {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
-            gap: 30px;
-            margin-top: 40px;
-        }
-
-        .roadmap-step {
-            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
-            border-radius: 25px;
-            padding: 40px;
-            border-left: 8px solid;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .roadmap-step.prioridade1 { border-left-color: #e74c3c; }
-        .roadmap-step.prioridade2 { border-left-color: #f39c12; }
-        .roadmap-step.prioridade3 { border-left-color: #27ae60; }
-
-        .step-number {
-            position: absolute;
-            top: -15px;
-            left: 20px;
-            background: #ff6b6b;
-            color: white;
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: 900;
-            font-size: 1.3em;
-            box-shadow: 0 5px 15px rgba(255, 107, 107, 0.4);
-        }
-
-        .step-title {
-            font-size: 1.6em;
-            font-weight: 700;
-            margin: 20px 0 15px;
-            color: #2c3e50;
-        }
-
-        .step-description {
-            color: #666;
-            line-height: 1.6;
-            margin-bottom: 20px;
-        }
-
-        .step-metrics {
-            background: rgba(255, 255, 255, 0.7);
-            padding: 20px;
-            border-radius: 15px;
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
-            gap: 15px;
-        }
-
-        .step-metric {
-            text-align: center;
-        }
-
-        .metric-value {
-            font-size: 1.5em;
-            font-weight: 800;
-            margin-bottom: 5px;
-        }
-
-        .roadmap-step.prioridade1 .metric-value { color: #e74c3c; }
-        .roadmap-step.prioridade2 .metric-value { color: #f39c12; }
-        .roadmap-step.prioridade3 .metric-value { color: #27ae60; }
-
-        .metric-label-small {
-            font-size: 0.9em;
-            color: #666;
-            font-weight: 500;
-        }
-
-        .final-cta {
-            background: linear-gradient(135deg, #ff6b6b 0%, #ee5a24 100%);
-            color: white;
-            border-radius: 30px;
-            padding: 60px;
-            text-align: center;
-            box-shadow: 0 25px 50px rgba(255, 107, 107, 0.3);
-        }
-
-        .cta-title {
-            font-size: 2.8em;
-            font-weight: 800;
-            margin-bottom: 20px;
-        }
-
-        .cta-subtitle {
-            font-size: 1.3em;
-            opacity: 0.9;
-            margin-bottom: 40px;
-            max-width: 800px;
-            margin-left: auto;
-            margin-right: auto;
-            line-height: 1.6;
-        }
-
-        .highlight {
-            background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%);
-            padding: 4px 8px;
-            border-radius: 6px;
-            font-weight: 800;
-            color: #1e293b;
-            text-shadow: none;
-        }
-
-        @media (max-width: 768px) {
-            .hero-title {
-                font-size: 2.5em;
-            }
-            
-            .main-metrics, .churn-breakdown, .roi-grid, .roadmap-steps {
-                grid-template-columns: 1fr;
-            }
-            
-            .section-title {
-                font-size: 2em;
-            }
-
-            .cta-title {
-                font-size: 2.2em;
-            }
-        }
-    </style>
-<style>
-    .nav-buttons {
-        position: fixed;
-        bottom: 30px;
-        right: 30px;
-        display: flex;
-        gap: 15px;
-        z-index: 1000;
-    }
-
-    .nav-button {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        width: 60px;
-        height: 60px;
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-        color: white;
-        border-radius: 50%;
-        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
-        text-decoration: none;
-        font-size: 1.5em;
-        transition: transform 0.3s ease, box-shadow 0.3s ease;
-    }
-
-    .nav-button:hover {
-        transform: translateY(-5px);
-        box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
-    }
-
-    .home-button {
-        background: linear-gradient(135deg, #ff6b6b 0%, #ee5a24 100%);
-    }
-</style>
+    </script>
 </head>
-<body>
-<div class="nav-buttons">
-        <a href="../index.html" class="nav-button home-button" title="Página Inicial">🏠</a>
-        <a href="2-q4-outcome_migracao_c2s.html" class="nav-button" title="Página Anterior">←</a>
-        <a href="4-impacto_revolucionario.html" class="nav-button" title="Próxima Página">→</a>
+<body class="bg-gradient-to-br from-slate-50 to-emerald-50 min-h-screen">
+<!-- Navigation -->
+<nav class="fixed top-0 left-0 right-0 bg-white/90 backdrop-blur-md shadow-sm z-50 border-b border-gray-200">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex justify-between items-center h-16">
+            <div class="flex items-center space-x-4">
+                <a href="../index.html"
+                   class="flex items-center justify-center w-10 h-10 bg-emerald-600 text-white rounded-lg hover:bg-emerald-700 transition-colors duration-200 shadow-md hover:shadow-lg transform hover:scale-105">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path>
+                    </svg>
+                </a>
+                <span class="text-gray-600 font-medium">Business Case Consolidado</span>
+            </div>
+            <div class="flex items-center space-x-2">
+                <a href="2-q4-outcome_migracao_c2s.html"
+                   class="flex items-center justify-center w-10 h-10 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-lg transition-colors duration-200 shadow-md hover:shadow-lg transform hover:scale-105">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
+                    </svg>
+                </a>
+                <a href="4-impacto_revolucionario.html"
+                   class="flex items-center justify-center w-10 h-10 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-lg transition-colors duration-200 shadow-md hover:shadow-lg transform hover:scale-105">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                    </svg>
+                </a>
+            </div>
+        </div>
     </div>
-    <div class="container">
-        <div class="hero-section">
-            <h1 class="hero-title">BUSINESS CASE CONSOLIDADO</h1>
-            <p class="hero-subtitle">
-                Estratégia Anti-Churn baseada em dados reais: <strong>1.856 casos analisados</strong> revelam oportunidades 
+</nav>
+
+<!-- Main Content -->
+<main class="pt-24 pb-12 px-4 sm:px-6 lg:px-8">
+    <div class="max-w-7xl mx-auto">
+        <!-- Header -->
+        <div class="text-center mb-12 animate-fade-in">
+            <h1 class="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
+                BUSINESS CASE CONSOLIDADO
+            </h1>
+            <p class="text-xl text-gray-700 max-w-4xl mx-auto mb-6 leading-relaxed">
+                Estratégia Anti-Churn baseada em dados reais: <strong>1.856 casos analisados</strong> revelam oportunidades
                 de <strong>R$ 10-15M em receita adicional</strong> através de soluções tecnológicas integradas
             </p>
-            <div class="strategy-badge">Estratégia Validada com Dados Reais</div>
+            <div class="inline-block bg-gradient-to-r from-emerald-500 to-emerald-600 text-white px-6 py-3 rounded-full font-bold text-sm uppercase tracking-wide shadow-lg animate-pulse-badge">
+                Estratégia Validada com Dados Reais
+            </div>
+            <div class="mt-6 w-24 h-1 bg-gradient-to-r from-emerald-500 to-green-500 mx-auto rounded-full"></div>
         </div>
 
-        <div class="main-metrics">
-            <div class="metric-card receita">
-                <div class="metric-number">R$ 10-15M</div>
-                <div class="metric-label">Receita Adicional<br>Ano 1 (Conservadora)</div>
+        <!-- Main Metrics Grid -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-6 mb-12">
+            <!-- Receita Adicional -->
+            <div class="bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 p-6 border border-gray-100 transform hover:scale-105 animate-slide-up">
+                <div class="text-center">
+                    <div class="w-14 h-14 bg-gradient-to-br from-emerald-500 to-emerald-700 rounded-full flex items-center justify-center mx-auto mb-4 shadow-lg animate-float">
+                        <svg class="w-7 h-7 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1"></path>
+                        </svg>
+                    </div>
+                    <div class="text-2xl font-bold text-emerald-700 mb-2">R$ 10-15M</div>
+                    <div class="text-gray-600 font-medium text-sm">Receita Adicional</div>
+                    <div class="text-xs text-emerald-600">Ano 1 (Conservadora)</div>
+                </div>
             </div>
-            <div class="metric-card roi">
-                <div class="metric-number">400-600%</div>
-                <div class="metric-label">ROI em 18 Meses<br>Payback < 3 Meses</div>
+
+            <!-- ROI -->
+            <div class="bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 p-6 border border-gray-100 transform hover:scale-105 animate-slide-up" style="animation-delay: 0.1s">
+                <div class="text-center">
+                    <div class="w-14 h-14 bg-gradient-to-br from-blue-500 to-blue-700 rounded-full flex items-center justify-center mx-auto mb-4 shadow-lg animate-float" style="animation-delay: 0.5s">
+                        <svg class="w-7 h-7 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"></path>
+                        </svg>
+                    </div>
+                    <div class="text-2xl font-bold text-blue-700 mb-2">400-600%</div>
+                    <div class="text-gray-600 font-medium text-sm">ROI em 18 Meses</div>
+                    <div class="text-xs text-blue-600">Payback < 3 Meses</div>
+                </div>
             </div>
-            <div class="metric-card churn">
-                <div class="metric-number">-65%</div>
-                <div class="metric-label">Redução Churn Geral<br>Foco nas 3 Principais</div>
+
+            <!-- Redução Churn -->
+            <div class="bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 p-6 border border-gray-100 transform hover:scale-105 animate-slide-up" style="animation-delay: 0.2s">
+                <div class="text-center">
+                    <div class="w-14 h-14 bg-gradient-to-br from-red-500 to-red-700 rounded-full flex items-center justify-center mx-auto mb-4 shadow-lg animate-float" style="animation-delay: 1s">
+                        <svg class="w-7 h-7 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"></path>
+                        </svg>
+                    </div>
+                    <div class="text-2xl font-bold text-red-700 mb-2">-65%</div>
+                    <div class="text-gray-600 font-medium text-sm">Redução Churn Geral</div>
+                    <div class="text-xs text-red-600">Foco nas 3 Principais</div>
+                </div>
             </div>
-            <div class="metric-card rede">
-                <div class="metric-number">857</div>
-                <div class="metric-label">Imobiliárias na Rede<br>Lock-in Total</div>
+
+            <!-- Imobiliárias na Rede -->
+            <div class="bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 p-6 border border-gray-100 transform hover:scale-105 animate-slide-up" style="animation-delay: 0.3s">
+                <div class="text-center">
+                    <div class="w-14 h-14 bg-gradient-to-br from-purple-500 to-purple-700 rounded-full flex items-center justify-center mx-auto mb-4 shadow-lg animate-float" style="animation-delay: 1.5s">
+                        <svg class="w-7 h-7 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"></path>
+                        </svg>
+                    </div>
+                    <div class="text-2xl font-bold text-purple-700 mb-2">857</div>
+                    <div class="text-gray-600 font-medium text-sm">Imobiliárias na Rede</div>
+                    <div class="text-xs text-purple-600">Lock-in Total</div>
+                </div>
             </div>
-            <div class="metric-card arpu">
-                <div class="metric-number">+85%</div>
-                <div class="metric-label">Aumento ARPU<br>Múltiplas Revenue Streams</div>
+
+            <!-- Aumento ARPU -->
+            <div class="bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 p-6 border border-gray-100 transform hover:scale-105 animate-slide-up" style="animation-delay: 0.4s">
+                <div class="text-center">
+                    <div class="w-14 h-14 bg-gradient-to-br from-orange-500 to-orange-700 rounded-full flex items-center justify-center mx-auto mb-4 shadow-lg animate-float" style="animation-delay: 2s">
+                        <svg class="w-7 h-7 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 11l5-6 5 6M7 11v8a1 1 0 001 1h8a1 1 0 001-1v-8M7 11H5a1 1 0 00-1 1v8a1 1 0 001 1h2M19 11h2a1 1 0 011 1v8a1 1 0 01-1 1h-2"></path>
+                        </svg>
+                    </div>
+                    <div class="text-2xl font-bold text-orange-700 mb-2">+85%</div>
+                    <div class="text-gray-600 font-medium text-sm">Aumento ARPU</div>
+                    <div class="text-xs text-orange-600">Múltiplas Revenue Streams</div>
+                </div>
             </div>
-            <div class="metric-card ativa">
-                <div class="metric-number">&lt;2%</div>
-                <div class="metric-label">Churn Rede Ativa<br>Dependência Total</div>
+
+            <!-- Churn Rede Ativa -->
+            <div class="bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 p-6 border border-gray-100 transform hover:scale-105 animate-slide-up" style="animation-delay: 0.5s">
+                <div class="text-center">
+                    <div class="w-14 h-14 bg-gradient-to-br from-green-500 to-green-700 rounded-full flex items-center justify-center mx-auto mb-4 shadow-lg animate-float animate-glow" style="animation-delay: 2.5s">
+                        <svg class="w-7 h-7 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                        </svg>
+                    </div>
+                    <div class="text-2xl font-bold text-green-700 mb-2">&lt;2%</div>
+                    <div class="text-gray-600 font-medium text-sm">Churn Rede Ativa</div>
+                    <div class="text-xs text-green-600">Dependência Total</div>
+                </div>
             </div>
         </div>
 
-        <div class="roi-section">
-            <h2 class="section-title">Projeção de ROI e Impacto Financeiro</h2>
-            <div class="roi-grid">
-                <div class="roi-item receita">
-                    <div class="roi-label">Receita Retida/Ano</div>
-                    <div class="roi-value">R$ 9-15M</div>
-                    <div class="roi-description">
+        <!-- ROI Section -->
+        <div class="bg-white rounded-2xl shadow-lg p-8 mb-12 animate-slide-up" style="animation-delay: 0.6s">
+            <h2 class="text-3xl font-bold text-gray-900 text-center mb-8">Projeção de ROI e Impacto Financeiro</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                <!-- Receita Retida -->
+                <div class="bg-gradient-to-br from-emerald-50 to-emerald-100 p-6 rounded-xl border border-emerald-200 transform hover:scale-105 transition-all duration-300">
+                    <div class="text-sm font-semibold text-emerald-700 mb-2">Receita Retida/Ano</div>
+                    <div class="text-3xl font-bold text-emerald-600 mb-3">R$ 9-15M</div>
+                    <div class="text-sm text-gray-700 leading-relaxed">
                         Base: 1.110 casos das 3 principais categorias × MRR médio R$ 470 × 12 meses × 70% taxa de retenção
                     </div>
                 </div>
 
-                <div class="roi-item investimento">
-                    <div class="roi-label">Investimento Total</div>
-                    <div class="roi-value">R$ 500k</div>
-                    <div class="roi-description">
+                <!-- Investimento Total -->
+                <div class="bg-gradient-to-br from-blue-50 to-blue-100 p-6 rounded-xl border border-blue-200 transform hover:scale-105 transition-all duration-300">
+                    <div class="text-sm font-semibold text-blue-700 mb-2">Investimento Total</div>
+                    <div class="text-3xl font-bold text-blue-600 mb-3">R$ 500k</div>
+                    <div class="text-sm text-gray-700 leading-relaxed">
                         Desenvolvimento completo: Gestão, plataformas, portais, integrações e automações
                     </div>
                 </div>
 
-                <div class="roi-item payback">
-                    <div class="roi-label">Payback Period</div>
-                    <div class="roi-value">2-3 Meses</div>
-                    <div class="roi-description">
+                <!-- Payback Period -->
+                <div class="bg-gradient-to-br from-purple-50 to-purple-100 p-6 rounded-xl border border-purple-200 transform hover:scale-105 transition-all duration-300">
+                    <div class="text-sm font-semibold text-purple-700 mb-2">Payback Period</div>
+                    <div class="text-3xl font-bold text-purple-600 mb-3">2-3 Meses</div>
+                    <div class="text-sm text-gray-700 leading-relaxed">
                         Retorno ultrarrápido considerando receita mensal preservada de R$ 1-1.5M das categorias prioritárias
                     </div>
                 </div>
 
-                <div class="roi-item multiplicador">
-                    <div class="roi-label">ROI Multiplicador</div>
-                    <div class="roi-value">18-30x</div>
-                    <div class="roi-description">
+                <!-- ROI Multiplicador -->
+                <div class="bg-gradient-to-br from-orange-50 to-orange-100 p-6 rounded-xl border border-orange-200 transform hover:scale-105 transition-all duration-300">
+                    <div class="text-sm font-semibold text-orange-700 mb-2">ROI Multiplicador</div>
+                    <div class="text-3xl font-bold text-orange-600 mb-3">18-30x</div>
+                    <div class="text-sm text-gray-700 leading-relaxed">
                         Cada R$ 1 investido retorna R$ 18-30 em receita preservada + novas revenue streams da rede ativa
                     </div>
                 </div>
             </div>
         </div>
 
-        <div class="roadmap-section">
-            <h2 class="section-title">Roadmap de Implementação</h2>
-            <p style="text-align: center; color: #666; margin-bottom: 40px; font-size: 1.2em;">
+        <!-- Roadmap Section -->
+        <div class="bg-white rounded-2xl shadow-lg p-8 mb-12 animate-slide-up" style="animation-delay: 0.7s">
+            <h2 class="text-3xl font-bold text-gray-900 text-center mb-4">Roadmap de Implementação</h2>
+            <p class="text-lg text-gray-600 text-center mb-8 max-w-3xl mx-auto">
                 Estratégia em 3 fases priorizando <strong>máximo impacto</strong> com <strong>menor investimento</strong>
             </p>
-            
-            <div class="roadmap-steps">
-                <div class="roadmap-step prioridade1">
-                    <div class="step-number">1</div>
-                    <div class="step-title">Fase 1: Ecossistema Integrado (Q3)</div>
-                    <div class="step-description">
-                        Desenvolvimento do ecossistema completo: Base da Rede + Funcionalidades avançadas para gaps funcionais.
-                    </div>
-                    <div class="step-metrics">
-                        <div class="step-metric">
-                            <div class="metric-value">1.071</div>
-                            <div class="metric-label-small">Imobiliárias</div>
+
+            <div class="space-y-8">
+                <!-- Fase 1 -->
+                <div class="bg-gradient-to-r from-slate-50 to-slate-100 rounded-2xl p-8 border-l-8 border-slate-500 transform hover:scale-105 transition-all duration-300">
+                    <div class="flex items-start space-x-6">
+                        <div class="flex-shrink-0">
+                            <div class="w-12 h-12 bg-slate-600 text-white rounded-full flex items-center justify-center font-bold text-xl">1</div>
                         </div>
-                        <div class="step-metric">
-                            <div class="metric-value">21.7%</div>
-                            <div class="metric-label-small">Churn Adicional</div>
-                        </div>
-                        <div class="step-metric">
-                            <div class="metric-value">R$ 80k</div>
-                            <div class="metric-label-small">Investimento</div>
-                        </div>
-                        <div class="step-metric">
-                            <div class="metric-value">R$ 1-2M</div>
-                            <div class="metric-label-small">ROI/ano Adicional</div>
+                        <div class="flex-1">
+                            <h3 class="text-2xl font-bold text-gray-900 mb-3">Fase 1: Ecossistema Integrado (Q3)</h3>
+                            <p class="text-gray-700 mb-6 leading-relaxed">
+                                Desenvolvimento do ecossistema completo: Base da Rede + Funcionalidades avançadas para gaps funcionais.
+                            </p>
+                            <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                                <div class="text-center bg-white p-4 rounded-xl shadow-sm">
+                                    <div class="text-2xl font-bold text-slate-600">1.071</div>
+                                    <div class="text-xs text-gray-600">Imobiliárias</div>
+                                </div>
+                                <div class="text-center bg-white p-4 rounded-xl shadow-sm">
+                                    <div class="text-2xl font-bold text-slate-600">21.7%</div>
+                                    <div class="text-xs text-gray-600">Churn Adicional</div>
+                                </div>
+                                <div class="text-center bg-white p-4 rounded-xl shadow-sm">
+                                    <div class="text-xl font-bold text-slate-600">R$ 80k</div>
+                                    <div class="text-xs text-gray-600">Investimento</div>
+                                </div>
+                                <div class="text-center bg-white p-4 rounded-xl shadow-sm">
+                                    <div class="text-xl font-bold text-slate-600">R$ 1-2M</div>
+                                    <div class="text-xs text-gray-600">ROI/ano Adicional</div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
 
-                <div class="roadmap-step prioridade2">
-                    <div class="step-number">1</div>
-                    <div class="step-title">Fase 2: Anti-Churn Crítico (Q3)</div>
-                    <div class="step-description">
-                        Foco nas 2 maiores categorias: Problemas Financeiros + Concorrência + Lock-in Digital.
-                        Soluções de alto impacto com desenvolvimento rápido.
-                    </div>
-                    <div class="step-metrics">
-                        <div class="step-metric">
-                            <div class="metric-value">898</div>
-                            <div class="metric-label-small">Casos Alvo</div>
+                <!-- Fase 2 -->
+                <div class="bg-gradient-to-r from-blue-50 to-blue-100 rounded-2xl p-8 border-l-8 border-blue-500 transform hover:scale-105 transition-all duration-300">
+                    <div class="flex items-start space-x-6">
+                        <div class="flex-shrink-0">
+                            <div class="w-12 h-12 bg-blue-600 text-white rounded-full flex items-center justify-center font-bold text-xl">2</div>
                         </div>
-                        <div class="step-metric">
-                            <div class="metric-value">48.4%</div>
-                            <div class="metric-label-small">Redução Churn</div>
-                        </div>
-                        <div class="step-metric">
-                            <div class="metric-value">R$ 120k</div>
-                            <div class="metric-label-small">Investimento</div>
-                        </div>
-                        <div class="step-metric">
-                            <div class="metric-value">R$ 5-8M</div>
-                            <div class="metric-label-small">ROI/ano Adicional</div>
+                        <div class="flex-1">
+                            <h3 class="text-2xl font-bold text-gray-900 mb-3">Fase 2: Anti-Churn Crítico (Q3)</h3>
+                            <p class="text-gray-700 mb-6 leading-relaxed">
+                                Foco nas 2 maiores categorias: Problemas Financeiros + Concorrência + Lock-in Digital.
+                                Soluções de alto impacto com desenvolvimento rápido.
+                            </p>
+                            <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                                <div class="text-center bg-white p-4 rounded-xl shadow-sm">
+                                    <div class="text-2xl font-bold text-blue-600">898</div>
+                                    <div class="text-xs text-gray-600">Casos Alvo</div>
+                                </div>
+                                <div class="text-center bg-white p-4 rounded-xl shadow-sm">
+                                    <div class="text-2xl font-bold text-blue-600">48.4%</div>
+                                    <div class="text-xs text-gray-600">Redução Churn</div>
+                                </div>
+                                <div class="text-center bg-white p-4 rounded-xl shadow-sm">
+                                    <div class="text-xl font-bold text-blue-600">R$ 120k</div>
+                                    <div class="text-xs text-gray-600">Investimento</div>
+                                </div>
+                                <div class="text-center bg-white p-4 rounded-xl shadow-sm">
+                                    <div class="text-xl font-bold text-blue-600">R$ 5-8M</div>
+                                    <div class="text-xs text-gray-600">ROI/ano Adicional</div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
 
-                <div class="roadmap-step prioridade3">
-                    <div class="step-number">3</div>
-                    <div class="step-title">Fase 3: Rede Colaborativa (Q4)</div>
-                    <div class="step-description">
-                        Ativação da mega rede de compartilhamento com vendas cross, gestão financeira 
-                        integrada e dependência operacional total.
-                    </div>
-                    <div class="step-metrics">
-                        <div class="step-metric">
-                            <div class="metric-value">857</div>
-                            <div class="metric-label-small">Rede Ativa</div>
+                <!-- Fase 3 -->
+                <div class="bg-gradient-to-r from-emerald-50 to-emerald-100 rounded-2xl p-8 border-l-8 border-emerald-500 transform hover:scale-105 transition-all duration-300">
+                    <div class="flex items-start space-x-6">
+                        <div class="flex-shrink-0">
+                            <div class="w-12 h-12 bg-emerald-600 text-white rounded-full flex items-center justify-center font-bold text-xl">3</div>
                         </div>
-                        <div class="step-metric">
-                            <div class="metric-value">&lt;2%</div>
-                            <div class="metric-label-small">Churn Final</div>
-                        </div>
-                        <div class="step-metric">
-                            <div class="metric-value">R$ 200k</div>
-                            <div class="metric-label-small">Investimento</div>
-                        </div>
-                        <div class="step-metric">
-                            <div class="metric-value">R$ 3-5M</div>
-                            <div class="metric-label-small">Revenue Streams</div>
+                        <div class="flex-1">
+                            <h3 class="text-2xl font-bold text-gray-900 mb-3">Fase 3: Rede Colaborativa (Q4)</h3>
+                            <p class="text-gray-700 mb-6 leading-relaxed">
+                                Ativação da mega rede de compartilhamento com vendas cross, gestão financeira
+                                integrada e dependência operacional total.
+                            </p>
+                            <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                                <div class="text-center bg-white p-4 rounded-xl shadow-sm">
+                                    <div class="text-2xl font-bold text-emerald-600">857</div>
+                                    <div class="text-xs text-gray-600">Rede Ativa</div>
+                                </div>
+                                <div class="text-center bg-white p-4 rounded-xl shadow-sm">
+                                    <div class="text-2xl font-bold text-emerald-600">&lt;2%</div>
+                                    <div class="text-xs text-gray-600">Churn Final</div>
+                                </div>
+                                <div class="text-center bg-white p-4 rounded-xl shadow-sm">
+                                    <div class="text-xl font-bold text-emerald-600">R$ 200k</div>
+                                    <div class="text-xs text-gray-600">Investimento</div>
+                                </div>
+                                <div class="text-center bg-white p-4 rounded-xl shadow-sm">
+                                    <div class="text-xl font-bold text-emerald-600">R$ 3-5M</div>
+                                    <div class="text-xs text-gray-600">Revenue Streams</div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
 
-        <div class="final-cta">
-            <h2 class="cta-title">OPORTUNIDADE ESTRATÉGICA VALIDADA</h2>
-            <p class="cta-subtitle">
-                Análise de <span class="highlight">1.856 churns reais</span> revela oportunidade de 
-                <span class="highlight">R$ 9-15M em receita adicional</span> através de soluções
-                tecnológicas que atacam diretamente as causas raiz do churn, criando um ecossistema 
-                integrado com <span class="highlight">dependência operacional total</span>
+        <!-- Final CTA -->
+        <div class="bg-gradient-to-r from-emerald-600 to-green-600 rounded-2xl shadow-xl p-8 text-white text-center animate-slide-up" style="animation-delay: 0.8s">
+            <h2 class="text-3xl font-bold mb-4">OPORTUNIDADE ESTRATÉGICA VALIDADA</h2>
+            <p class="text-xl mb-8 max-w-4xl mx-auto leading-relaxed">
+                Análise de <span class="font-bold bg-white/20 px-3 py-1 rounded-full">1.856 churns reais</span> revela oportunidade de
+                <span class="font-bold bg-white/20 px-3 py-1 rounded-full">R$ 9-15M em receita adicional</span> através de soluções
+                tecnológicas que atacam diretamente as causas raiz do churn, criando um ecossistema
+                integrado com <span class="font-bold bg-white/20 px-3 py-1 rounded-full">dependência operacional total</span>
             </p>
-            
-            <div style="display: flex; justify-content: space-around; align-items: center; flex-wrap: wrap; gap: 30px; margin-top: 40px;">
-                <div style="text-align: center;">
-                    <span style="font-size: 3em; font-weight: 900; display: block; margin-bottom: 5px;">65%</span>
-                    <span style="opacity: 0.8; font-size: 1.1em;">Redução Churn Total</span>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                <div class="bg-white/10 rounded-xl p-6 backdrop-blur-sm animate-scale-pulse">
+                    <div class="text-4xl font-bold mb-2">65%</div>
+                    <div class="text-sm opacity-90">Redução Churn Total</div>
                 </div>
-                <div style="text-align: center;">
-                    <span style="font-size: 3em; font-weight: 900; display: block; margin-bottom: 5px;">2-3</span>
-                    <span style="opacity: 0.8; font-size: 1.1em;">Meses Payback</span>
+                <div class="bg-white/10 rounded-xl p-6 backdrop-blur-sm animate-scale-pulse" style="animation-delay: 0.2s">
+                    <div class="text-4xl font-bold mb-2">2-3</div>
+                    <div class="text-sm opacity-90">Meses Payback</div>
                 </div>
-                <div style="text-align: center;">
-                    <span style="font-size: 3em; font-weight: 900; display: block; margin-bottom: 5px;">857</span>
-                    <span style="opacity: 0.8; font-size: 1.1em;">Rede Colaborativa</span>
+                <div class="bg-white/10 rounded-xl p-6 backdrop-blur-sm animate-scale-pulse" style="animation-delay: 0.4s">
+                    <div class="text-4xl font-bold mb-2">857</div>
+                    <div class="text-sm opacity-90">Rede Colaborativa</div>
                 </div>
-                <div style="text-align: center;">
-                    <span style="font-size: 3em; font-weight: 900; display: block; margin-bottom: 5px;">&lt;2%</span>
-                    <span style="opacity: 0.8; font-size: 1.1em;">Churn Final</span>
+                <div class="bg-white/10 rounded-xl p-6 backdrop-blur-sm animate-scale-pulse" style="animation-delay: 0.6s">
+                    <div class="text-4xl font-bold mb-2">&lt;2%</div>
+                    <div class="text-sm opacity-90">Churn Final</div>
                 </div>
             </div>
         </div>
     </div>
+</main>
+
+<!-- Footer -->
+<footer class="bg-white border-t border-gray-200 mt-12">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+        <div class="text-center text-gray-500 text-sm">
+            Business Case Consolidado • Estratégia Anti-Churn C2S
+        </div>
+    </div>
+</footer>
 </body>
+</html>

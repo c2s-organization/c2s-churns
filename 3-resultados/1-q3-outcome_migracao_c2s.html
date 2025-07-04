@@ -4,608 +4,260 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Q3 Outcomes - Estratégia de Migração C2S</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            min-height: 100vh;
-            color: #333;
-            overflow-x: hidden;
-        }
-
-        .container {
-            max-width: 1400px;
-            margin: 0 auto;
-            padding: 20px;
-        }
-
-        .hero-section {
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(20px);
-            border-radius: 30px;
-            padding: 60px;
-            text-align: center;
-            margin-bottom: 40px;
-            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.1);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-        }
-
-        .hero-title {
-            font-size: 3.5em;
-            font-weight: 800;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            margin-bottom: 20px;
-            line-height: 1.1;
-        }
-
-        .hero-subtitle {
-            font-size: 1.4em;
-            color: #666;
-            font-weight: 500;
-            max-width: 800px;
-            margin: 0 auto 30px;
-            line-height: 1.5;
-        }
-
-        .strategy-badge {
-            display: inline-block;
-            background: linear-gradient(135deg, #ff6b6b 0%, #ee5a24 100%);
-            color: white;
-            padding: 15px 30px;
-            border-radius: 50px;
-            font-weight: 700;
-            font-size: 1.1em;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            box-shadow: 0 10px 30px rgba(255, 107, 107, 0.3);
-        }
-
-        .outcomes-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-            gap: 30px;
-            margin-bottom: 50px;
-        }
-
-        .outcome-card {
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(20px);
-            border-radius: 25px;
-            padding: 40px;
-            border-left: 8px solid;
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
-            transition: all 0.3s ease;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .outcome-card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.15);
-        }
-
-        .outcome-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            right: 0;
-            width: 100px;
-            height: 100px;
-            background: linear-gradient(135deg, transparent 0%, rgba(255, 255, 255, 0.1) 100%);
-            border-radius: 0 25px 0 100px;
-        }
-
-        .outcome-card.migration {
-            border-left-color: #00b894;
-        }
-
-        .outcome-card.competitive {
-            border-left-color: #e74c3c;
-        }
-
-        .outcome-card.inventory {
-            border-left-color: #27ae60;
-        }
-
-        .outcome-card.ecosystem {
-            border-left-color: #3498db;
-        }
-
-        .outcome-number {
-            font-size: 4em;
-            font-weight: 900;
-            margin-bottom: 15px;
-            opacity: 0.9;
-        }
-
-        .outcome-card.migration .outcome-number {
-            color: #00b894;
-        }
-
-        .outcome-card.competitive .outcome-number {
-            color: #e74c3c;
-        }
-
-        .outcome-card.inventory .outcome-number {
-            color: #27ae60;
-        }
-
-        .outcome-card.ecosystem .outcome-number {
-            color: #3498db;
-        }
-
-        .outcome-title {
-            font-size: 1.6em;
-            font-weight: 700;
-            margin-bottom: 15px;
-            color: #2c3e50;
-        }
-
-        .outcome-description {
-            color: #666;
-            line-height: 1.6;
-            font-size: 1.1em;
-            margin-bottom: 20px;
-        }
-
-        .outcome-meta {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding-top: 20px;
-            border-top: 2px solid #f8f9fa;
-        }
-
-        .outcome-percentage {
-            font-size: 1.8em;
-            font-weight: 800;
-        }
-
-        .impact-section {
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(20px);
-            border-radius: 30px;
-            padding: 50px;
-            margin-bottom: 40px;
-            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.1);
-        }
-
-        .impact-title {
-            font-size: 2.5em;
-            font-weight: 800;
-            text-align: center;
-            margin-bottom: 40px;
-            color: #2c3e50;
-        }
-
-        .impact-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 25px;
-        }
-
-        .impact-item {
-            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
-            padding: 30px;
-            border-radius: 20px;
-            border-left: 6px solid;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .impact-item::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            right: 0;
-            width: 80px;
-            height: 80px;
-            background: linear-gradient(135deg, transparent 0%, rgba(255, 255, 255, 0.3) 100%);
-            border-radius: 0 20px 0 80px;
-        }
-
-        .impact-item.anti-churn {
-            border-left-color: #e74c3c;
-        }
-
-        .impact-item.network {
-            border-left-color: #3498db;
-        }
-
-        .impact-item.defensive {
-            border-left-color: #f39c12;
-        }
-
-        .impact-item.roi {
-            border-left-color: #27ae60;
-        }
-
-        .impact-label {
-            font-size: 1.3em;
-            font-weight: 700;
-            margin-bottom: 15px;
-            color: #2c3e50;
-        }
-
-        .impact-value {
-            font-size: 2.2em;
-            font-weight: 900;
-            margin-bottom: 10px;
-        }
-
-        .impact-item.anti-churn .impact-value {
-            color: #e74c3c;
-        }
-
-        .impact-item.network .impact-value {
-            color: #3498db;
-        }
-
-        .impact-item.defensive .impact-value {
-            color: #f39c12;
-        }
-
-        .impact-item.roi .impact-value {
-            color: #27ae60;
-        }
-
-        .impact-description {
-            color: #666;
-            line-height: 1.5;
-            font-size: 1.05em;
-        }
-
-        .flow-visualization {
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(20px);
-            border-radius: 30px;
-            padding: 50px;
-            margin-bottom: 40px;
-            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.1);
-            text-align: center;
-        }
-
-        .flow-title {
-            font-size: 2.5em;
-            font-weight: 800;
-            margin-bottom: 40px;
-            color: #2c3e50;
-        }
-
-        .flow-steps {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 20px;
-        }
-
-        .flow-step {
-            flex: 1;
-            min-width: 250px;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            padding: 30px 20px;
-            border-radius: 20px;
-            position: relative;
-            box-shadow: 0 15px 35px rgba(102, 126, 234, 0.3);
-        }
-
-        .flow-step-number {
-            position: absolute;
-            top: -15px;
-            left: 20px;
-            background: #ff6b6b;
-            color: white;
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: 900;
-            font-size: 1.2em;
-            box-shadow: 0 5px 15px rgba(255, 107, 107, 0.4);
-        }
-
-        .flow-step-title {
-            font-size: 1.4em;
-            font-weight: 700;
-            margin-bottom: 10px;
-            margin-top: 10px;
-        }
-
-        .flow-step-desc {
-            opacity: 0.9;
-            line-height: 1.4;
-        }
-
-        .flow-arrow {
-            font-size: 2em;
-            color: #3498db;
-            margin: 0 10px;
-        }
-
-        .cta-section {
-            background: linear-gradient(135deg, #ff6b6b 0%, #ee5a24 100%);
-            color: white;
-            border-radius: 30px;
-            padding: 60px;
-            text-align: center;
-            box-shadow: 0 25px 50px rgba(255, 107, 107, 0.3);
-        }
-
-        .cta-title {
-            font-size: 2.8em;
-            font-weight: 800;
-            margin-bottom: 20px;
-        }
-
-        .cta-subtitle {
-            font-size: 1.3em;
-            opacity: 0.9;
-            margin-bottom: 30px;
-            max-width: 600px;
-            margin-left: auto;
-            margin-right: auto;
-        }
-
-        .cta-stats {
-            display: flex;
-            justify-content: space-around;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 30px;
-            margin-top: 40px;
-        }
-
-        .cta-stat {
-            text-align: center;
-        }
-
-        .cta-stat-number {
-            font-size: 3em;
-            font-weight: 900;
-            display: block;
-            margin-bottom: 5px;
-        }
-
-        .cta-stat-label {
-            opacity: 0.8;
-            font-size: 1.1em;
-        }
-
-        @media (max-width: 768px) {
-            .hero-title {
-                font-size: 2.5em;
-            }
-            
-            .outcomes-grid {
-                grid-template-columns: 1fr;
-            }
-            
-            .flow-steps {
-                flex-direction: column;
-            }
-            
-            .flow-arrow {
-                transform: rotate(90deg);
-            }
-            
-            .cta-stats {
-                flex-direction: column;
-                gap: 20px;
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    animation: {
+                        'fade-in': 'fadeIn 0.8s ease-in-out',
+                        'slide-up': 'slideUp 0.6s ease-out',
+                        'pulse-slow': 'pulse 3s infinite',
+                        'bounce-slow': 'bounce 2s infinite',
+                        'pulse-badge': 'pulseBadge 2s ease-in-out infinite',
+                    },
+                    keyframes: {
+                        fadeIn: {
+                            '0%': { opacity: '0' },
+                            '100%': { opacity: '1' }
+                        },
+                        slideUp: {
+                            '0%': { transform: 'translateY(20px)', opacity: '0' },
+                            '100%': { transform: 'translateY(0)', opacity: '1' }
+                        },
+                        pulseBadge: {
+                            '0%, 100%': { transform: 'scale(1)' },
+                            '50%': { transform: 'scale(1.05)' }
+                        }
+                    }
+                }
             }
         }
-
-        .highlight {
-            background: linear-gradient(135deg, #ffeaa7 0%, #fab1a0 50%);
-            padding: 3px 8px;
-            border-radius: 6px;
-            font-weight: 700;
-            color: #2d3436;
-        }
-    </style>
-<style>
-    .nav-buttons {
-        position: fixed;
-        bottom: 30px;
-        right: 30px;
-        display: flex;
-        gap: 15px;
-        z-index: 1000;
-    }
-
-    .nav-button {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        width: 60px;
-        height: 60px;
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-        color: white;
-        border-radius: 50%;
-        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
-        text-decoration: none;
-        font-size: 1.5em;
-        transition: transform 0.3s ease, box-shadow 0.3s ease;
-    }
-
-    .nav-button:hover {
-        transform: translateY(-5px);
-        box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
-    }
-
-    .home-button {
-        background: linear-gradient(135deg, #ff6b6b 0%, #ee5a24 100%);
-    }
-</style>
+    </script>
 </head>
-<body>
-<div class="nav-buttons">
-        <a href="../index.html" class="nav-button home-button" title="Página Inicial">🏠</a>
-        <a href="2-q4-outcome_migracao_c2s.html" class="nav-button" title="Próxima Página">→</a>
+<body class="bg-gradient-to-br from-slate-50 to-blue-50 min-h-screen">
+<!-- Navigation -->
+<nav class="fixed top-0 left-0 right-0 bg-white/90 backdrop-blur-md shadow-sm z-50 border-b border-gray-200">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex justify-between items-center h-16">
+            <div class="flex items-center space-x-4">
+                <a href="../index.html"
+                   class="flex items-center justify-center w-10 h-10 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors duration-200 shadow-md hover:shadow-lg transform hover:scale-105">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path>
+                    </svg>
+                </a>
+                <span class="text-gray-600 font-medium">Q3 Outcomes</span>
+            </div>
+            <a href="2-q4-outcome_migracao_c2s.html"
+               class="flex items-center justify-center w-10 h-10 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-lg transition-colors duration-200 shadow-md hover:shadow-lg transform hover:scale-105">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                </svg>
+            </a>
+        </div>
     </div>
-    <div class="container">
-        <div class="hero-section">
-            <h1 class="hero-title">Q3 Outcomes</h1>
-            <p class="hero-subtitle">
-                Estratégia de migração C2S para criar a <strong>foundation</strong> de um futuro ecossistema integrado, 
+</nav>
+
+<!-- Main Content -->
+<main class="pt-24 pb-12 px-4 sm:px-6 lg:px-8">
+    <div class="max-w-7xl mx-auto">
+        <!-- Header -->
+        <div class="text-center mb-12 animate-fade-in">
+            <h1 class="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
+                Q3 Outcomes
+            </h1>
+            <p class="text-xl text-gray-700 max-w-4xl mx-auto mb-6 leading-relaxed">
+                Estratégia de migração C2S para criar a <strong>foundation</strong> de um futuro ecossistema integrado,
                 preparando cada cliente migrado como um nó da rede que será ativada em Q4.
             </p>
-            <div class="strategy-badge">Foundation + Preparação para Q4</div>
+            <div class="inline-block bg-gradient-to-r from-red-500 to-red-600 text-white px-6 py-3 rounded-full font-bold text-sm uppercase tracking-wide shadow-lg animate-pulse-badge">
+                Foundation + Preparação para Q4
+            </div>
+            <div class="mt-6 w-24 h-1 bg-gradient-to-r from-blue-500 to-green-500 mx-auto rounded-full"></div>
         </div>
 
-        <div class="outcomes-grid">
-            <div class="outcome-card migration">
-                <div class="outcome-number">1.260</div>
-                <div class="outcome-title">Migração Base</div>
-                <div class="outcome-description">
-                    Clientes migrados para C2S Gestor Básico, priorizando o segmento imobiliário 
+        <!-- Outcomes Grid -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-12">
+            <!-- Migração Base -->
+            <div class="bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 p-8 border-l-8 border-green-500 transform hover:scale-105 animate-slide-up">
+                <div class="text-6xl font-black text-green-600 mb-4">1.260</div>
+                <h3 class="text-2xl font-bold text-gray-900 mb-3">Migração Base</h3>
+                <p class="text-gray-700 mb-4 leading-relaxed">
+                    Clientes migrados para C2S Gestor Básico, priorizando o segmento imobiliário
                     e criando a foundation para a rede futura.
-                </div>
-                <div class="outcome-meta">
-                    <span>Base: 1.800 clientes</span>
-                    <span class="outcome-percentage">70%</span>
+                </p>
+                <div class="flex justify-between items-center pt-4 border-t border-gray-100">
+                    <span class="text-sm text-gray-600">Base: 1.800 clientes</span>
+                    <span class="text-2xl font-bold text-green-600">70%</span>
                 </div>
             </div>
 
-            <div class="outcome-card competitive">
-                <div class="outcome-number">84</div>
-                <div class="outcome-title">Eliminação Competitiva</div>
-                <div class="outcome-description">
-                    Casos de migração para Ingaia/Kenlo evitados através de funcionalidades 
+            <!-- Eliminação Competitiva -->
+            <div class="bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 p-8 border-l-8 border-red-500 transform hover:scale-105 animate-slide-up" style="animation-delay: 0.1s">
+                <div class="text-6xl font-black text-red-600 mb-4">84</div>
+                <h3 class="text-2xl font-bold text-gray-900 mb-3">Eliminação Competitiva</h3>
+                <p class="text-gray-700 mb-4 leading-relaxed">
+                    Casos de migração para Ingaia/Kenlo evitados através de funcionalidades
                     defensivas e solução própria de gestão.
-                </div>
-                <div class="outcome-meta">
-                    <span>Base: 105 casos</span>
-                    <span class="outcome-percentage">80%</span>
+                </p>
+                <div class="flex justify-between items-center pt-4 border-t border-gray-100">
+                    <span class="text-sm text-gray-600">Base: 105 casos</span>
+                    <span class="text-2xl font-bold text-red-600">80%</span>
                 </div>
             </div>
 
-            <div class="outcome-card inventory">
-                <div class="outcome-number">1.190</div>
-                <div class="outcome-title">Ativação de Inventário</div>
-                <div class="outcome-description">
-                    Imobiliárias mantendo cadastro ativo de imóveis, criando a **base de dados** 
+            <!-- Ativação de Inventário -->
+            <div class="bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 p-8 border-l-8 border-emerald-500 transform hover:scale-105 animate-slide-up" style="animation-delay: 0.2s">
+                <div class="text-6xl font-black text-emerald-600 mb-4">1.190</div>
+                <h3 class="text-2xl font-bold text-gray-900 mb-3">Ativação de Inventário</h3>
+                <p class="text-gray-700 mb-4 leading-relaxed">
+                    Imobiliárias mantendo cadastro ativo de imóveis, criando a **base de dados**
                     necessária para futuras funcionalidades de rede em Q4.
-                </div>
-                <div class="outcome-meta">
-                    <span>20+ imóveis cada</span>
-                    <span class="outcome-percentage">85%</span>
+                </p>
+                <div class="flex justify-between items-center pt-4 border-t border-gray-100">
+                    <span class="text-sm text-gray-600">20+ imóveis cada</span>
+                    <span class="text-2xl font-bold text-emerald-600">85%</span>
                 </div>
             </div>
 
-            <div class="outcome-card ecosystem">
-                <div class="outcome-number">1.071</div>
-                <div class="outcome-title">Ecossistema Completo</div>
-                <div class="outcome-description">
-                    Imobiliárias com portal + site + gestão totalmente integrados, 
+            <!-- Ecossistema Completo -->
+            <div class="bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 p-8 border-l-8 border-blue-500 transform hover:scale-105 animate-slide-up" style="animation-delay: 0.3s">
+                <div class="text-6xl font-black text-blue-600 mb-4">1.071</div>
+                <h3 class="text-2xl font-bold text-gray-900 mb-3">Ecossistema Completo</h3>
+                <p class="text-gray-700 mb-4 leading-relaxed">
+                    Imobiliárias com portal + site + gestão totalmente integrados,
                     criando barreira de saída quase intransponível.
-                </div>
-                <div class="outcome-meta">
-                    <span>Stickiness máximo</span>
-                    <span class="outcome-percentage">90%</span>
+                </p>
+                <div class="flex justify-between items-center pt-4 border-t border-gray-100">
+                    <span class="text-sm text-gray-600">Stickiness máximo</span>
+                    <span class="text-2xl font-bold text-blue-600">90%</span>
                 </div>
             </div>
         </div>
 
-        <div class="impact-section">
-            <h2 class="impact-title">Impacto Estratégico</h2>
-            <div class="impact-grid">
-                <div class="impact-item anti-churn">
-                    <div class="impact-label">Anti-Churn</div>
-                    <div class="impact-value">40%+</div>
-                    <div class="impact-description">
+        <!-- Impact Section -->
+        <div class="bg-white rounded-2xl shadow-lg p-8 mb-12 animate-slide-up" style="animation-delay: 0.4s">
+            <h2 class="text-3xl font-bold text-gray-900 text-center mb-8">Impacto Estratégico</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                <!-- Anti-Churn -->
+                <div class="bg-gradient-to-br from-red-50 to-pink-50 p-6 rounded-xl border border-red-100">
+                    <div class="text-sm font-semibold text-red-700 mb-2">Anti-Churn</div>
+                    <div class="text-3xl font-bold text-red-600 mb-2">40%+</div>
+                    <div class="text-sm text-gray-700">
                         Redução do churn atual através de stickiness máximo e funcionalidades integradas
                     </div>
                 </div>
 
-                <div class="impact-item network">
-                    <div class="impact-label">Foundation para Rede</div>
-                    <div class="impact-value">1.071</div>
-                    <div class="impact-description">
+                <!-- Foundation para Rede -->
+                <div class="bg-gradient-to-br from-blue-50 to-cyan-50 p-6 rounded-xl border border-blue-100">
+                    <div class="text-sm font-semibold text-blue-700 mb-2">Foundation para Rede</div>
+                    <div class="text-3xl font-bold text-blue-600 mb-2">1.071</div>
+                    <div class="text-sm text-gray-700">
                         Nós preparados para futura rede de compartilhamento - cada cliente migrado vira um ponto da rede
                     </div>
                 </div>
 
-                <div class="impact-item defensive">
-                    <div class="impact-label">Defensiva Competitiva</div>
-                    <div class="impact-value">4x</div>
-                    <div class="impact-description">
+                <!-- Defensiva Competitiva -->
+                <div class="bg-gradient-to-br from-yellow-50 to-orange-50 p-6 rounded-xl border border-yellow-100">
+                    <div class="text-sm font-semibold text-yellow-700 mb-2">Defensiva Competitiva</div>
+                    <div class="text-3xl font-bold text-yellow-600 mb-2">4x</div>
+                    <div class="text-sm text-gray-700">
                         Concorrentes precisariam replicar 4 produtos simultaneamente para competir
                     </div>
                 </div>
 
-                <div class="impact-item roi">
-                    <div class="impact-label">ROI Preservado</div>
-                    <div class="impact-value">R$ 10-18M</div>
-                    <div class="impact-description">
+                <!-- ROI Preservado -->
+                <div class="bg-gradient-to-br from-green-50 to-emerald-50 p-6 rounded-xl border border-green-100">
+                    <div class="text-sm font-semibold text-green-700 mb-2">ROI Preservado</div>
+                    <div class="text-3xl font-bold text-green-600 mb-2">R$ 10-18M</div>
+                    <div class="text-sm text-gray-700">
                         Receita anual preservada que seria perdida por churn e migração competitiva
                     </div>
                 </div>
             </div>
         </div>
 
-        <div class="flow-visualization">
-            <h2 class="flow-title">Jornada de Transformação</h2>
-            <div class="flow-steps">
-                <div class="flow-step">
-                    <div class="flow-step-number">1</div>
-                    <div class="flow-step-title">Migração Base</div>
-                    <div class="flow-step-desc">1.260 clientes para Gestor Básico</div>
+        <!-- Flow Visualization -->
+        <div class="bg-white rounded-2xl shadow-lg p-8 mb-12 animate-slide-up" style="animation-delay: 0.5s">
+            <h2 class="text-3xl font-bold text-gray-900 text-center mb-8">Jornada de Transformação</h2>
+            <div class="flex flex-col md:flex-row items-center justify-center space-y-6 md:space-y-0 md:space-x-6">
+                <!-- Step 1 -->
+                <div class="flex-1 bg-gradient-to-br from-blue-50 to-blue-100 p-6 rounded-2xl text-center border border-blue-200">
+                    <div class="w-12 h-12 bg-blue-600 text-white rounded-full flex items-center justify-center mx-auto mb-4 font-bold text-xl">1</div>
+                    <h3 class="text-lg font-bold text-gray-900 mb-2">Migração Base</h3>
+                    <p class="text-sm text-gray-700">1.260 clientes para Gestor Básico</p>
                 </div>
-                <div class="flow-arrow">→</div>
-                <div class="flow-step">
-                    <div class="flow-step-number">2</div>
-                    <div class="flow-step-title">Ativação</div>
-                    <div class="flow-step-desc">1.190 com inventário ativo</div>
+
+                <!-- Arrow -->
+                <div class="hidden md:block text-gray-400 text-2xl">→</div>
+
+                <!-- Step 2 -->
+                <div class="flex-1 bg-gradient-to-br from-green-50 to-green-100 p-6 rounded-2xl text-center border border-green-200">
+                    <div class="w-12 h-12 bg-green-600 text-white rounded-full flex items-center justify-center mx-auto mb-4 font-bold text-xl">2</div>
+                    <h3 class="text-lg font-bold text-gray-900 mb-2">Ativação</h3>
+                    <p class="text-sm text-gray-700">1.190 com inventário ativo</p>
                 </div>
-                <div class="flow-arrow">→</div>
-                <div class="flow-step">
-                    <div class="flow-step-number">3</div>
-                    <div class="flow-step-title">Integração Total</div>
-                    <div class="flow-step-desc">1.071 ecossistemas completos</div>
+
+                <!-- Arrow -->
+                <div class="hidden md:block text-gray-400 text-2xl">→</div>
+
+                <!-- Step 3 -->
+                <div class="flex-1 bg-gradient-to-br from-purple-50 to-purple-100 p-6 rounded-2xl text-center border border-purple-200">
+                    <div class="w-12 h-12 bg-purple-600 text-white rounded-full flex items-center justify-center mx-auto mb-4 font-bold text-xl">3</div>
+                    <h3 class="text-lg font-bold text-gray-900 mb-2">Integração Total</h3>
+                    <p class="text-sm text-gray-700">1.071 ecossistemas completos</p>
                 </div>
-                <div class="flow-arrow">→</div>
-                <div class="flow-step">
-                    <div class="flow-step-number">4</div>
-                    <div class="flow-step-title">Lock-in Máximo</div>
-                    <div class="flow-step-desc">Cliente não consegue sair</div>
+
+                <!-- Arrow -->
+                <div class="hidden md:block text-gray-400 text-2xl">→</div>
+
+                <!-- Step 4 -->
+                <div class="flex-1 bg-gradient-to-br from-red-50 to-red-100 p-6 rounded-2xl text-center border border-red-200">
+                    <div class="w-12 h-12 bg-red-600 text-white rounded-full flex items-center justify-center mx-auto mb-4 font-bold text-xl">4</div>
+                    <h3 class="text-lg font-bold text-gray-900 mb-2">Lock-in Máximo</h3>
+                    <p class="text-sm text-gray-700">Cliente não consegue sair</p>
                 </div>
             </div>
         </div>
 
-        <div class="cta-section">
-            <h2 class="cta-title">Resultado Final</h2>
-            <p class="cta-subtitle">
-                Uma foundation sólida de <span class="highlight">1.071 imobiliárias</span> preparadas com inventário ativo, 
+        <!-- CTA Section -->
+        <div class="bg-gradient-to-r from-blue-600 to-purple-600 rounded-2xl shadow-xl p-8 text-white text-center animate-slide-up" style="animation-delay: 0.6s">
+            <h2 class="text-3xl font-bold mb-4">Resultado Final</h2>
+            <p class="text-xl mb-8 max-w-4xl mx-auto leading-relaxed">
+                Uma foundation sólida de <span class="font-bold bg-white/20 px-3 py-1 rounded-full">1.071 imobiliárias</span> preparadas com inventário ativo,
                 criando a base para a maior rede colaborativa do mercado imobiliário brasileiro em Q4.
             </p>
-            
-            <div class="cta-stats">
-                <div class="cta-stat">
-                    <span class="cta-stat-number">90%</span>
-                    <span class="cta-stat-label">Integração Total</span>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                <div class="bg-white/10 rounded-xl p-6 backdrop-blur-sm">
+                    <div class="text-4xl font-bold mb-2">90%</div>
+                    <div class="text-sm opacity-90">Integração Total</div>
                 </div>
-                <div class="cta-stat">
-                    <span class="cta-stat-number">3-5x</span>
-                    <span class="cta-stat-label">Maior LTV</span>
+                <div class="bg-white/10 rounded-xl p-6 backdrop-blur-sm">
+                    <div class="text-4xl font-bold mb-2">3-5x</div>
+                    <div class="text-sm opacity-90">Maior LTV</div>
                 </div>
-                <div class="cta-stat">
-                    <span class="cta-stat-number">23.8k+</span>
-                    <span class="cta-stat-label">Imóveis na Rede</span>
+                <div class="bg-white/10 rounded-xl p-6 backdrop-blur-sm">
+                    <div class="text-4xl font-bold mb-2">23.8k+</div>
+                    <div class="text-sm opacity-90">Imóveis na Rede</div>
+                </div>
+                <div class="bg-white/10 rounded-xl p-6 backdrop-blur-sm">
+                    <div class="text-4xl font-bold mb-2">&lt;2%</div>
+                    <div class="text-sm opacity-90">Churn Final</div>
                 </div>
             </div>
         </div>
     </div>
+</main>
+
+<!-- Footer -->
+<footer class="bg-white border-t border-gray-200 mt-12">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+        <div class="text-center text-gray-500 text-sm">
+            Dashboard Q3 Outcome • Estratégia de Migração C2S
+        </div>
+    </div>
+</footer>
 </body>
+</html>

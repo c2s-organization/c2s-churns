@@ -4,248 +4,282 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Análise de Churn C2S - Corrigida</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            min-height: 100vh;
-            padding: 20px;
-        }
-
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            background: white;
-            border-radius: 20px;
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
-            overflow: hidden;
-        }
-
-        .header {
-            background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
-            color: white;
-            padding: 40px 20px;
-            text-align: center;
-        }
-
-        .header h1 {
-            font-size: 2.5em;
-            margin-bottom: 10px;
-            font-weight: 700;
-        }
-
-        .header p {
-            font-size: 1.2em;
-            opacity: 0.9;
-        }
-
-        .metrics-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 20px;
-            padding: 40px 20px;
-        }
-
-        .metric-card {
-            background: linear-gradient(135deg, #ff6b6b 0%, #ee5a24 100%);
-            color: white;
-            padding: 30px;
-            border-radius: 15px;
-            text-align: center;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-        }
-
-        .metric-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.2);
-        }
-
-        .metric-card.blue {
-            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
-        }
-
-        .metric-card.green {
-            background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
-        }
-
-        .metric-card.purple {
-            background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
-        }
-
-        .metric-number {
-            font-size: 3em;
-            font-weight: 700;
-            margin-bottom: 10px;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
-        }
-
-        .metric-label {
-            font-size: 1.1em;
-            opacity: 0.9;
-            line-height: 1.4;
-        }
-
-        .insight-box {
-            background: linear-gradient(135deg, #ffeaa7 0%, #fab1a0 100%);
-            margin: 20px;
-            padding: 30px;
-            border-radius: 15px;
-            border-left: 8px solid #e17055;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-        }
-
-        .insight-box h3 {
-            color: #2d3436;
-            font-size: 1.3em;
-            margin-bottom: 10px;
-            font-weight: 600;
-        }
-
-        .insight-box p {
-            color: #2d3436;
-            font-size: 1.1em;
-            line-height: 1.5;
-        }
-
-        .corrections-section {
-            background: #f8f9fa;
-            padding: 30px;
-            margin: 20px;
-            border-radius: 15px;
-            border-left: 8px solid #e74c3c;
-        }
-
-        .corrections-section h3 {
-            color: #2c3e50;
-            font-size: 1.4em;
-            margin-bottom: 20px;
-            font-weight: 600;
-        }
-
-        .correction-item {
-            background: white;
-            padding: 20px;
-            border-radius: 10px;
-            margin-bottom: 15px;
-            border-left: 4px solid #3498db;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
-        }
-
-        .correction-item h4 {
-            color: #2c3e50;
-            margin-bottom: 10px;
-            font-weight: 600;
-        }
-
-        .correction-item p {
-            color: #7f8c8d;
-            line-height: 1.5;
-        }
-
-        .status-incorrect {
-            color: #e74c3c;
-            font-weight: 600;
-        }
-
-        .status-correct {
-            color: #27ae60;
-            font-weight: 600;
-        }
-
-        @media (max-width: 768px) {
-            .metrics-grid {
-                grid-template-columns: 1fr;
-                padding: 20px;
-            }
-            
-            .header h1 {
-                font-size: 2em;
-            }
-            
-            .metric-number {
-                font-size: 2.5em;
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    animation: {
+                        'fade-in': 'fadeIn 0.8s ease-in-out',
+                        'slide-up': 'slideUp 0.6s ease-out',
+                        'pulse-slow': 'pulse 3s infinite',
+                        'warning-pulse': 'warningPulse 2s ease-in-out infinite',
+                    },
+                    keyframes: {
+                        fadeIn: {
+                            '0%': { opacity: '0' },
+                            '100%': { opacity: '1' }
+                        },
+                        slideUp: {
+                            '0%': { transform: 'translateY(20px)', opacity: '0' },
+                            '100%': { transform: 'translateY(0)', opacity: '1' }
+                        },
+                        warningPulse: {
+                            '0%, 100%': { transform: 'scale(1)', opacity: '1' },
+                            '50%': { transform: 'scale(1.05)', opacity: '0.8' }
+                        }
+                    }
+                }
             }
         }
-    </style>
-<style>
-    .nav-buttons {
-        position: fixed;
-        bottom: 30px;
-        right: 30px;
-        display: flex;
-        gap: 15px;
-        z-index: 1000;
-    }
-
-    .nav-button {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        width: 60px;
-        height: 60px;
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-        color: white;
-        border-radius: 50%;
-        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
-        text-decoration: none;
-        font-size: 1.5em;
-        transition: transform 0.3s ease, box-shadow 0.3s ease;
-    }
-
-    .nav-button:hover {
-        transform: translateY(-5px);
-        box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
-    }
-
-    .home-button {
-        background: linear-gradient(135deg, #ff6b6b 0%, #ee5a24 100%);
-    }
-</style>
+    </script>
 </head>
-<body>
-<div class="nav-buttons">
-        <a href="../index.html" class="nav-button home-button" title="Página Inicial">🏠</a>
-        <a href="1-empresas_unicas_dashboard.html" class="nav-button" title="Página Anterior">←</a>
-        <a href="3-problemas_financeiros_corrected.html" class="nav-button" title="Próxima Página">→</a>
-    </div>
-    <div class="container">
-        <div class="header">
-            <h1>ANÁLISE DE CHURN C2S</h1>
-            <p>Principais Categorias e Oportunidades Estratégicas - VERSÃO CORRIGIDA</p>
-        </div>
-
-        <div class="metrics-grid">
-            <div class="metric-card">
-                <div class="metric-number">1.856</div>
-                <div class="metric-label">Total de Churns Analisados<br/>(com dados preenchidos)</div>
-            </div>
-
-            <div class="metric-card blue">
-                <div class="metric-number">46.5%</div>
-                <div class="metric-label">Concentrados no Imobiliário<br/>(1.808 de 3.887 empresas)</div>
-            </div>
-
-            <div class="metric-card green">
-                <div class="metric-number">6</div>
-                <div class="metric-label">Categorias Principais<br/>de Churn Identificadas</div>
-            </div>
-
-            <div class="metric-card purple">
-                <div class="metric-number">59.8%</div>
-                <div class="metric-label">Vêm de Apenas 3 Categorias<br/>(Financeiros + Concorrência + Gaps)</div>
+<body class="bg-gradient-to-br from-red-50 via-orange-50 to-yellow-50 min-h-screen">
+    <!-- Navigation -->
+    <nav class="fixed top-0 left-0 right-0 bg-white/90 backdrop-blur-md shadow-sm z-50 border-b border-gray-200">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <div class="flex items-center space-x-4">
+                    <a href="../index.html" 
+                       class="flex items-center justify-center w-10 h-10 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors duration-200 shadow-md hover:shadow-lg transform hover:scale-105">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path>
+                        </svg>
+                    </a>
+                    <span class="text-gray-600 font-medium">Análise de Churn</span>
+                </div>
+                <div class="flex items-center space-x-2">
+                    <a href="1-empresas_unicas_dashboard.html" 
+                       class="flex items-center justify-center w-10 h-10 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-lg transition-colors duration-200 shadow-md hover:shadow-lg transform hover:scale-105">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
+                        </svg>
+                    </a>
+                    <a href="3-problemas_financeiros_corrected.html" 
+                       class="flex items-center justify-center w-10 h-10 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-lg transition-colors duration-200 shadow-md hover:shadow-lg transform hover:scale-105">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                        </svg>
+                    </a>
+                </div>
             </div>
         </div>
+    </nav>
 
-        <div class="insight-box">
-            <h3>INSIGHT CRÍTICO:</h3>
-            <p>Problemas Financeiros + Concorrência representam <strong>48.4% de todo o churn</strong> (31.0% + 17.4%), indicando onde focar os esforços de retenção.</p>
+    <!-- Main Content -->
+    <main class="pt-24 pb-12 px-4 sm:px-6 lg:px-8">
+        <div class="max-w-7xl mx-auto">
+            <!-- Header -->
+            <div class="text-center mb-12 animate-fade-in">
+                <div class="flex items-center justify-center mb-4">
+                    <div class="w-12 h-12 bg-gradient-to-br from-red-500 to-orange-500 rounded-full flex items-center justify-center mr-4 shadow-lg">
+                        <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L3.082 16.5c-.77.833.192 2.5 1.732 2.5z"></path>
+                        </svg>
+                    </div>
+                    <h1 class="text-4xl md:text-5xl font-bold text-gray-900">
+                        ANÁLISE DE CHURN C2S
+                    </h1>
+                </div>
+                <p class="text-xl text-gray-600 max-w-3xl mx-auto">
+                    Principais Categorias e Oportunidades Estratégicas
+                </p>
+                <div class="mt-6 w-24 h-1 bg-gradient-to-r from-red-500 to-orange-500 mx-auto rounded-full"></div>
+            </div>
+
+            <!-- Metrics Grid -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
+                <!-- Total Churns Card -->
+                <div class="bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 p-8 border border-gray-100 transform hover:scale-105 animate-slide-up">
+                    <div class="text-center">
+                        <div class="w-16 h-16 bg-gradient-to-br from-gray-500 to-gray-700 rounded-full flex items-center justify-center mx-auto mb-4 shadow-lg">
+                            <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
+                            </svg>
+                        </div>
+                        <div class="text-4xl font-bold text-gray-900 mb-2">1.856</div>
+                        <div class="text-gray-600 font-medium text-sm leading-tight">Total de Churns Analisados<br/>(com dados preenchidos)</div>
+                    </div>
+                </div>
+
+                <!-- Imobiliário Concentration Card -->
+                <div class="bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 p-8 border border-blue-100 transform hover:scale-105 animate-slide-up" style="animation-delay: 0.1s">
+                    <div class="text-center">
+                        <div class="w-16 h-16 bg-gradient-to-br from-blue-500 to-blue-700 rounded-full flex items-center justify-center mx-auto mb-4 shadow-lg">
+                            <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2H5a2 2 0 00-2-2z"></path>
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 21l8-8-8-8"></path>
+                            </svg>
+                        </div>
+                        <div class="text-4xl font-bold text-blue-700 mb-2">46.5%</div>
+                        <div class="text-gray-600 font-medium text-sm leading-tight">Concentrados no Imobiliário<br/>(1.808 de 3.887 empresas)</div>
+                    </div>
+                </div>
+
+                <!-- Categories Card -->
+                <div class="bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 p-8 border border-green-100 transform hover:scale-105 animate-slide-up" style="animation-delay: 0.2s">
+                    <div class="text-center">
+                        <div class="w-16 h-16 bg-gradient-to-br from-green-500 to-green-700 rounded-full flex items-center justify-center mx-auto mb-4 shadow-lg">
+                            <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path>
+                            </svg>
+                        </div>
+                        <div class="text-4xl font-bold text-green-700 mb-2">6</div>
+                        <div class="text-gray-600 font-medium text-sm leading-tight">Categorias Principais<br/>de Churn Identificadas</div>
+                    </div>
+                </div>
+
+                <!-- Top 3 Categories Card -->
+                <div class="bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 p-8 border border-purple-100 transform hover:scale-105 animate-slide-up animate-warning-pulse" style="animation-delay: 0.3s">
+                    <div class="text-center">
+                        <div class="w-16 h-16 bg-gradient-to-br from-purple-500 to-purple-700 rounded-full flex items-center justify-center mx-auto mb-4 shadow-lg">
+                            <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 17h8m0 0V9m0 8l-8-8-4 4-6-6"></path>
+                            </svg>
+                        </div>
+                        <div class="text-4xl font-bold text-purple-700 mb-2">59.8%</div>
+                        <div class="text-gray-600 font-medium text-sm leading-tight">Vêm de Apenas 3 Categorias<br/>(Financeiros + Concorrência + Gaps)</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Critical Insight Box -->
+            <div class="bg-gradient-to-br from-red-50 to-orange-50 rounded-2xl shadow-lg p-8 border-2 border-red-200 animate-slide-up mb-12" style="animation-delay: 0.4s">
+                <div class="flex items-start space-x-4">
+                    <div class="flex-shrink-0">
+                        <div class="w-12 h-12 bg-gradient-to-br from-red-500 to-orange-500 rounded-full flex items-center justify-center animate-warning-pulse">
+                            <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L3.082 16.5c-.77.833.192 2.5 1.732 2.5z"></path>
+                            </svg>
+                        </div>
+                    </div>
+                    <div class="flex-1">
+                        <h3 class="text-xl font-bold text-red-800 mb-3 flex items-center">
+                            INSIGHT CRÍTICO
+                        </h3>
+                        <p class="text-gray-700 text-lg leading-relaxed">
+                            <span class="font-bold text-red-600">Problemas Financeiros + Concorrência</span> representam 
+                            <span class="font-bold text-red-600 text-xl">48.4% de todo o churn</span> 
+                            (<span class="font-semibold">31.0% + 17.4%</span>), indicando onde focar os esforços de retenção para maior impacto.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Breakdown Analysis -->
+            <div class="bg-white rounded-2xl shadow-lg p-8 border border-gray-100 animate-slide-up" style="animation-delay: 0.5s">
+                <h3 class="text-xl font-bold text-gray-900 mb-6 text-center">Distribuição dos Principais Motivos de Churn</h3>
+                <div class="space-y-6">
+                    <!-- Problemas Financeiros -->
+                    <div class="flex items-center">
+                        <div class="w-32 text-sm font-medium text-gray-700 flex items-center">
+                            <div class="w-4 h-4 bg-red-500 rounded-full mr-3"></div>
+                            Financeiros
+                        </div>
+                        <div class="flex-1 mx-4 bg-gray-200 rounded-full h-6 overflow-hidden">
+                            <div class="h-full bg-gradient-to-r from-red-500 to-red-600 rounded-full animate-pulse-slow relative" style="width: 31%">
+                                <div class="absolute inset-0 bg-white/20 rounded-full animate-pulse"></div>
+                            </div>
+                        </div>
+                        <div class="w-16 text-sm font-bold text-red-600 text-right">31.0%</div>
+                    </div>
+
+                    <!-- Concorrência -->
+                    <div class="flex items-center">
+                        <div class="w-32 text-sm font-medium text-gray-700 flex items-center">
+                            <div class="w-4 h-4 bg-orange-500 rounded-full mr-3"></div>
+                            Concorrência
+                        </div>
+                        <div class="flex-1 mx-4 bg-gray-200 rounded-full h-6 overflow-hidden">
+                            <div class="h-full bg-gradient-to-r from-orange-500 to-orange-600 rounded-full animate-pulse-slow relative" style="width: 17.4%; animation-delay: 0.2s">
+                                <div class="absolute inset-0 bg-white/20 rounded-full animate-pulse"></div>
+                            </div>
+                        </div>
+                        <div class="w-16 text-sm font-bold text-orange-600 text-right">17.4%</div>
+                    </div>
+
+                    <!-- Gaps -->
+                    <div class="flex items-center">
+                        <div class="w-32 text-sm font-medium text-gray-700 flex items-center">
+                            <div class="w-4 h-4 bg-yellow-500 rounded-full mr-3"></div>
+                            Gaps
+                        </div>
+                        <div class="flex-1 mx-4 bg-gray-200 rounded-full h-6 overflow-hidden">
+                            <div class="h-full bg-gradient-to-r from-yellow-500 to-yellow-600 rounded-full animate-pulse-slow relative" style="width: 11.4%; animation-delay: 0.4s">
+                                <div class="absolute inset-0 bg-white/20 rounded-full animate-pulse"></div>
+                            </div>
+                        </div>
+                        <div class="w-16 text-sm font-bold text-yellow-600 text-right">11.4%</div>
+                    </div>
+
+                    <!-- Outros -->
+                    <div class="flex items-center">
+                        <div class="w-32 text-sm font-medium text-gray-700 flex items-center">
+                            <div class="w-4 h-4 bg-gray-400 rounded-full mr-3"></div>
+                            Outros
+                        </div>
+                        <div class="flex-1 mx-4 bg-gray-200 rounded-full h-6 overflow-hidden">
+                            <div class="h-full bg-gradient-to-r from-gray-400 to-gray-500 rounded-full animate-pulse-slow relative" style="width: 40.2%; animation-delay: 0.6s">
+                                <div class="absolute inset-0 bg-white/20 rounded-full animate-pulse"></div>
+                            </div>
+                        </div>
+                        <div class="w-16 text-sm font-bold text-gray-600 text-right">40.2%</div>
+                    </div>
+                </div>
+
+                <!-- Combined Critical Categories -->
+                <div class="mt-8 p-4 bg-gradient-to-r from-red-50 to-orange-50 rounded-xl border border-red-200">
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center">
+                            <div class="w-6 h-6 bg-gradient-to-br from-red-500 to-orange-500 rounded-full mr-3 flex items-center justify-center">
+                                <svg class="w-3 h-3 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path>
+                                </svg>
+                            </div>
+                            <span class="font-bold text-red-800">Top 3 Categorias Combinadas</span>
+                        </div>
+                        <div class="text-2xl font-bold text-red-600">59.8%</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Action Items -->
+            <div class="mt-12 bg-white rounded-2xl shadow-lg p-8 border border-gray-100 animate-slide-up" style="animation-delay: 0.6s">
+                <h3 class="text-xl font-bold text-gray-900 mb-6 flex items-center">
+                    <svg class="w-6 h-6 text-blue-600 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v10a2 2 0 002 2h8a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4"></path>
+                    </svg>
+                    Recomendações Estratégicas
+                </h3>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="p-4 bg-red-50 rounded-xl border border-red-200">
+                        <h4 class="font-bold text-red-800 mb-2">Foco Imediato</h4>
+                        <p class="text-gray-700 text-sm">Implementar programa de retenção específico para problemas financeiros e pressão da concorrência</p>
+                    </div>
+                    <div class="p-4 bg-blue-50 rounded-xl border border-blue-200">
+                        <h4 class="font-bold text-blue-800 mb-2">Monitoramento</h4>
+                        <p class="text-gray-700 text-sm">Acompanhar tendências das 6 categorias principais mensalmente</p>
+                    </div>
+                    <div class="p-4 bg-green-50 rounded-xl border border-green-200">
+                        <h4 class="font-bold text-green-800 mb-2">Processo</h4>
+                        <p class="text-gray-700 text-sm">Desenvolver playbook de retenção baseado nos insights identificados</p>
+                    </div>
+                    <div class="p-4 bg-purple-50 rounded-xl border border-purple-200">
+                        <h4 class="font-bold text-purple-800 mb-2">Ação Rápida</h4>
+                        <p class="text-gray-700 text-sm">Priorizar casos do segmento Imobiliário (46.5% da concentração)</p>
+                    </div>
+                </div>
+            </div>
         </div>
-    </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-white border-t border-gray-200 mt-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+            <div class="text-center text-gray-500 text-sm">
+                Dashboard de Análise C2S • Churn Analysis • Versão Corrigida
+            </div>
+        </div>
+    </footer>
 </body>
+</html>

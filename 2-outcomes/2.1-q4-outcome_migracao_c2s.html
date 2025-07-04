@@ -4,539 +4,421 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Outcome: Vendas Cross-Imobiliárias Ativas</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: #f5f6fa;
-            min-height: 100vh;
-            padding: 20px;
-        }
-
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            background: white;
-            border-radius: 20px;
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
-            overflow: hidden;
-        }
-
-        .header {
-            background: #2c3e50;
-            color: white;
-            padding: 40px 30px;
-            text-align: center;
-        }
-
-        .header h1 {
-            font-size: 2.2em;
-            margin-bottom: 10px;
-            font-weight: 700;
-        }
-
-        .header p {
-            font-size: 1.1em;
-            opacity: 0.9;
-        }
-
-        .outcome-card {
-            background: #e74c3c;
-            margin: 30px;
-            padding: 30px;
-            border-radius: 20px;
-            color: white;
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
-        }
-
-        .outcome-title {
-            font-size: 1.8em;
-            font-weight: 700;
-            margin-bottom: 20px;
-            text-align: center;
-        }
-
-        .outcome-description {
-            font-size: 1.1em;
-            line-height: 1.6;
-            margin-bottom: 25px;
-            opacity: 0.95;
-        }
-
-        .metrics-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 20px;
-            margin: 30px;
-        }
-
-        .metric-card {
-            background: white;
-            padding: 25px;
-            border-radius: 15px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-            text-align: center;
-            border-left: 6px solid;
-        }
-
-        .metric-card.base {
-            border-left-color: #3498db;
-        }
-
-        .metric-card.meta {
-            border-left-color: #e74c3c;
-        }
-
-        .metric-card.resultado {
-            border-left-color: #27ae60;
-        }
-
-        .metric-card.volume {
-            border-left-color: #f39c12;
-        }
-
-        .metric-number {
-            font-size: 2.5em;
-            font-weight: 700;
-            margin-bottom: 10px;
-            color: #2c3e50;
-        }
-
-        .metric-label {
-            color: #7f8c8d;
-            font-size: 1em;
-            line-height: 1.4;
-            font-weight: 500;
-        }
-
-        .validation-section {
-            background: #f8f9fa;
-            margin: 30px;
-            padding: 25px;
-            border-radius: 15px;
-            border-left: 6px solid #27ae60;
-        }
-
-        .validation-title {
-            color: #2c3e50;
-            font-size: 1.4em;
-            margin-bottom: 20px;
-            font-weight: 600;
-        }
-
-        .validation-item {
-            background: white;
-            padding: 20px;
-            border-radius: 10px;
-            margin-bottom: 15px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
-        }
-
-        .validation-item h4 {
-            color: #2c3e50;
-            margin-bottom: 10px;
-            font-weight: 600;
-        }
-
-        .status-correct {
-            color: #27ae60;
-            font-weight: 600;
-        }
-
-        .status-excellent {
-            color: #3498db;
-            font-weight: 600;
-        }
-
-        .status-strategic {
-            color: #9b59b6;
-            font-weight: 600;
-        }
-
-        .status-innovative {
-            color: #e74c3c;
-            font-weight: 600;
-        }
-
-        .breakdown-section {
-            background: #ecf0f1;
-            margin: 30px;
-            padding: 25px;
-            border-radius: 15px;
-            border-left: 6px solid #9b59b6;
-        }
-
-        .breakdown-title {
-            color: #2c3e50;
-            font-size: 1.4em;
-            margin-bottom: 20px;
-            font-weight: 600;
-        }
-
-        .breakdown-item {
-            background: white;
-            padding: 15px;
-            border-radius: 8px;
-            margin-bottom: 12px;
-            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .metric-name {
-            font-weight: 600;
-            color: #2c3e50;
-        }
-
-        .metric-value {
-            font-weight: 700;
-            color: #e74c3c;
-            font-size: 1.1em;
-        }
-
-        .highlight-number {
-            font-size: 1.3em;
-            font-weight: 700;
-            color: #e74c3c;
-            background: rgba(231, 76, 60, 0.1);
-            padding: 2px 6px;
-            border-radius: 4px;
-        }
-
-        .visual-indicator {
-            width: 100%;
-            height: 40px;
-            background: #ecf0f1;
-            border-radius: 20px;
-            margin: 20px 0;
-            overflow: hidden;
-            position: relative;
-        }
-
-        .progress-fill {
-            height: 100%;
-            background: #e74c3c;
-            border-radius: 20px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-weight: 600;
-            font-size: 1.1em;
-        }
-
-        .strategic-section {
-            background: #e8f4f8;
-            margin: 30px;
-            padding: 25px;
-            border-radius: 15px;
-            border-left: 6px solid #3498db;
-        }
-
-        .strategic-title {
-            color: #2c3e50;
-            font-size: 1.4em;
-            margin-bottom: 20px;
-            font-weight: 600;
-        }
-
-        .strategic-item {
-            background: white;
-            padding: 15px;
-            border-radius: 8px;
-            margin-bottom: 12px;
-            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
-        }
-
-        .impact-section {
-            background: #27ae60;
-            margin: 30px;
-            padding: 25px;
-            border-radius: 15px;
-            color: white;
-        }
-
-        .impact-title {
-            font-size: 1.4em;
-            margin-bottom: 20px;
-            font-weight: 600;
-        }
-
-        .impact-item {
-            background: rgba(255, 255, 255, 0.1);
-            padding: 15px;
-            border-radius: 8px;
-            margin-bottom: 12px;
-            backdrop-filter: blur(10px);
-        }
-
-        .calculation-section {
-            background: #fff5f5;
-            margin: 30px;
-            padding: 25px;
-            border-radius: 15px;
-            border-left: 6px solid #e74c3c;
-        }
-
-        .calculation-title {
-            color: #2c3e50;
-            font-size: 1.4em;
-            margin-bottom: 20px;
-            font-weight: 600;
-        }
-
-        .calculation-item {
-            background: white;
-            padding: 15px;
-            border-radius: 8px;
-            margin-bottom: 12px;
-            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
-        }
-
-        .calculation-formula {
-            font-family: 'Courier New', monospace;
-            background: #f8f9fa;
-            padding: 10px;
-            border-radius: 5px;
-            margin: 8px 0;
-            border-left: 3px solid #e74c3c;
-        }
-
-        @media (max-width: 768px) {
-            .metrics-grid {
-                grid-template-columns: 1fr;
-            }
-            
-            .header h1 {
-                font-size: 1.8em;
-            }
-            
-            .metric-number {
-                font-size: 2em;
-            }
-            
-            .breakdown-item {
-                flex-direction: column;
-                align-items: flex-start;
-                gap: 8px;
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    animation: {
+                        'fade-in': 'fadeIn 0.8s ease-in-out',
+                        'slide-up': 'slideUp 0.6s ease-out',
+                        'pulse-slow': 'pulse 3s infinite',
+                        'bounce-slow': 'bounce 2s infinite',
+                        'spin-slow': 'spin 4s linear infinite',
+                        'pulse-ring': 'pulseRing 2s infinite',
+                        'scale-pulse': 'scalePulse 2s infinite',
+                    },
+                    keyframes: {
+                        fadeIn: {
+                            '0%': { opacity: '0' },
+                            '100%': { opacity: '1' }
+                        },
+                        slideUp: {
+                            '0%': { transform: 'translateY(20px)', opacity: '0' },
+                            '100%': { transform: 'translateY(0)', opacity: '1' }
+                        },
+                        pulseRing: {
+                            '0%': { transform: 'scale(1)', opacity: '1' },
+                            '50%': { transform: 'scale(1.1)', opacity: '0.8' },
+                            '100%': { transform: 'scale(1)', opacity: '1' }
+                        },
+                        scalePulse: {
+                            '0%': { transform: 'scale(1)' },
+                            '50%': { transform: 'scale(1.05)' },
+                            '100%': { transform: 'scale(1)' }
+                        }
+                    }
+                }
             }
         }
-    </style>
-<style>
-    .nav-buttons {
-        position: fixed;
-        bottom: 30px;
-        right: 30px;
-        display: flex;
-        gap: 15px;
-        z-index: 1000;
-    }
-
-    .nav-button {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        width: 60px;
-        height: 60px;
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-        color: white;
-        border-radius: 50%;
-        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
-        text-decoration: none;
-        font-size: 1.5em;
-        transition: transform 0.3s ease, box-shadow 0.3s ease;
-    }
-
-    .nav-button:hover {
-        transform: translateY(-5px);
-        box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
-    }
-
-    .home-button {
-        background: linear-gradient(135deg, #ff6b6b 0%, #ee5a24 100%);
-    }
-</style>
+    </script>
 </head>
-<body>
-<div class="nav-buttons">
-        <a href="../index.html" class="nav-button home-button" title="Página Inicial">🏠</a>
-        <a href="2.0-q4-outcome_migracao_c2s.html" class="nav-button" title="Página Anterior">←</a>
-        <a href="2.2-q4-outcome_migracao_c2s.html" class="nav-button" title="Próxima Página">→</a>
-    </div>
-    <div class="container">
-        <div class="header">
-            <h1>OUTCOME: VENDAS CROSS-IMOBILIÁRIAS ATIVAS</h1>
-            <p>Prova de Conceito da Rede Funcionando - Validado e Refinado</p>
-        </div>
-
-        <div class="outcome-card">
-            <div class="outcome-title">Vendas Cross-Imobiliárias Ativas</div>
-            <div class="outcome-description">
-                Imobiliárias vendendo imóveis de outras imobiliárias da rede. Métrica que prova que a rede funciona e gera valor real. Cada venda cross cria dependência e stickiness extremo.
-            </div>
-        </div>
-
-        <div class="metrics-grid">
-            <div class="metric-card base">
-                <div class="metric-number">857</div>
-                <div class="metric-label">Base Ativa<br/>Imobiliárias na Rede</div>
-            </div>
-
-            <div class="metric-card meta">
-                <div class="metric-number">40%</div>
-                <div class="metric-label">Meta de Participação<br/>Realizando Vendas Cross</div>
-            </div>
-
-            <div class="metric-card resultado">
-                <div class="metric-number">343</div>
-                <div class="metric-label">Resultado<br/>Imobiliárias Vendendo Cross</div>
-            </div>
-
-            <div class="metric-card volume">
-                <div class="metric-number">2</div>
-                <div class="metric-label">Volume Mínimo<br/>Vendas Cross/Mês por Imobiliária</div>
-            </div>
-        </div>
-
-        <div class="visual-indicator">
-            <div class="progress-fill" style="width: 40%;">
-                343 de 857 (40% da rede ativa)
-            </div>
-        </div>
-
-        <div class="validation-section">
-            <div class="validation-title">VALIDAÇÃO COMPLETA - OUTCOME PERFEITO</div>
-            
-            <div class="validation-item">
-                <h4><span class="status-excellent">PERFEITO:</span> Base Consistente</h4>
-                <p>Base de <strong>857 imobiliárias na rede</strong> está perfeitamente alinhada com o outcome anterior da mega rede.</p>
-            </div>
-
-            <div class="validation-item">
-                <h4><span class="status-correct">VALIDADO:</span> Meta de 40% Realista</h4>
-                <p>Meta de 40% de participação é <strong>agressiva mas alcançável</strong> - representa early adopters e imobiliárias mais ativas.</p>
-            </div>
-
-            <div class="validation-item">
-                <h4><span class="status-strategic">ESTRATÉGICO:</span> 343 Imobiliárias Ativas</h4>
-                <p><strong>343 imobiliárias</strong> fazendo vendas cross cria massa crítica suficiente para provar valor da rede.</p>
-            </div>
-
-            <div class="validation-item">
-                <h4><span class="status-innovative">INOVADOR:</span> Métrica de Prova de Valor</h4>
-                <p>Volume mínimo de <strong>2 vendas cross/mês</strong> é KPI perfeito para medir sucesso real da colaboração.</p>
-            </div>
-        </div>
-
-        <div class="breakdown-section">
-            <div class="breakdown-title">BREAKDOWN DETALHADO DE PERFORMANCE</div>
-            
-            <div class="breakdown-item">
-                <div class="metric-name">Total de Imobiliárias na Rede</div>
-                <div class="metric-value">857</div>
-            </div>
-
-            <div class="breakdown-item">
-                <div class="metric-name">Imobiliárias Fazendo Vendas Cross</div>
-                <div class="metric-value">343 (40%)</div>
-            </div>
-
-            <div class="breakdown-item">
-                <div class="metric-name">Imobiliárias Passivas (Só Recebem)</div>
-                <div class="metric-value">514 (60%)</div>
-            </div>
-
-            <div class="breakdown-item">
-                <div class="metric-name">Volume Mensal Mínimo</div>
-                <div class="metric-value">2 vendas cross/imobiliária</div>
-            </div>
-
-            <div class="breakdown-item">
-                <div class="metric-name"><strong>Total de Vendas Cross/Mês</strong></div>
-                <div class="metric-value"><strong>686 transações</strong></div>
-            </div>
-        </div>
-
-        <div class="calculation-section">
-            <div class="calculation-title">CÁLCULOS DE IMPACTO FINANCEIRO</div>
-            
-            <div class="calculation-item">
-                <h4>Volume Mensal de Vendas Cross</h4>
-                <div class="calculation-formula">
-                    343 imobiliárias × 2 vendas/mês = 686 vendas cross mensais
+<body class="bg-gradient-to-br from-slate-50 to-orange-50 min-h-screen">
+    <!-- Navigation -->
+    <nav class="fixed top-0 left-0 right-0 bg-white/90 backdrop-blur-md shadow-sm z-50 border-b border-gray-200">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <div class="flex items-center space-x-4">
+                    <a href="../index.html" 
+                       class="flex items-center justify-center w-10 h-10 bg-orange-600 text-white rounded-lg hover:bg-orange-700 transition-colors duration-200 shadow-md hover:shadow-lg transform hover:scale-105">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path>
+                        </svg>
+                    </a>
+                    <span class="text-gray-600 font-medium">Vendas Cross-Imobiliárias</span>
                 </div>
-                <p>Prova tangível de que a rede gera valor comercial real.</p>
-            </div>
-
-            <div class="calculation-item">
-                <h4>Volume Anual de Transações</h4>
-                <div class="calculation-formula">
-                    686 vendas/mês × 12 meses = 8.232 vendas cross anuais
+                <div class="flex items-center space-x-2">
+                    <a href="2.0-q4-outcome_migracao_c2s.html" 
+                       class="flex items-center justify-center w-10 h-10 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-lg transition-colors duration-200 shadow-md hover:shadow-lg transform hover:scale-105">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
+                        </svg>
+                    </a>
+                    <a href="2.2-q4-outcome_migracao_c2s.html" 
+                       class="flex items-center justify-center w-10 h-10 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-lg transition-colors duration-200 shadow-md hover:shadow-lg transform hover:scale-105">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                        </svg>
+                    </a>
                 </div>
-                <p>Escala significativa de colaboração entre imobiliárias.</p>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="pt-24 pb-12 px-4 sm:px-6 lg:px-8">
+        <div class="max-w-7xl mx-auto">
+            <!-- Header -->
+            <div class="text-center mb-12 animate-fade-in">
+                <h1 class="text-4xl md:text-5xl font-bold text-gray-900 mb-2">
+                    OUTCOME Q4: ESPECÍFICO
+                </h1>
+                <h2 class="text-3xl md:text-4xl font-bold bg-gradient-to-r from-orange-600 to-red-600 bg-clip-text text-transparent mb-4">
+                    VENDAS CROSS-IMOBILIÁRIAS ATIVAS
+                </h2>
+                <div class="mt-6 w-24 h-1 bg-gradient-to-r from-orange-500 to-red-500 mx-auto rounded-full"></div>
             </div>
 
-            <div class="calculation-item">
-                <h4>Receita Adicional para C2S (Estimativa)</h4>
-                <div class="calculation-formula">
-                    8.232 vendas × R$ 50 taxa cross = R$ 411.600 anuais
+            <!-- Outcome Card -->
+            <div class="bg-gradient-to-r from-orange-500 to-red-500 rounded-2xl shadow-xl p-8 mb-12 text-white animate-slide-up relative overflow-hidden">
+                <div class="absolute top-0 right-0 w-40 h-40 bg-white/10 rounded-full -translate-y-20 translate-x-20 animate-scale-pulse"></div>
+                <div class="absolute bottom-0 left-0 w-32 h-32 bg-white/10 rounded-full translate-y-16 -translate-x-16 animate-scale-pulse" style="animation-delay: 1s"></div>
+                <div class="flex items-start space-x-4 relative z-10">
+                    <div class="flex-shrink-0">
+                        <div class="w-12 h-12 bg-white/20 rounded-full flex items-center justify-center animate-pulse-ring">
+                            <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4"></path>
+                            </svg>
+                        </div>
+                    </div>
+                    <div class="flex-1">
+                        <h3 class="text-2xl font-bold mb-3">
+                            Vendas Cross-Imobiliárias Ativas
+                        </h3>
+                        <p class="text-orange-100 text-lg leading-relaxed">
+                            Imobiliárias vendendo imóveis de outras imobiliárias da rede. Métrica que prova que a rede funciona e gera valor real. Cada venda cross cria dependência e stickiness extremo.
+                        </p>
+                    </div>
                 </div>
-                <p>Nova fonte de receita através de facilitação de vendas cross.</p>
+            </div>
+
+            <!-- Metrics Grid -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
+                <!-- Base Ativa -->
+                <div class="bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 p-8 border border-slate-100 transform hover:scale-105 animate-slide-up">
+                    <div class="text-center">
+                        <div class="w-16 h-16 bg-gradient-to-br from-slate-500 to-slate-700 rounded-full flex items-center justify-center mx-auto mb-4 shadow-lg">
+                            <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"></path>
+                            </svg>
+                        </div>
+                        <div class="text-4xl font-bold text-slate-700 mb-2">857</div>
+                        <div class="text-gray-600 font-medium">Base Ativa</div>
+                        <div class="text-sm text-slate-600">Imobiliárias na Rede</div>
+                    </div>
+                </div>
+
+                <!-- Meta de Participação -->
+                <div class="bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 p-8 border border-orange-100 transform hover:scale-105 animate-slide-up" style="animation-delay: 0.1s">
+                    <div class="text-center">
+                        <div class="w-16 h-16 bg-gradient-to-br from-orange-500 to-orange-700 rounded-full flex items-center justify-center mx-auto mb-4 shadow-lg">
+                            <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                            </svg>
+                        </div>
+                        <div class="text-4xl font-bold text-orange-700 mb-2">40%</div>
+                        <div class="text-gray-600 font-medium">Meta de Participação</div>
+                        <div class="text-sm text-orange-600">Realizando Vendas Cross</div>
+                    </div>
+                </div>
+
+                <!-- Resultado -->
+                <div class="bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 p-8 border border-red-100 transform hover:scale-105 animate-slide-up" style="animation-delay: 0.2s">
+                    <div class="text-center">
+                        <div class="w-16 h-16 bg-gradient-to-br from-red-500 to-red-700 rounded-full flex items-center justify-center mx-auto mb-4 shadow-lg">
+                            <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4"></path>
+                            </svg>
+                        </div>
+                        <div class="text-4xl font-bold text-red-700 mb-2">343</div>
+                        <div class="text-gray-600 font-medium">Resultado</div>
+                        <div class="text-sm text-red-600">Imobiliárias Vendendo Cross</div>
+                    </div>
+                </div>
+
+                <!-- Volume Mínimo -->
+                <div class="bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 p-8 border border-amber-100 transform hover:scale-105 animate-slide-up" style="animation-delay: 0.3s">
+                    <div class="text-center">
+                        <div class="w-16 h-16 bg-gradient-to-br from-amber-500 to-amber-700 rounded-full flex items-center justify-center mx-auto mb-4 shadow-lg">
+                            <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
+                            </svg>
+                        </div>
+                        <div class="text-4xl font-bold text-amber-700 mb-2">2</div>
+                        <div class="text-gray-600 font-medium">Volume Mínimo</div>
+                        <div class="text-sm text-amber-600">Vendas Cross/Mês por Imobiliária</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Progress Visualization -->
+            <div class="bg-white rounded-2xl shadow-lg p-8 mb-12 border border-gray-100 animate-slide-up" style="animation-delay: 0.4s">
+                <h3 class="text-xl font-bold text-gray-900 mb-6 text-center">Participação Ativa na Rede</h3>
+                <div class="bg-gray-200 rounded-full h-6 overflow-hidden">
+                    <div class="h-full bg-gradient-to-r from-orange-500 to-red-500 rounded-full flex items-center justify-center text-white font-semibold text-sm animate-pulse-slow" style="width: 40%;">
+                        343 de 857 (40% da rede ativa)
+                    </div>
+                </div>
+                <div class="flex justify-between text-sm text-gray-600 mt-2">
+                    <span>0</span>
+                    <span class="font-semibold">Meta: 40%</span>
+                    <span>857</span>
+                </div>
+            </div>
+
+            <!-- Validation Section -->
+            <div class="bg-white rounded-2xl shadow-lg p-8 mb-12 border border-gray-100 animate-slide-up" style="animation-delay: 0.5s">
+                <div class="flex items-center space-x-3 mb-6">
+                    <div class="w-10 h-10 bg-gradient-to-br from-green-500 to-emerald-500 rounded-full flex items-center justify-center">
+                        <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                        </svg>
+                    </div>
+                    <h3 class="text-2xl font-bold text-gray-900">VALIDAÇÃO COMPLETA - OUTCOME PERFEITO</h3>
+                </div>
+
+                <div class="space-y-6">
+                    <!-- Perfect Status -->
+                    <div class="flex items-start space-x-4 p-4 bg-emerald-50 rounded-lg border-l-4 border-emerald-500">
+                        <div class="flex-shrink-0">
+                            <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-emerald-100 text-emerald-800">
+                                PERFEITO
+                            </span>
+                        </div>
+                        <div class="flex-1">
+                            <h4 class="font-semibold text-gray-900 mb-1">Base Consistente</h4>
+                            <p class="text-gray-700">Base de <strong>857 imobiliárias na rede</strong> está perfeitamente alinhada com o outcome anterior da mega rede.</p>
+                        </div>
+                    </div>
+
+                    <!-- Validated Status -->
+                    <div class="flex items-start space-x-4 p-4 bg-green-50 rounded-lg border-l-4 border-green-500">
+                        <div class="flex-shrink-0">
+                            <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-green-100 text-green-800">
+                                VALIDADO
+                            </span>
+                        </div>
+                        <div class="flex-1">
+                            <h4 class="font-semibold text-gray-900 mb-1">Meta de 40% Realista</h4>
+                            <p class="text-gray-700">Meta de 40% de participação é <strong>agressiva mas alcançável</strong> - representa early adopters e imobiliárias mais ativas.</p>
+                        </div>
+                    </div>
+
+                    <!-- Strategic Status -->
+                    <div class="flex items-start space-x-4 p-4 bg-indigo-50 rounded-lg border-l-4 border-indigo-500">
+                        <div class="flex-shrink-0">
+                            <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-indigo-100 text-indigo-800">
+                                ESTRATÉGICO
+                            </span>
+                        </div>
+                        <div class="flex-1">
+                            <h4 class="font-semibold text-gray-900 mb-1">343 Imobiliárias Ativas</h4>
+                            <p class="text-gray-700"><strong>343 imobiliárias</strong> fazendo vendas cross cria massa crítica suficiente para provar valor da rede.</p>
+                        </div>
+                    </div>
+
+                    <!-- Innovative Status -->
+                    <div class="flex items-start space-x-4 p-4 bg-purple-50 rounded-lg border-l-4 border-purple-500">
+                        <div class="flex-shrink-0">
+                            <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-purple-100 text-purple-800">
+                                INOVADOR
+                            </span>
+                        </div>
+                        <div class="flex-1">
+                            <h4 class="font-semibold text-gray-900 mb-1">Métrica de Prova de Valor</h4>
+                            <p class="text-gray-700">Volume mínimo de <strong>2 vendas cross/mês</strong> é KPI perfeito para medir sucesso real da colaboração.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Breakdown Section -->
+            <div class="bg-white rounded-2xl shadow-lg p-8 mb-12 border border-gray-100 animate-slide-up" style="animation-delay: 0.6s">
+                <div class="flex items-center space-x-3 mb-6">
+                    <div class="w-10 h-10 bg-gradient-to-br from-gray-500 to-gray-700 rounded-full flex items-center justify-center">
+                        <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
+                        </svg>
+                    </div>
+                    <h3 class="text-2xl font-bold text-gray-900">BREAKDOWN DETALHADO DE PERFORMANCE</h3>
+                </div>
+
+                <div class="space-y-4">
+                    <div class="flex justify-between items-center p-4 bg-slate-50 rounded-lg border border-slate-100">
+                        <div class="font-semibold text-slate-700">Total de Imobiliárias na Rede</div>
+                        <div class="text-2xl font-bold text-slate-600">857</div>
+                    </div>
+
+                    <div class="flex justify-between items-center p-4 bg-orange-50 rounded-lg border border-orange-100">
+                        <div class="font-semibold text-orange-700">Imobiliárias Fazendo Vendas Cross</div>
+                        <div class="text-2xl font-bold text-orange-600">343 (40%)</div>
+                    </div>
+
+                    <div class="flex justify-between items-center p-4 bg-gray-50 rounded-lg border border-gray-100">
+                        <div class="font-semibold text-gray-700">Imobiliárias Passivas (Só Recebem)</div>
+                        <div class="text-2xl font-bold text-gray-600">514 (60%)</div>
+                    </div>
+
+                    <div class="flex justify-between items-center p-4 bg-amber-50 rounded-lg border border-amber-100">
+                        <div class="font-semibold text-amber-700">Volume Mensal Mínimo</div>
+                        <div class="text-2xl font-bold text-amber-600">2 vendas cross/imobiliária</div>
+                    </div>
+
+                    <div class="flex justify-between items-center p-4 bg-red-50 rounded-lg border border-red-200 border-2">
+                        <div class="font-bold text-red-900">Total de Vendas Cross/Mês</div>
+                        <div class="text-3xl font-bold text-red-700">686 transações</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Calculations Section -->
+            <div class="bg-white rounded-2xl shadow-lg p-8 mb-12 border border-gray-100 animate-slide-up" style="animation-delay: 0.7s">
+                <div class="flex items-center space-x-3 mb-6">
+                    <div class="w-10 h-10 bg-gradient-to-br from-red-500 to-pink-500 rounded-full flex items-center justify-center">
+                        <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1"></path>
+                        </svg>
+                    </div>
+                    <h3 class="text-2xl font-bold text-gray-900">CÁLCULOS DE IMPACTO FINANCEIRO</h3>
+                </div>
+
+                <div class="space-y-6">
+                    <!-- Monthly Volume -->
+                    <div class="p-4 bg-red-50 rounded-lg border border-red-200">
+                        <h4 class="font-semibold text-red-900 mb-2">Volume Mensal de Vendas Cross</h4>
+                        <div class="bg-white p-3 rounded border-l-4 border-red-400 font-mono text-sm mb-2">
+                            343 imobiliárias × 2 vendas/mês = 686 vendas cross mensais
+                        </div>
+                        <p class="text-red-700 text-sm">Prova tangível de que a rede gera valor comercial real.</p>
+                    </div>
+
+                    <!-- Annual Volume -->
+                    <div class="p-4 bg-orange-50 rounded-lg border border-orange-200">
+                        <h4 class="font-semibold text-orange-900 mb-2">Volume Anual de Transações</h4>
+                        <div class="bg-white p-3 rounded border-l-4 border-orange-400 font-mono text-sm mb-2">
+                            686 vendas/mês × 12 meses = 8.232 vendas cross anuais
+                        </div>
+                        <p class="text-orange-700 text-sm">Escala significativa de colaboração entre imobiliárias.</p>
+                    </div>
+
+                    <!-- Additional Revenue -->
+                    <div class="p-4 bg-green-50 rounded-lg border border-green-200">
+                        <h4 class="font-semibold text-green-900 mb-2">Receita Adicional para C2S (Estimativa)</h4>
+                        <div class="bg-white p-3 rounded border-l-4 border-green-400 font-mono text-sm mb-2">
+                            8.232 vendas × R$ 50 taxa cross = R$ 411.600 anuais
+                        </div>
+                        <p class="text-green-700 text-sm">Nova fonte de receita através de facilitação de vendas cross.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Anti-Churn Section -->
+            <div class="bg-white rounded-2xl shadow-lg p-8 mb-12 border border-gray-100 animate-slide-up" style="animation-delay: 0.8s">
+                <div class="flex items-center space-x-3 mb-6">
+                    <div class="w-10 h-10 bg-gradient-to-br from-indigo-500 to-purple-500 rounded-full flex items-center justify-center">
+                        <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path>
+                        </svg>
+                    </div>
+                    <h3 class="text-2xl font-bold text-gray-900">IMPACTO ESTRATÉGICO ANTI-CHURN</h3>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="p-4 bg-gradient-to-br from-blue-50 to-indigo-50 rounded-lg border border-blue-100">
+                        <h4 class="font-bold text-blue-700 mb-2">Dependência Comercial</h4>
+                        <p class="text-gray-700"><span class="font-bold text-blue-600">343 imobiliárias</span> dependem da rede para 24+ vendas anuais extras - sair = perder receita direta.</p>
+                    </div>
+
+                    <div class="p-4 bg-gradient-to-br from-green-50 to-emerald-50 rounded-lg border border-green-100">
+                        <h4 class="font-bold text-green-700 mb-2">Prova de ROI</h4>
+                        <p class="text-gray-700">Cada imobiliária ativa gera <span class="font-bold text-green-600">R$ 20-50k extras/ano</span> através de vendas cross - ROI tangível e mensurável.</p>
+                    </div>
+
+                    <div class="p-4 bg-gradient-to-br from-purple-50 to-pink-50 rounded-lg border border-purple-100">
+                        <h4 class="font-bold text-purple-700 mb-2">Network Stickiness</h4>
+                        <p class="text-gray-700">Imobiliárias que vendem cross se tornam <span class="font-bold text-purple-600">evangelistas da rede</span> - churn próximo de zero.</p>
+                    </div>
+
+                    <div class="p-4 bg-gradient-to-br from-orange-50 to-yellow-50 rounded-lg border border-orange-100">
+                        <h4 class="font-bold text-orange-700 mb-2">Viral Growth</h4>
+                        <p class="text-gray-700">Sucesso de vendas cross atrai <span class="font-bold text-orange-600">novas imobiliárias</span> que querem participar da rede lucrativa.</p>
+                    </div>
+
+                    <div class="p-4 bg-gradient-to-br from-teal-50 to-cyan-50 rounded-lg border border-teal-100 md:col-span-2">
+                        <h4 class="font-bold text-teal-700 mb-2">Data Competitive Moat</h4>
+                        <p class="text-gray-700">C2S acumula dados únicos sobre <span class="font-bold text-teal-600">performance cross-selling</span> que concorrentes não têm.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Revolution Section -->
+            <div class="bg-white rounded-2xl shadow-lg p-8 border border-gray-100 animate-slide-up" style="animation-delay: 0.9s">
+                <div class="flex items-center space-x-3 mb-6">
+                    <div class="w-10 h-10 bg-gradient-to-br from-red-500 to-pink-500 rounded-full flex items-center justify-center">
+                        <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+                        </svg>
+                    </div>
+                    <h3 class="text-2xl font-bold text-gray-900">REVOLUÇÃO NO MODELO DE RECEITA</h3>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="p-4 bg-gradient-to-br from-green-50 to-emerald-50 rounded-lg border border-green-100">
+                        <h4 class="font-bold text-green-700 mb-2">Nova Revenue Stream</h4>
+                        <p class="text-gray-700"><span class="font-bold text-green-600">R$ 400k+ anuais</span> em taxas de facilitação de vendas cross - receita adicional pura.</p>
+                    </div>
+
+                    <div class="p-4 bg-gradient-to-br from-blue-50 to-indigo-50 rounded-lg border border-blue-100">
+                        <h4 class="font-bold text-blue-700 mb-2">Customer Success Proof</h4>
+                        <p class="text-gray-700"><span class="font-bold text-blue-600">686 vendas cross/mês</span> é evidência irrefutável de que C2S gera valor comercial real.</p>
+                    </div>
+
+                    <div class="p-4 bg-gradient-to-br from-purple-50 to-pink-50 rounded-lg border border-purple-100">
+                        <h4 class="font-bold text-purple-700 mb-2">Competitive Differentiation</h4>
+                        <p class="text-gray-700">Única plataforma do Brasil que gera <span class="font-bold text-purple-600">vendas colaborativas</span> entre imobiliárias.</p>
+                    </div>
+
+                    <div class="p-4 bg-gradient-to-br from-orange-50 to-red-50 rounded-lg border border-orange-100">
+                        <h4 class="font-bold text-orange-700 mb-2">Self-Reinforcing Network</h4>
+                        <p class="text-gray-700">Mais vendas cross = mais valor = mais adesão = <span class="font-bold text-orange-600">crescimento exponencial</span>.</p>
+                    </div>
+
+                    <div class="p-4 bg-gradient-to-br from-red-50 to-pink-50 rounded-lg border border-red-100 md:col-span-2">
+                        <h4 class="font-bold text-red-700 mb-2">Churn Elimination</h4>
+                        <p class="text-gray-700">Imobiliárias com vendas cross ativas têm <span class="font-bold text-red-600">churn rate &lt; 2%</span> - dependência comercial total.</p>
+                    </div>
+                </div>
             </div>
         </div>
+    </main>
 
-        <div class="strategic-section">
-            <div class="strategic-title">IMPACTO ESTRATÉGICO ANTI-CHURN</div>
-            
-            <div class="strategic-item">
-                <strong>Dependência Comercial:</strong> <span class="highlight-number">343 imobiliárias</span> dependem da rede para 24+ vendas anuais extras - sair = perder receita direta.
-            </div>
-
-            <div class="strategic-item">
-                <strong>Prova de ROI:</strong> Cada imobiliária ativa gera <span class="highlight-number">R$ 20-50k extras/ano</span> através de vendas cross - ROI tangível e mensurável.
-            </div>
-
-            <div class="strategic-item">
-                <strong>Network Stickiness:</strong> Imobiliárias que vendem cross se tornam <span class="highlight-number">evangelistas da rede</span> - churn próximo de zero.
-            </div>
-
-            <div class="strategic-item">
-                <strong>Viral Growth:</strong> Sucesso de vendas cross atrai <span class="highlight-number">novas imobiliárias</span> que querem participar da rede lucrativa.
-            </div>
-
-            <div class="strategic-item">
-                <strong>Data Competitive Moat:</strong> C2S acumula dados únicos sobre <span class="highlight-number">performance cross-selling</span> que concorrentes não têm.
+    <!-- Footer -->
+    <footer class="bg-white border-t border-gray-200 mt-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+            <div class="text-center text-gray-500 text-sm">
+                Dashboard Q4 Outcome • Vendas Cross-Imobiliárias Ativas
             </div>
         </div>
-
-        <div class="impact-section">
-            <div class="impact-title">REVOLUÇÃO NO MODELO DE RECEITA</div>
-            
-            <div class="impact-item">
-                <strong>Nova Revenue Stream:</strong> <span class="highlight-number">R$ 400k+ anuais</span> em taxas de facilitação de vendas cross - receita adicional pura.
-            </div>
-
-            <div class="impact-item">
-                <strong>Customer Success Proof:</strong> <span class="highlight-number">686 vendas cross/mês</span> é evidência irrefutável de que C2S gera valor comercial real.
-            </div>
-
-            <div class="impact-item">
-                <strong>Competitive Differentiation:</strong> Única plataforma do Brasil que gera <span class="highlight-number">vendas colaborativas</span> entre imobiliárias.
-            </div>
-
-            <div class="impact-item">
-                <strong>Self-Reinforcing Network:</strong> Mais vendas cross = mais valor = mais adesão = <span class="highlight-number">crescimento exponencial</span>.
-            </div>
-
-            <div class="impact-item">
-                <strong>Churn Elimination:</strong> Imobiliárias com vendas cross ativas têm <span class="highlight-number">churn rate &lt; 2%</span> - dependência comercial total.
-            </div>
-        </div>
-    </div>
+    </footer>
 </body>
+</html>

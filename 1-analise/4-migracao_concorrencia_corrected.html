@@ -4,313 +4,361 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Migração para Concorrência - Corrigido</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
-            min-height: 100vh;
-            padding: 20px;
-        }
-
-        .container {
-            max-width: 1000px;
-            margin: 0 auto;
-            background: white;
-            border-radius: 20px;
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
-            overflow: hidden;
-        }
-
-        .header {
-            background: linear-gradient(135deg, #ff6b6b 0%, #ee5a24 100%);
-            color: white;
-            padding: 30px;
-            text-align: center;
-        }
-
-        .header h1 {
-            font-size: 2.2em;
-            margin-bottom: 10px;
-            font-weight: 700;
-        }
-
-        .header p {
-            font-size: 1.1em;
-            opacity: 0.9;
-        }
-
-        .content {
-            padding: 30px;
-        }
-
-        .subcategory-item {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 20px 0;
-            border-bottom: 1px solid #ecf0f1;
-            transition: background-color 0.3s ease;
-        }
-
-        .subcategory-item:hover {
-            background-color: #f8f9fa;
-            margin: 0 -30px;
-            padding: 20px 30px;
-            border-radius: 10px;
-        }
-
-        .subcategory-item:last-child {
-            border-bottom: none;
-        }
-
-        .subcategory-name {
-            font-size: 1.1em;
-            color: #2c3e50;
-            font-weight: 500;
-            flex: 1;
-        }
-
-        .subcategory-metrics {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-        }
-
-        .cases-badge {
-            background: #3498db;
-            color: white;
-            padding: 8px 16px;
-            border-radius: 20px;
-            font-weight: 600;
-            font-size: 0.9em;
-        }
-
-        .percentage-badge {
-            background: #27ae60;
-            color: white;
-            padding: 8px 16px;
-            border-radius: 20px;
-            font-weight: 600;
-            font-size: 0.9em;
-        }
-
-        .competitors-section {
-            background: linear-gradient(135deg, #ffeaa7 0%, #fab1a0 100%);
-            margin: 30px;
-            padding: 25px;
-            border-radius: 15px;
-            border-left: 5px solid #e17055;
-        }
-
-        .competitors-title {
-            color: #2d3436;
-            font-size: 1.3em;
-            margin-bottom: 15px;
-            font-weight: 600;
-        }
-
-        .competitor-item {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 10px;
-            padding: 10px 0;
-        }
-
-        .competitor-name {
-            color: #2d3436;
-            font-weight: 600;
-        }
-
-        .competitor-cases {
-            color: #e17055;
-            font-weight: 700;
-            font-size: 1.1em;
-        }
-
-        .progress-bar {
-            width: 100%;
-            height: 8px;
-            background: #ecf0f1;
-            border-radius: 10px;
-            margin: 20px 0;
-            overflow: hidden;
-        }
-
-        .progress-fill {
-            height: 100%;
-            background: linear-gradient(135deg, #ff6b6b 0%, #ee5a24 100%);
-            border-radius: 10px;
-        }
-
-        .corrections-section {
-            background: #f8f9fa;
-            margin: 30px;
-            padding: 25px;
-            border-radius: 15px;
-            border-left: 5px solid #e74c3c;
-        }
-
-        .corrections-title {
-            color: #2c3e50;
-            font-size: 1.3em;
-            margin-bottom: 20px;
-            font-weight: 600;
-        }
-
-        .correction-item {
-            background: white;
-            padding: 15px;
-            border-radius: 8px;
-            margin-bottom: 10px;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
-        }
-
-        .correction-item h4 {
-            color: #2c3e50;
-            margin-bottom: 8px;
-            font-size: 1em;
-        }
-
-        .correction-comparison {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            gap: 15px;
-        }
-
-        .old-value {
-            color: #e74c3c;
-            font-weight: 600;
-            background: #ffeaea;
-            padding: 5px 10px;
-            border-radius: 5px;
-            font-size: 0.9em;
-        }
-
-        .new-value {
-            color: #27ae60;
-            font-weight: 600;
-            background: #eafaf1;
-            padding: 5px 10px;
-            border-radius: 5px;
-            font-size: 0.9em;
-        }
-
-        @media (max-width: 768px) {
-            .subcategory-item {
-                flex-direction: column;
-                align-items: flex-start;
-                gap: 10px;
-            }
-            
-            .subcategory-metrics {
-                width: 100%;
-                justify-content: space-between;
-            }
-            
-            .correction-comparison {
-                flex-direction: column;
-                align-items: flex-start;
-                gap: 8px;
-            }
-            
-            .competitor-item {
-                flex-direction: column;
-                align-items: flex-start;
-                gap: 5px;
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    animation: {
+                        'fade-in': 'fadeIn 0.8s ease-in-out',
+                        'slide-up': 'slideUp 0.6s ease-out',
+                        'slide-in-left': 'slideInLeft 0.8s ease-out',
+                        'pulse-slow': 'pulse 3s infinite',
+                        'warning-pulse': 'warningPulse 2s ease-in-out infinite',
+                        'progress-fill': 'progressFill 2s ease-out',
+                        'competitive-pulse': 'competitivePulse 3s ease-in-out infinite',
+                    },
+                    keyframes: {
+                        fadeIn: {
+                            '0%': { opacity: '0' },
+                            '100%': { opacity: '1' }
+                        },
+                        slideUp: {
+                            '0%': { transform: 'translateY(20px)', opacity: '0' },
+                            '100%': { transform: 'translateY(0)', opacity: '1' }
+                        },
+                        slideInLeft: {
+                            '0%': { transform: 'translateX(-20px)', opacity: '0' },
+                            '100%': { transform: 'translateX(0)', opacity: '1' }
+                        },
+                        warningPulse: {
+                            '0%, 100%': { transform: 'scale(1)', opacity: '1' },
+                            '50%': { transform: 'scale(1.05)', opacity: '0.8' }
+                        },
+                        progressFill: {
+                            '0%': { width: '0%' },
+                            '100%': { width: 'var(--progress-width)' }
+                        },
+                        competitivePulse: {
+                            '0%, 100%': { transform: 'scale(1)', boxShadow: '0 0 0 0 rgba(239, 68, 68, 0.7)' },
+                            '50%': { transform: 'scale(1.02)', boxShadow: '0 0 0 10px rgba(239, 68, 68, 0)' }
+                        }
+                    }
+                }
             }
         }
-    </style>
-<style>
-    .nav-buttons {
-        position: fixed;
-        bottom: 30px;
-        right: 30px;
-        display: flex;
-        gap: 15px;
-        z-index: 1000;
-    }
-
-    .nav-button {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        width: 60px;
-        height: 60px;
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-        color: white;
-        border-radius: 50%;
-        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
-        text-decoration: none;
-        font-size: 1.5em;
-        transition: transform 0.3s ease, box-shadow 0.3s ease;
-    }
-
-    .nav-button:hover {
-        transform: translateY(-5px);
-        box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
-    }
-
-    .home-button {
-        background: linear-gradient(135deg, #ff6b6b 0%, #ee5a24 100%);
-    }
-</style>
+    </script>
 </head>
-<body>
-<div class="nav-buttons">
-        <a href="../index.html" class="nav-button home-button" title="Página Inicial">🏠</a>
-        <a href="3-problemas_financeiros_corrected.html" class="nav-button" title="Página Anterior">←</a>
-        <a href="5-demais_categorias_corrected.html" class="nav-button" title="Próxima Página">→</a>
-    </div>
-    <div class="container">
-        <div class="header">
-            <h1>MIGRAÇÃO PARA CONCORRÊNCIA</h1>
-            <p>323 casos • 17.4% do churn total • AMEAÇA DIRETA</p>
-        </div>
-
-        <div class="content">
-            <div class="subcategory-item">
-                <div class="subcategory-name">Foi para concorrência</div>
-                <div class="subcategory-metrics">
-                    <div class="cases-badge">235 casos</div>
-                    <div class="percentage-badge">12.7%</div>
+<body class="bg-gradient-to-br from-red-50 via-orange-50 to-red-100 min-h-screen">
+    <!-- Navigation -->
+    <nav class="fixed top-0 left-0 right-0 bg-white/90 backdrop-blur-md shadow-sm z-50 border-b border-gray-200">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <div class="flex items-center space-x-4">
+                    <a href="../index.html" 
+                       class="flex items-center justify-center w-10 h-10 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors duration-200 shadow-md hover:shadow-lg transform hover:scale-105">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path>
+                        </svg>
+                    </a>
+                    <span class="text-gray-600 font-medium">Migração para Concorrência</span>
                 </div>
-            </div>
-
-            <div class="subcategory-item">
-                <div class="subcategory-name">Outros motivos concorrência</div>
-                <div class="subcategory-metrics">
-                    <div class="cases-badge">64 casos</div>
-                    <div class="percentage-badge">3.4%</div>
-                </div>
-            </div>
-
-            <div class="subcategory-item">
-                <div class="subcategory-name">Geração de leads (concorrente)</div>
-                <div class="subcategory-metrics">
-                    <div class="cases-badge">24 casos</div>
-                    <div class="percentage-badge">1.3%</div>
+                <div class="flex items-center space-x-2">
+                    <a href="3-problemas_financeiros_corrected.html" 
+                       class="flex items-center justify-center w-10 h-10 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-lg transition-colors duration-200 shadow-md hover:shadow-lg transform hover:scale-105">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
+                        </svg>
+                    </a>
+                    <a href="5-demais_categorias_corrected.html" 
+                       class="flex items-center justify-center w-10 h-10 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-lg transition-colors duration-200 shadow-md hover:shadow-lg transform hover:scale-105">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                        </svg>
+                    </a>
                 </div>
             </div>
         </div>
+    </nav>
 
-        <div class="progress-bar">
-            <div class="progress-fill" style="width: 17.4%;"></div>
-        </div>
+    <!-- Main Content -->
+    <main class="pt-24 pb-12 px-4 sm:px-6 lg:px-8">
+        <div class="max-w-7xl mx-auto">
+            <!-- Header -->
+            <div class="text-center mb-12 animate-fade-in">
+                <div class="flex items-center justify-center mb-6">
+                    <div class="w-16 h-16 bg-gradient-to-br from-red-500 to-red-700 rounded-full flex items-center justify-center mr-4 shadow-lg animate-competitive-pulse">
+                        <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4"></path>
+                        </svg>
+                    </div>
+                    <h1 class="text-4xl md:text-5xl font-bold text-gray-900">
+                        MIGRAÇÃO PARA CONCORRÊNCIA
+                    </h1>
+                </div>
+                
+                <!-- Key Metrics -->
+                <div class="flex flex-wrap justify-center gap-6 mb-6">
+                    <div class="bg-red-100 text-red-800 px-6 py-3 rounded-full font-bold text-lg border border-red-200">
+                        <span class="text-2xl">323</span> casos
+                    </div>
+                    <div class="bg-orange-100 text-orange-800 px-6 py-3 rounded-full font-bold text-lg border border-orange-200">
+                        <span class="text-2xl">17.4%</span> do churn total
+                    </div>
+                    <div class="bg-red-200 text-red-900 px-6 py-3 rounded-full font-bold text-lg border border-red-300 animate-warning-pulse">
+                        ⚔️ AMEAÇA DIRETA
+                    </div>
+                </div>
+                
+                <div class="mt-6 w-24 h-1 bg-gradient-to-r from-red-500 to-orange-500 mx-auto rounded-full"></div>
+            </div>
 
-        <div class="competitors-section">
-            <div class="competitors-title">PRINCIPAIS CONCORRENTES:</div>
-            <div class="competitor-item">
-                <div class="competitor-name">• Ingaia/Kenlo:</div>
-                <div class="competitor-cases">105 casos diretos (5.7% do churn total)</div>
+            <!-- Progress Overview -->
+            <div class="bg-white rounded-2xl shadow-lg p-8 border border-gray-100 mb-12 animate-slide-up">
+                <h3 class="text-xl font-bold text-gray-900 mb-6 text-center">Impacto da Migração para Concorrência</h3>
+                <div class="relative">
+                    <div class="w-full h-6 bg-gray-200 rounded-full overflow-hidden">
+                        <div class="h-full bg-gradient-to-r from-red-500 to-red-600 rounded-full animate-progress-fill transition-all duration-2000 ease-out" 
+                             style="--progress-width: 17.4%; width: 17.4%">
+                            <div class="absolute inset-0 bg-white/20 rounded-full animate-pulse"></div>
+                        </div>
+                    </div>
+                    <div class="flex justify-between mt-2 text-sm text-gray-600">
+                        <span>0%</span>
+                        <span class="font-bold text-red-600">17.4% do Total de Churn</span>
+                        <span>100%</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Subcategories Breakdown -->
+            <div class="space-y-6 mb-12">
+                <!-- Foi para concorrência -->
+                <div class="bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 p-6 border border-gray-100 transform hover:scale-[1.02] animate-slide-in-left">
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center">
+                            <div class="w-12 h-12 bg-gradient-to-br from-red-500 to-red-700 rounded-full flex items-center justify-center mr-4 shadow-lg">
+                                <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4"></path>
+                                </svg>
+                            </div>
+                            <div>
+                                <h3 class="text-lg font-bold text-gray-900">Foi para concorrência</h3>
+                                <p class="text-sm text-gray-600">Migração direta confirmada</p>
+                            </div>
+                        </div>
+                        <div class="flex items-center space-x-4">
+                            <div class="bg-red-100 text-red-800 px-4 py-2 rounded-full font-bold text-lg border border-red-200">
+                                235 casos
+                            </div>
+                            <div class="bg-red-600 text-white px-4 py-2 rounded-full font-bold text-lg shadow-lg">
+                                12.7%
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Progress bar for this category -->
+                    <div class="mt-4 w-full h-2 bg-gray-200 rounded-full overflow-hidden">
+                        <div class="h-full bg-gradient-to-r from-red-500 to-red-600 rounded-full animate-progress-fill" 
+                             style="--progress-width: 12.7%; width: 12.7%; animation-delay: 0.2s"></div>
+                    </div>
+                </div>
+
+                <!-- Outros motivos concorrência -->
+                <div class="bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 p-6 border border-gray-100 transform hover:scale-[1.02] animate-slide-in-left" style="animation-delay: 0.1s">
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center">
+                            <div class="w-12 h-12 bg-gradient-to-br from-orange-500 to-orange-700 rounded-full flex items-center justify-center mr-4 shadow-lg">
+                                <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                </svg>
+                            </div>
+                            <div>
+                                <h3 class="text-lg font-bold text-gray-900">Outros motivos concorrência</h3>
+                                <p class="text-sm text-gray-600">Motivos relacionados não especificados</p>
+                            </div>
+                        </div>
+                        <div class="flex items-center space-x-4">
+                            <div class="bg-orange-100 text-orange-800 px-4 py-2 rounded-full font-bold text-lg border border-orange-200">
+                                64 casos
+                            </div>
+                            <div class="bg-orange-600 text-white px-4 py-2 rounded-full font-bold text-lg shadow-lg">
+                                3.4%
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mt-4 w-full h-2 bg-gray-200 rounded-full overflow-hidden">
+                        <div class="h-full bg-gradient-to-r from-orange-500 to-orange-600 rounded-full animate-progress-fill" 
+                             style="--progress-width: 3.4%; width: 3.4%; animation-delay: 0.4s"></div>
+                    </div>
+                </div>
+
+                <!-- Geração de leads (concorrente) -->
+                <div class="bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 p-6 border border-gray-100 transform hover:scale-[1.02] animate-slide-in-left" style="animation-delay: 0.2s">
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center">
+                            <div class="w-12 h-12 bg-gradient-to-br from-yellow-500 to-yellow-700 rounded-full flex items-center justify-center mr-4 shadow-lg">
+                                <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+                                </svg>
+                            </div>
+                            <div>
+                                <h3 class="text-lg font-bold text-gray-900">Geração de leads (concorrente)</h3>
+                                <p class="text-sm text-gray-600">Melhor performance na geração</p>
+                            </div>
+                        </div>
+                        <div class="flex items-center space-x-4">
+                            <div class="bg-yellow-100 text-yellow-800 px-4 py-2 rounded-full font-bold text-lg border border-yellow-200">
+                                24 casos
+                            </div>
+                            <div class="bg-yellow-600 text-white px-4 py-2 rounded-full font-bold text-lg shadow-lg">
+                                1.3%
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mt-4 w-full h-2 bg-gray-200 rounded-full overflow-hidden">
+                        <div class="h-full bg-gradient-to-r from-yellow-500 to-yellow-600 rounded-full animate-progress-fill" 
+                             style="--progress-width: 1.3%; width: 1.3%; animation-delay: 0.6s"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Competitors Section -->
+            <div class="bg-gradient-to-br from-red-50 to-orange-50 rounded-2xl shadow-lg p-8 border-2 border-red-200 animate-slide-up mb-12" style="animation-delay: 0.5s">
+                <div class="flex items-start space-x-4">
+                    <div class="flex-shrink-0">
+                        <div class="w-12 h-12 bg-gradient-to-br from-red-500 to-orange-500 rounded-full flex items-center justify-center animate-competitive-pulse">
+                            <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z"></path>
+                            </svg>
+                        </div>
+                    </div>
+                    <div class="flex-1">
+                        <h3 class="text-xl font-bold text-red-800 mb-4 flex items-center">
+                            PRINCIPAIS CONCORRENTES
+                        </h3>
+                        
+                        <!-- Ingaia/Kenlo Card -->
+                        <div class="bg-white rounded-xl p-6 shadow-md border border-red-200 hover:shadow-lg transition-all duration-300 transform hover:scale-[1.02]">
+                            <div class="flex items-center justify-between">
+                                <div class="flex items-center">
+                                    <div class="w-10 h-10 bg-gradient-to-br from-red-600 to-red-800 rounded-full flex items-center justify-center mr-4">
+                                        <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-4m-5 0H9m0 0H5m0 0h2m4 0v-3a2 2 0 00-2-2H9a2 2 0 00-2 2v3m8 0V9a2 2 0 00-2-2h-2a2 2 0 00-2 2v8"></path>
+                                        </svg>
+                                    </div>
+                                    <div>
+                                        <h4 class="text-lg font-bold text-red-800">Ingaia/Kenlo</h4>
+                                        <p class="text-sm text-gray-600">Principal concorrente identificado</p>
+                                    </div>
+                                </div>
+                                <div class="text-right">
+                                    <div class="text-2xl font-bold text-red-600">105</div>
+                                    <div class="text-sm text-gray-600">casos diretos</div>
+                                    <div class="text-sm font-bold text-red-600">(5.7% do churn total)</div>
+                                </div>
+                            </div>
+                            
+                            <!-- Progress bar for competitor -->
+                            <div class="mt-4 w-full h-3 bg-gray-200 rounded-full overflow-hidden">
+                                <div class="h-full bg-gradient-to-r from-red-500 to-red-700 rounded-full animate-progress-fill" 
+                                     style="--progress-width: 5.7%; width: 5.7%; animation-delay: 0.8s">
+                                    <div class="absolute inset-0 bg-white/30 rounded-full animate-pulse"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Analysis and Insights -->
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-12">
+                <!-- Key Insights -->
+                <div class="bg-white rounded-2xl shadow-lg p-8 border border-gray-100 animate-slide-up" style="animation-delay: 0.6s">
+                    <h3 class="text-xl font-bold text-gray-900 mb-6 flex items-center">
+                        <svg class="w-6 h-6 text-red-600 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"></path>
+                        </svg>
+                        Análise Competitiva
+                    </h3>
+                    <div class="space-y-4">
+                        <div class="p-4 bg-red-50 rounded-xl border border-red-200">
+                            <p class="text-sm text-gray-700"><span class="font-bold text-red-600">73% dos casos</span> são migrações diretas confirmadas (235 casos)</p>
+                        </div>
+                        <div class="p-4 bg-orange-50 rounded-xl border border-orange-200">
+                            <p class="text-sm text-gray-700"><span class="font-bold text-orange-600">Ingaia/Kenlo</span> representa 32.5% das migrações confirmadas</p>
+                        </div>
+                        <div class="p-4 bg-yellow-50 rounded-xl border border-yellow-200">
+                            <p class="text-sm text-gray-700"><span class="font-bold text-yellow-600">7.4% focam</span> especificamente em geração de leads</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Action Items -->
+                <div class="bg-white rounded-2xl shadow-lg p-8 border border-gray-100 animate-slide-up" style="animation-delay: 0.7s">
+                    <h3 class="text-xl font-bold text-gray-900 mb-6 flex items-center">
+                        <svg class="w-6 h-6 text-blue-600 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v10a2 2 0 002 2h8a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4"></path>
+                        </svg>
+                        Estratégias Anti-Churn
+                    </h3>
+                    <div class="space-y-4">
+                        <div class="p-4 bg-blue-50 rounded-xl border border-blue-200">
+                            <h4 class="font-bold text-blue-800 mb-1">Análise Competitiva</h4>
+                            <p class="text-sm text-gray-700">Mapear diferenciais vs Ingaia/Kenlo e outros concorrentes</p>
+                        </div>
+                        <div class="p-4 bg-green-50 rounded-xl border border-green-200">
+                            <h4 class="font-bold text-green-800 mb-1">Melhoria de Performance</h4>
+                            <p class="text-sm text-gray-700">Otimizar geração de leads para competir diretamente</p>
+                        </div>
+                        <div class="p-4 bg-purple-50 rounded-xl border border-purple-200">
+                            <h4 class="font-bold text-purple-800 mb-1">Programa de Retenção</h4>
+                            <p class="text-sm text-gray-700">Identificar sinais precoces de interesse na concorrência</p>
+                        </div>
+                        <div class="p-4 bg-red-50 rounded-xl border border-red-200">
+                            <h4 class="font-bold text-red-800 mb-1">Estratégia de Preços</h4>
+                            <p class="text-sm text-gray-700">Revisar estrutura de preços face à competição</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Competitive Threat Assessment -->
+            <div class="bg-gradient-to-br from-red-50 to-orange-50 rounded-2xl shadow-lg p-8 border-2 border-red-200 animate-slide-up" style="animation-delay: 0.8s">
+                <div class="text-center">
+                    <h3 class="text-2xl font-bold text-red-800 mb-4">Avaliação da Ameaça Competitiva</h3>
+                    <p class="text-lg text-gray-700 leading-relaxed mb-6">
+                        A <span class="font-bold text-red-600">migração para concorrência</span> representa 
+                        <span class="font-bold text-red-600">17.4% do churn total (323 casos)</span>, sendo a 
+                        <span class="font-bold text-red-600">segunda maior categoria</span>. 
+                        O <span class="font-bold text-red-600">Ingaia/Kenlo</span> sozinho é responsável por 
+                        <span class="font-bold text-red-600">5.7% de todo o churn</span>, demonstrando uma ameaça competitiva concentrada e significativa.
+                    </p>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                        <div class="bg-white p-4 rounded-xl shadow-md border border-red-200">
+                            <div class="text-3xl font-bold text-red-600">73%</div>
+                            <div class="text-sm text-gray-600">Migrações diretas</div>
+                        </div>
+                        <div class="bg-white p-4 rounded-xl shadow-md border border-orange-200">
+                            <div class="text-3xl font-bold text-orange-600">32.5%</div>
+                            <div class="text-sm text-gray-600">Para Ingaia/Kenlo</div>
+                        </div>
+                        <div class="bg-white p-4 rounded-xl shadow-md border border-yellow-200">
+                            <div class="text-3xl font-bold text-yellow-600">5.7%</div>
+                            <div class="text-sm text-gray-600">Do churn total</div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
-    </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-white border-t border-gray-200 mt-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+            <div class="text-center text-gray-500 text-sm">
+                Dashboard de Análise C2S • Migração para Concorrência • Versão Corrigida
+            </div>
+        </div>
+    </footer>
 </body>
+</html>
