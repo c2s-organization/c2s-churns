@@ -199,7 +199,7 @@ body::before {
     50% { transform: scale(1.05); }
 }
 
-/* Outcome Cards - Used in multiple files */
+/* Meta Cards - Used in multiple files */
 .outcomes-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
